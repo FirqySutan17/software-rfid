@@ -41,12 +41,12 @@
                         src="{{ asset('icon/menu-scale.png') }}" style="margin-left: 0px" alt="">
                     <img id="sidebarClose" onclick="sidebar_close()" class="img-fluid menu-style sidebar-toggle"
                         src="{{ asset('icon/menu.png') }}" style="margin-left: 0px" alt="">
-                    <img class="img-fluid brand-style" src="{{ asset('icon/brand.png') }}" alt="">
+                    <img class="img-fluid brand-style" src="{{ asset('img/cj-logo.png') }}" alt="">
                     <p class="breadcrumb b-style">@yield('title')</p>
                 </div>
 
                 <div class="nav-right col pull-right right-menu p-0">
-                    <div class="split-btn">
+                    {{-- <div class="split-btn">
                         <button class="btnIm">New</button>
                         <div class="dropdown-new">
                             <button onclick="newCusto()" class=" dropbtn-new">
@@ -117,12 +117,12 @@
                                 <p class="time">2 days ago</p>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="dropdown-profile">
                         <img onclick="ddProfile()" class="dd-profile img-fluid avatar-style"
                             src="{{ asset('icon/avatar.png') }}" alt="">
                         <div id="myddProfile" class="dropdown-content-profile">
-                            <a href="{{ route('setting.index') }}">Profile</a>
+                            {{-- <a href="{{ route('setting.index') }}">Profile</a> --}}
                             <button type="button">
                                 <a href="{{ route('logout') }}"
                                     onclick="event.preventDefault();document.getElementById('logout-form').submit();">

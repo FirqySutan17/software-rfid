@@ -88,9 +88,13 @@
 
 ._card {
     width: 340px;
-    padding: 48px 15px;
+    padding: 30px 15px;
     border: 1px solid #dddddd;
     border-radius: 10px;
+}
+
+.card-body {
+    padding-top: 0px;
 }
 
 .card h2 {
