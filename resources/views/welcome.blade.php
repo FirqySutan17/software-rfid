@@ -221,7 +221,7 @@
 
   </section>
 
-  <canvas class="background"></canvas>
+  {{-- <canvas class="background"></canvas> --}}
 </body>
 <!-- partial -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'>
