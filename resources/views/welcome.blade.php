@@ -3,232 +3,232 @@
 
 <head>
 
-    <meta charset="UTF-8">
-    <title>CJ Feed & Care</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CJ Feed and Care">
-    <meta name="keywords" content="CJ Feed and Care">
-    <meta name="author" content="Cheiljedang Indonesia ">
-    <link rel="icon" href="{{ asset('img/cj-logo.png')}}" type="image/x-icon">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js">
+  <meta charset="UTF-8">
+  <title>CJ Feed & Care</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CJ Feed and Care">
+  <meta name="keywords" content="CJ Feed and Care">
+  <meta name="author" content="Cheiljedang Indonesia ">
+  <link rel="icon" href="{{ asset('img/cj-logo.png')}}" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js">
 
-    </script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
 
-        @font-face {
-            font-family: cjfont;
-            src: url('{{ asset("font/cjfont.ttf")}}');
-        }
+    @font-face {
+      font-family: cjfont;
+      src: url('{{ asset("font/cjfont.ttf")}}');
+    }
 
-        .nav,
-        .slider {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            position: relative;
-            background-color: #ffffff;
-            text-align: center;
-            padding: 0 2em;
-        }
+    .nav,
+    .slider {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+      background-color: #ffffff;
+      text-align: center;
+      padding: 0 2em;
+    }
 
-        .nav h1,
-        .slider h1 {
-            font-family: cjfont;
-            font-size: 5vw;
-            margin: 0;
-            padding-bottom: 0.5rem;
-            letter-spacing: 0.5rem;
-            color: #04302c;
-            transition: all 0.3s ease;
-            z-index: 3;
-            margin-bottom: 20px
-        }
+    .nav h1,
+    .slider h1 {
+      font-family: cjfont;
+      font-size: 5vw;
+      margin: 0;
+      padding-bottom: 0.5rem;
+      letter-spacing: 0.5rem;
+      color: #04302c;
+      transition: all 0.3s ease;
+      z-index: 3;
+      margin-bottom: 20px
+    }
 
-        h1:hover {
-            transform: translate3d(0, -10px, 22px);
-            color: #ee141e;
-        }
+    h1:hover {
+      transform: translate3d(0, -10px, 22px);
+      color: #ee141e;
+    }
 
-        .nav h2,
-        .slider h2 {
-            font-size: 2vw;
-            letter-spacing: 0.5rem;
-            font-family: "ROBOTO", sans-serif;
-            font-weight: 300;
-            color: #ff9600;
-            z-index: 4;
-        }
+    .nav h2,
+    .slider h2 {
+      font-size: 2vw;
+      letter-spacing: 0.5rem;
+      font-family: "ROBOTO", sans-serif;
+      font-weight: 300;
+      color: #ff9600;
+      z-index: 4;
+    }
 
-        a {
-            text-decoration: none;
-            z-index: 10;
-            background: #000;
-            border: 1px solid transparent;
-            color: #fff;
-            font-size: 18px;
-            padding: 10px 70px;
-            border-radius: 10px;
-            font-family: cjfont;
-            transition: all 0.5s ease;
-        }
+    a {
+      text-decoration: none;
+      z-index: 10;
+      background: #000;
+      border: 1px solid transparent;
+      color: #fff;
+      font-size: 18px;
+      padding: 10px 70px;
+      border-radius: 10px;
+      font-family: cjfont;
+      transition: all 0.5s ease;
+    }
 
-        a:hover {
-            background: transparent;
-            border: 1px solid #000;
-            color: #000;
-        }
+    a:hover {
+      background: transparent;
+      border: 1px solid #000;
+      color: #000;
+    }
 
-        .nav-container {
-            display: flex;
-            flex-direction: row;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 75px;
-            box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
-            background: #1e1f26;
-            z-index: 10;
-            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-        }
+    .nav-container {
+      display: flex;
+      flex-direction: row;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 75px;
+      box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+      background: #1e1f26;
+      z-index: 10;
+      transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    }
 
-        .nav-container--top-first {
-            position: fixed;
-            top: 75px;
-            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-        }
+    .nav-container--top-first {
+      position: fixed;
+      top: 75px;
+      transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    }
 
-        .nav-container--top-second {
-            position: fixed;
-            top: 0;
-        }
+    .nav-container--top-second {
+      position: fixed;
+      top: 0;
+    }
 
-        .nav-container--top-second {
-            position: fixed;
-            top: 0;
-        }
+    .nav-container--top-second {
+      position: fixed;
+      top: 0;
+    }
 
-        .nav-tab {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex: 1;
-            color: #03dac6;
-            letter-spacing: 0.1rem;
-            transition: all 0.5s ease;
-            font-size: 2vw;
-        }
+    .nav-tab {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      color: #03dac6;
+      letter-spacing: 0.1rem;
+      transition: all 0.5s ease;
+      font-size: 2vw;
+    }
 
-        .nav-tab:hover {
-            color: #1e1f26;
-            background: #03dac6;
-            transition: all 0.5s ease;
-        }
+    .nav-tab:hover {
+      color: #1e1f26;
+      background: #03dac6;
+      transition: all 0.5s ease;
+    }
 
-        .nav-tab-slider {
-            position: absolute;
-            bottom: 0;
-            width: 0;
-            height: 5px;
-            background: #03dac6;
-            transition: left 0.3s ease;
-        }
+    .nav-tab-slider {
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 5px;
+      background: #03dac6;
+      transition: left 0.3s ease;
+    }
 
-        .background {
-            position: absolute;
-            height: 100vh;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: auto;
-        }
+    .background {
+      position: absolute;
+      height: 100vh;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: auto;
+    }
 
-        @media (min-width: 800px) {
+    @media (min-width: 800px) {
 
-            .nav h1,
-            .slider h1 {
-                font-size: 5vw;
-            }
+      .nav h1,
+      .slider h1 {
+        font-size: 5vw;
+      }
 
-            .nav h2,
-            .slider h2 {
-                font-size: 3vw;
-            }
+      .nav h2,
+      .slider h2 {
+        font-size: 3vw;
+      }
 
-            .nav-tab {
-                font-size: 3vw;
-            }
-        }
+      .nav-tab {
+        font-size: 3vw;
+      }
+    }
 
-        @media screen only (min-width: 360px) {
+    @media screen only (min-width: 360px) {
 
-            .nav h1,
-            .slider h1 {
-                font-size: 8vw;
-            }
+      .nav h1,
+      .slider h1 {
+        font-size: 8vw;
+      }
 
-            .nav h2,
-            .slider h2 {
-                font-size: 2vw;
-                letter-spacing: 0.2vw;
-            }
+      .nav h2,
+      .slider h2 {
+        font-size: 2vw;
+        letter-spacing: 0.2vw;
+      }
 
-            .nav-tab {
-                font-size: 1.2vw;
-            }
-        }
+      .nav-tab {
+        font-size: 1.2vw;
+      }
+    }
 
-        .background {
-            position: absolute;
-            height: 100vh;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 0;
-        }
-    </style>
+    .background {
+      position: absolute;
+      height: 100vh;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 0;
+    }
+  </style>
 </head>
 
 <body oncontextmenu="return false;">
-    <section class="nav">
+  <section class="nav">
 
-        <center><img src="{{ asset('img/logo.png') }}"></center>
-        <h1>
-            <font face="cjfont">Welcome to RPA RFID SYSTEM</font>
-        </h1>
-        {{-- <h2>Global Innovation Growht<br>New Business Challenge<br></h2> --}}
+    <center><img src="{{ asset('img/logo.png') }}" style="width: 100%; object-fit: cover;z-index: 100"></center>
+    <h1>
+      <font face="cjfont">RPA KUNINGAN <BR /> RFID SYSTEM</font>
+    </h1>
+    {{-- <h2>Global Innovation Growht<br>New Business Challenge<br></h2> --}}
 
-        @if (Route::has('login'))
-        @auth
-        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-        @else
-        <a href="{{ route('login') }}">Log in</a>
-        {{-- @if (Route::has('register'))
-        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-        @endif --}}
-        @endauth
-        @endif
+    @if (Route::has('login'))
+    @auth
+    <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+    @else
+    <a href="{{ route('login') }}">Log in</a>
+    {{-- @if (Route::has('register'))
+    <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+    @endif --}}
+    @endauth
+    @endif
 
-    </section>
+  </section>
 
-    <canvas class="background"></canvas>
+  <canvas class="background"></canvas>
 </body>
 <!-- partial -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'>
 
 </script>
 <script>
-    window.onload = function () {
+  window.onload = function () {
   Particles.init({
     selector: ".background"
   });
