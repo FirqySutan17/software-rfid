@@ -181,56 +181,62 @@ Placement
         border-bottom: solid 1px #e8e8e8;
         padding-bottom: 16px;
     }
+
+    @media(max-width: 940px) {
+        .placement-item {
+        height: auto;
+        }
+    }
 </style>
 @endpush
 
 @section('content')
 <div class="main-content">
     <div class="br-title">
-        <h2 class="breadcrumb-title-non"><a href="{{ route('placement.index')}}">Placement</a></h2>
+        <h2 class="breadcrumb-title-non"><a href="javascript:void(0)">Placement</a></h2>
         <i class="fa-solid fa-chevron-right"></i>
-        <h2 class="breadcrumb-title-active">CS 1 - Aa - 12</h2>
+        <h2 class="breadcrumb-title-active">CS {{ $rack_data['cold_storage_name'] }} - {{ $rack_data['rack_position'] }} - {{ $rack_data['sequence'] }}</h2>
     </div>
 
     <div class="placement-detail">
         <div class="placement-box">
             <h4 class="title-transdet">Form Placement</h4>
-            <form action="" method="POST" enctype="multipart/form-data">
-                @method('PATCH')
+            <form action="{{ route('placement.store', $rack_no) }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="status" value="{{ $rack_data['cold_storage'] }}">
                 <div class="row d-flex align-items-stretch">
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group _form-group">
                                     <label for="coldstorage">
                                         Cold Storage
                                     </label>
                                     <input id="coldstorage" name="coldstorage" type="text" class="form-control"
-                                        placeholder="1" value="1" style="text-align: center; font-weight: 700;"
+                                        placeholder="1" value="{{ $rack_data['cold_storage_name'] }}" style="text-align: center; font-weight: 700;"
                                         readonly />
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group _form-group">
                                     <label for="rak">
                                         Rak
                                     </label>
                                     <input id="rak" name="rak" type="text" class="form-control" placeholder="Aa"
-                                        value="Aa" style="text-align: center; font-weight: 700;" readonly />
+                                        value="{{ $rack_data['rack_position'] }}" style="text-align: center; font-weight: 700;" readonly />
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group _form-group">
                                     <label for="urutan_rak">
                                         Urutan
                                     </label>
                                     <input id="urutan_rak" name="urutan_rak" type="text" class="form-control"
-                                        placeholder="12" value="12" style="text-align: center; font-weight: 700;"
+                                        placeholder="12" value="{{ $rack_data['sequence'] }}" style="text-align: center; font-weight: 700;"
                                         readonly />
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-12">
                                 <div class="form-group _form-group">
                                     <label for="tingkat_rak">
                                         Tingkat
@@ -242,14 +248,6 @@ Placement
                                         <option value="3">3</option>
                                         <option value="4">4</option>
                                     </select>
-                                    {{-- <select name="tingkat_rak" class="form-select"
-                                        aria-label="Default select example">
-                                        <option selected>Pilih tingkat</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select> --}}
                                 </div>
                             </div>
                         </div>
@@ -262,110 +260,30 @@ Placement
                             Item list
                         </label>
                         <div class="placement-item">
-                            <div class="Checkbox-parent Accordion">
-                                <input class="material-icons" type="checkbox" />
-                                <label>Batch 1 (17-02-24)</label>
-                                </input>
-
-                            </div>
-                            <div class="Accordion-panel">
-                                <ul class="Checkbox-child">
-                                    <li>
+                            <?php if (!empty($placement_data)): ?>
+                                <?php $no = 1; ?>
+                                <?php foreach ($placement_data as $batch_time => $batch): ?>
+                                    <div class="Checkbox-parent Accordion">
                                         <input class="material-icons" type="checkbox" />
-                                        <label><b>860205005 - BONELESS SKINLESS DADA (FZ)</b> | <b>510.3 KG</b></label>
+                                        <label>Batch {{ $no }} ( {{ date('Y-m-d H:i', strtotime($batch['LOGDATE'])) }} )</label>
                                         </input>
 
-                                    </li>
-                                    <li>
-                                        <input class="material-icons" type="checkbox" />
-                                        <label><b>860205005 - BONELESS SKINLESS DADA (FZ)</b> | <b>510.3 KG</b></label>
-                                        </input>
-                                    </li>
-                                    <li>
-                                        <input class="material-icons" type="checkbox" />
-                                        <label><b>860205005 - BONELESS SKINLESS DADA (FZ)</b> | <b>510.3 KG</b></label>
-                                        </input>
-                                    </li>
-                                </ul>
-                            </div>
+                                    </div>
+                                    <div class="Accordion-panel">
+                                        <ul class="Checkbox-child">
+                                            <?php foreach ($batch['DATA'] as $item): ?>
+                                                <li>
+                                                    <input name="data_placement[]" value="{{ $item['ITEM'].'|'.$item['LOGDATE'] }}" class="material-icons" type="checkbox" />
+                                                    <label><b>{{ $item['ITEM'] }} - {{ $item['ITEM_NAME'] }}</b> | <b>{{ $item['WEIGHT'] }} KG</b> | <b>{{ date('Y-m-d H:i', strtotime($item['PROD_DATE'])) }}</b></label>
+                                                    </input>
 
-                            <div class="Checkbox-parent Accordion">
-                                <input class="material-icons" type="checkbox" />
-                                <label>Batch 2 (17-02-24)</label>
-                                </input>
-                            </div>
-                            <div class="Accordion-panel">
-                                <ul class="Checkbox-child">
-                                    <li>
-                                        <input class="material-icons" type="checkbox" />
-                                        <label><b>860205005 - BONELESS SKINLESS DADA (FZ)</b> | <b>510.3 KG</b></label>
-                                        </input>
-
-                                    </li>
-                                    <li>
-                                        <input class="material-icons" type="checkbox" />
-                                        <label><b>860205005 - BONELESS SKINLESS DADA (FZ)</b> | <b>510.3 KG</b></label>
-                                        </input>
-                                    </li>
-                                    <li>
-                                        <input class="material-icons" type="checkbox" />
-                                        <label><b>860205005 - BONELESS SKINLESS DADA (FZ)</b> | <b>510.3 KG</b></label>
-                                        </input>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="Checkbox-parent Accordion">
-                                <input class="material-icons" type="checkbox" />
-                                <label>Batch 3 (17-02-24)</label>
-                                </input>
-                            </div>
-                            <div class="Accordion-panel">
-                                <ul class="Checkbox-child">
-                                    <li>
-                                        <input class="material-icons" type="checkbox" />
-                                        <label><b>860205005 - BONELESS SKINLESS DADA (FZ)</b> | <b>510.3 KG</b></label>
-                                        </input>
-
-                                    </li>
-                                    <li>
-                                        <input class="material-icons" type="checkbox" />
-                                        <label><b>860205005 - BONELESS SKINLESS DADA (FZ)</b> | <b>510.3 KG</b></label>
-                                        </input>
-                                    </li>
-                                    <li>
-                                        <input class="material-icons" type="checkbox" />
-                                        <label><b>860205005 - BONELESS SKINLESS DADA (FZ)</b> | <b>510.3 KG</b></label>
-                                        </input>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="Checkbox-parent Accordion">
-                                <input class="material-icons" type="checkbox" />
-                                <label>Batch 4 (17-02-24)</label>
-                                </input>
-                            </div>
-                            <div class="Accordion-panel">
-                                <ul class="Checkbox-child">
-                                    <li>
-                                        <input class="material-icons" type="checkbox" />
-                                        <label><b>860205005 - BONELESS SKINLESS DADA (FZ)</b> | <b>510.3 KG</b></label>
-                                        </input>
-
-                                    </li>
-                                    <li>
-                                        <input class="material-icons" type="checkbox" />
-                                        <label><b>860205005 - BONELESS SKINLESS DADA (FZ)</b> | <b>510.3 KG</b></label>
-                                        </input>
-                                    </li>
-                                    <li>
-                                        <input class="material-icons" type="checkbox" />
-                                        <label><b>860205005 - BONELESS SKINLESS DADA (FZ)</b> | <b>510.3 KG</b></label>
-                                        </input>
-                                    </li>
-                                </ul>
-                            </div>
+                                                </li>
+                                            <?php endforeach ?>
+                                        </ul>
+                                    </div>
+                                    <?php $no++; ?>
+                                <?php endforeach ?>
+                            <?php endif ?>
                         </div>
 
                         <div class="row" style="margin-top: 30px; margin-bottom: 15px">
@@ -389,13 +307,19 @@ Placement
                 </label>
                 <table class="table">
                     <tr>
-                        <th>Item Barang</th>
-                        <th style="text-align: right">BW</th>
+                        <th width="55%">Item Barang</th>
+                        <th width="25%">Prod Date</th>
+                        <th width="20%" style="text-align: right">BW</th>
                     </tr>
-                    <tr>
-                        <td>860205005 - BONELESS SKINLESS DADA (FZ)</td>
-                        <td style="text-align: right">510.3</td>
-                    </tr>
+                    <?php if(!empty($existing_data[4])): ?>
+                        <?php foreach ($existing_data[4] as $v): ?>
+                            <tr>
+                                <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
+                                <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
+                                <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
+                            </tr>
+                        <?php endforeach ?>
+                    <?php endif ?>
                 </table>
             </div>
 
@@ -405,13 +329,19 @@ Placement
                 </label>
                 <table class="table">
                     <tr>
-                        <th>Item Barang</th>
-                        <th style="text-align: right">BW</th>
+                        <th width="55%">Item Barang</th>
+                        <th width="25%">Prod Date</th>
+                        <th width="20%" style="text-align: right">BW</th>
                     </tr>
-                    <tr>
-                        <td>-</td>
-                        <td style="text-align: right">-</td>
-                    </tr>
+                    <?php if(!empty($existing_data[3])): ?>
+                        <?php foreach ($existing_data[3] as $v): ?>
+                            <tr>
+                                <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
+                                <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
+                                <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
+                            </tr>
+                        <?php endforeach ?>
+                    <?php endif ?>
                 </table>
             </div>
 
@@ -421,13 +351,19 @@ Placement
                 </label>
                 <table class="table">
                     <tr>
-                        <th>Item Barang</th>
-                        <th style="text-align: right">BW</th>
+                        <th width="55%">Item Barang</th>
+                        <th width="25%">Prod Date</th>
+                        <th width="20%" style="text-align: right">BW</th>
                     </tr>
-                    <tr>
-                        <td>860205005 - BONELESS SKINLESS DADA (FZ)</td>
-                        <td style="text-align: right">510.3</td>
-                    </tr>
+                    <?php if(!empty($existing_data[2])): ?>
+                        <?php foreach ($existing_data[2] as $v): ?>
+                            <tr>
+                                <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
+                                <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
+                                <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
+                            </tr>
+                        <?php endforeach ?>
+                    <?php endif ?>
                 </table>
             </div>
 
@@ -437,13 +373,19 @@ Placement
                 </label>
                 <table class="table">
                     <tr>
-                        <th>Item Barang</th>
-                        <th style="text-align: right">BW</th>
+                        <th width="55%">Item Barang</th>
+                        <th width="25%">Prod Date</th>
+                        <th width="20%" style="text-align: right">BW</th>
                     </tr>
-                    <tr>
-                        <td>860205005 - BONELESS SKINLESS DADA (FZ)</td>
-                        <td style="text-align: right">510.3</td>
-                    </tr>
+                    <?php if(!empty($existing_data[1])): ?>
+                        <?php foreach ($existing_data[1] as $v): ?>
+                            <tr>
+                                <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
+                                <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
+                                <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
+                            </tr>
+                        <?php endforeach ?>
+                    <?php endif ?>
                 </table>
             </div>
 

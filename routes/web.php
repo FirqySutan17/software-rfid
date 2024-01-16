@@ -27,6 +27,7 @@ Route::group(['prefix' => 'member', 'as' =>'member.', 'middleware' =>['auth', 'c
 });
 Route::group(['prefix' => 'placement', 'as' =>'placement.', 'middleware' =>['auth', 'checkRole:admin,member']], function (){
     Route::get('/{rack_no}', [\App\Http\Controllers\PlacementController::class, 'index'])->name('index');
+    Route::post('/{rack_no}', [\App\Http\Controllers\PlacementController::class, 'store'])->name('store');
 });
 // Route::group(['prefix' => 'message-templating', 'as' =>'messagetemplating.', 'middleware' =>['auth', 'checkRole:member,admin']], function (){
 //     Route::get('/', [\App\Http\Controllers\ChatController::class, 'message'])->name('index');
