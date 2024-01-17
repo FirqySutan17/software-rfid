@@ -83,6 +83,18 @@ class PlacementController extends Controller
         return view('placement.index', compact('rack_no', 'rack_data', 'placement_data', 'existing_data'));
     }
 
+	public function mapping_placement(Request $request) {
+		$data['get_data_rackcs1'] = $this->M_Warehouse->m_get_data_rack();
+		$data['get_data_cs1'] = $this->M_Warehouse->m_get_data_cs1();
+
+		$data['get_data_rackcs2'] = $this->M_Warehouse->m_get_data_rack2();
+		$data['get_data_cs2'] = $this->M_Warehouse->m_get_data_cs2();
+		
+		$data['get_data_rackcs3'] = $this->M_Warehouse->m_get_data_rack3();
+		$data['get_data_cs3'] = $this->M_Warehouse->m_get_data_cs3();
+		return view('placement.mapping');
+	} 
+
     public function store($rack_no, Request $request) {
 
     	$data_placement = $request->data_placement;
