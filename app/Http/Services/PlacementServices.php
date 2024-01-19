@@ -38,15 +38,11 @@ class PlacementServices {
         	$rackStorage 	= substr($row['CSDATA'], 3, 2);
         	if (!array_key_exists($coldStorage, $coldStorageData)) {
         		$coldStorageData[$coldStorage] = [
-        			"NAME"	=> $coldStorage,
-        			"DATA"	=> []
+        			"NAME"			=> $coldStorage,
+        			"TOTAL_ROW"		=> 0
         		];
         	}
-
-        	if (!array_key_exists($rackStorage, $coldStorageData[$coldStorage]['DATA'])) {
-        		$coldStorageData[$coldStorage]['DATA'][$rackStorage] = $row['TOTAL_SEQ'];
-        	}
-
+        	$coldStorageData[$coldStorage]['TOTAL_ROW'] = $row['TOTAL_SEQ'];
         }
 
         return $coldStorageData;

@@ -265,17 +265,16 @@ Placement
         margin-top: 5px;
         font-size: 10px
     }
+
+    .bg-green{
+        background-color: #00a65a !important;
+    }
 </style>
 @endpush
 
 @section('content')
 <div class="main-content">
     <div class="wrapper">
-        <?php
-                $data_racks1 = $get_data_rackcs1->result();
-                $data_racks2 = $get_data_rackcs2->result();
-                $data_racks3 = $get_data_rackcs3->result();
-        ?>
         <div class="content-wrapper" style="margin-left: 0px">
             <div class="container-fluid">
                 <div class="box box-primary box-solid" style="margin-top: 10px;">
@@ -286,434 +285,53 @@ Placement
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 wrap-cs">
-                        <h2>COLD STORAGE <br> 1</h2>
-                        <div class="train">
-                            <div class="exit front train-body">
-                                <div>A</div>
-                                <div></div>
-                                <div>B</div>
-                            </div>
-                            <ol class="wagon train-body">
-                                <?php $i = 1; foreach ($get_data_cs1->result() as $CS): ?>
-                                <li class="row row--<?=$CS->TES?>">
-                                    <ol class="seats">
-                                        <?php foreach ($data_racks1 as $CS2):?>
-                                        <?php 
-                            $label_class = "bg-red";
-                            if ($CS2->JUMLAH_DATA < 1) {
-                                $label_class = "bg-green";
-                            } elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4) {
-                                $label_class = "bg-orange";
-                            }
-    
-                            $border_style = "";
-                            if (!empty($CS2->TANGGAL_TERTUA)) {
-                                $datetime1 = new DateTime(date("Y-m-d", strtotime($CS2->TANGGAL_TERTUA)));
-                                $datetime2 = new DateTime(date("Y-m-d"));
-                                $difference = $datetime1->diff($datetime2);
-                                // echo "<pre/>";print_r($CS2);
-                                // echo "<pre/>";print_r($difference);exit;
-    
-                                if ($difference->days > 90) {
-                                $border_style = "border-bottom: 5px solid purple";
-                                }
-                            }
-    
-                            $nomor = $CS->TES;
-                            if ($nomor < 10) {
-                                $nomor = "0".$nomor;
-                            }
-                            ?>
-                                        <?php if ((($CS2->CS1)=='B61Aa') AND ($CS2->TES)==$i): ?>
-                                        <li class="seat">
-                                            <input type="checkbox" class="rb" data-rackname="A-<?= $nomor ?>a"
-                                                id="1.Aa.<?=$CS->TES?>" />
-                                            <label style="<?= $border_style ?>" class="<?= $label_class ?>"
-                                                for="1.Aa.<?=$CS->TES?>">
-                                                <?=$CS2->TES.substr($CS2->CS1,4)?>
-                                                <?php if ($CS2->JUMLAH_DATA < 1): ?>
-                                                <div class="status-cs">
-                                                    AVAILABLE
-                                                </div>
-                                                <?php elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4): ?>
-                                                <div class="status-cs">
-                                                    <?= $CS2->JUMLAH_DATA ?>/4 RAK
-                                                </div>
-                                                <?php else: ?>
-                                                <div class="status-cs">
-                                                    FULL
-                                                </div>
-                                                <?php endif ?>
-                                            </label>
+                    <?php foreach ($placement as $plc): ?>
+                        <div class="col-md-4 wrap-cs">
+                            <h2>COLD STORAGE <br> {{ $plc['NAME'] }}</h2>
+                            <div class="train">
+                                <div class="exit front train-body">
+                                    <div>A</div>
+                                    <div></div>
+                                    <div>B</div>
+                                </div>
+                                <ol class="wagon train-body">
+                                    <?php for ($i = 1; $i <= $plc['TOTAL_ROW']; $i++): ?>
+                                        <?php $no_rack = $i < 10 ? "0".$i : $i; ?>
+                                        <li class="row">
+                                            <ol class="seats">
+                                                <li class="seat" data-rackno="2{{ $plc['NAME'] }}Ab{{ $no_rack }}">
+                                                    <label class="bg-green">
+                                                        {{ $i }}b
+                                                    </label>
+                                                </li>
+                                                <li class="seat" data-rackno="2{{ $plc['NAME'] }}Aa{{ $no_rack }}">
+                                                    <label class="bg-green">
+                                                        {{ $i }}a
+                                                    </label>
+                                                </li>
+                                                <li class="seat" data-rackno="2{{ $plc['NAME'] }}Ba{{ $no_rack }}">
+                                                    <label class="bg-green">
+                                                        {{ $i }}a
+                                                    </label>
+                                                </li>
+                                                <li class="seat" data-rackno="2{{ $plc['NAME'] }}Bb{{ $no_rack }}">
+                                                    <label class="bg-green">
+                                                        {{ $i }}b
+                                                    </label>
+                                                </li>
+                                            </ol>
                                         </li>
-                                        <?php elseif ((($CS2->CS1)=='B61Ab') AND (($CS2->TES)==$i)): ?>
-                                        <li class="seat">
-                                            <input type="checkbox" class="rb" data-rackname="A-<?= $nomor ?>b"
-                                                id="1.Ab.<?=$CS->TES?>" />
-                                            <label style="<?= $border_style ?>" class="<?= $label_class ?>"
-                                                for="1.Ab.<?=$CS->TES?>">
-                                                <?=$CS2->TES.substr($CS2->CS1,4)?>
-
-                                                <?php if ($CS2->JUMLAH_DATA < 1): ?>
-                                                <div class="status-cs">
-                                                    AVAILABLE
-                                                </div>
-                                                <?php elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4): ?>
-                                                <div class="status-cs">
-                                                    <?= $CS2->JUMLAH_DATA ?>/4 RAK
-                                                </div>
-                                                <?php else: ?>
-                                                <div class="status-cs">
-                                                    FULL
-                                                </div>
-                                                <?php endif ?>
-                                            </label>
-
-                                        </li>
-                                        <?php elseif ((($CS2->CS1)=='B61Ba') AND (($CS2->TES)==$i)): ?>
-                                        <li class="seat">
-                                            <input type="checkbox" class="rb" data-rackname="B-<?= $nomor ?>a"
-                                                id="1.Ba.<?=$CS->TES?>" />
-                                            <label style="<?= $border_style ?>" class="<?= $label_class ?>"
-                                                for="1.Ba.<?=$CS->TES?>">
-                                                <?=$CS2->TES.substr($CS2->CS1,4)?>
-                                                <?php if ($CS2->JUMLAH_DATA < 1): ?>
-                                                <div class="status-cs">
-                                                    AVAILABLE
-                                                </div>
-                                                <?php elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4): ?>
-                                                <div class="status-cs">
-                                                    <?= $CS2->JUMLAH_DATA ?>/4 RAK
-                                                </div>
-                                                <?php else: ?>
-                                                <div class="status-cs">
-                                                    FULL
-                                                </div>
-                                                <?php endif ?>
-                                            </label>
-                                        </li>
-                                        <?php elseif ((($CS2->CS1)=='B61Bb') AND (($CS2->TES)==$i)): ?>
-                                        <li class="seat">
-                                            <input type="checkbox" class="rb" data-rackname="B-<?= $nomor ?>b"
-                                                id="1.Bb.<?=$CS->TES?>" />
-                                            <label style="<?= $border_style ?>" class="<?= $label_class ?>"
-                                                for="1.Bb.<?=$CS->TES?>">
-                                                <?=$CS2->TES.substr($CS2->CS1,4)?>
-                                                <?php if ($CS2->JUMLAH_DATA < 1): ?>
-                                                <div class="status-cs">
-                                                    AVAILABLE
-                                                </div>
-                                                <?php elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4): ?>
-                                                <div class="status-cs">
-                                                    <?= $CS2->JUMLAH_DATA ?>/4 RAK
-                                                </div>
-                                                <?php else: ?>
-                                                <div class="status-cs">
-                                                    FULL
-                                                </div>
-                                                <?php endif ?>
-                                            </label>
-                                        </li>
-                                        <?php endif ?>
-                                        <?php endforeach ?>
-                                    </ol>
-                                </li>
-                                <?php $i++; endforeach; ?>
-                            </ol>
-                            <div class="exit back train-body">
-                                <div></div>
-                                <div></div>
-                                <div></div>
+                                    <?php endfor ?>
+                                </ol>
+                                <div class="exit back train-body">
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-md-4 wrap-cs">
-                        <h2>COLD STORAGE <br> 2</h2>
-                        <div class="train">
-                            <div class="exit front train-body">
-                                <div>A</div>
-                                <div></div>
-                                <div>B</div>
-                            </div>
-
-                            <ol class="wagon train-body">
-                                <?php $i = 1; foreach ($get_data_cs2->result() as $CS): ?>
-                                <li class="row row--<?=$CS->TES?>">
-                                    <ol class="seats">
-                                        <?php foreach ($data_racks2 as $CS2):?>
-                                        <?php 
-                            $label_class = "bg-red";
-                            if ($CS2->JUMLAH_DATA < 1) {
-                                $label_class = "bg-green";
-                            } elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4) {
-                                $label_class = "bg-orange";
-                            }
-    
-                            $border_style = "";
-                            if (!empty($CS2->TANGGAL_TERTUA)) {
-                                $datetime1 = new DateTime(date("Y-m-d", strtotime($CS2->TANGGAL_TERTUA)));
-                                $datetime2 = new DateTime(date("Y-m-d"));
-                                $difference = $datetime1->diff($datetime2);
-                                // echo "<pre/>";print_r($CS2);
-                                // echo "<pre/>";print_r($difference);exit;
-    
-                                if ($difference->days > 90) {
-                                $border_style = "border-bottom: 5px solid purple";
-                                }
-                            }
-    
-                            $nomor = $CS->TES;
-                            if ($nomor < 10) {
-                                $nomor = "0".$nomor;
-                            }
-                            ?>
-                                        <?php if ((($CS2->CS1)=='B62Aa') AND ($CS2->TES)==$i): ?>
-                                        <li class="seat">
-                                            <input type="checkbox" class="rb" data-rackname="A-<?= $nomor ?>a"
-                                                id="2.Aa.<?=$CS->TES?>" />
-                                            <label style="<?= $border_style ?>" class="<?= $label_class ?>"
-                                                for="2.Aa.<?=$CS->TES?>">
-                                                <?=$CS2->TES.substr($CS2->CS1,4)?>
-                                                <?php if ($CS2->JUMLAH_DATA < 1): ?>
-                                                <div class="status-cs">
-                                                    AVAILABLE
-                                                </div>
-                                                <?php elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4): ?>
-                                                <div class="status-cs">
-                                                    <?= $CS2->JUMLAH_DATA ?>/4 RAK
-                                                </div>
-                                                <?php else: ?>
-                                                <div class="status-cs">
-                                                    FULL
-                                                </div>
-                                                <?php endif ?>
-                                            </label>
-                                        </li>
-                                        <?php elseif ((($CS2->CS1)=='B62Ab') AND (($CS2->TES)==$i)): ?>
-                                        <li class="seat">
-                                            <input type="checkbox" class="rb" data-rackname="A-<?= $nomor ?>b"
-                                                id="2.Ab.<?=$CS->TES?>" />
-                                            <label style="<?= $border_style ?>" class="<?= $label_class ?>"
-                                                for="2.Ab.<?=$CS->TES?>">
-                                                <?=$CS2->TES.substr($CS2->CS1,4)?>
-                                                <?php if ($CS2->JUMLAH_DATA < 1): ?>
-                                                <div class="status-cs">
-                                                    AVAILABLE
-                                                </div>
-                                                <?php elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4): ?>
-                                                <div class="status-cs">
-                                                    <?= $CS2->JUMLAH_DATA ?>/4 RAK
-                                                </div>
-                                                <?php else: ?>
-                                                <div class="status-cs">
-                                                    FULL
-                                                </div>
-                                                <?php endif ?>
-                                            </label>
-                                        </li>
-                                        <?php elseif ((($CS2->CS1)=='B62Ba') AND (($CS2->TES)==$i)): ?>
-                                        <li class="seat">
-                                            <input type="checkbox" class="rb" data-rackname="B-<?= $nomor ?>a"
-                                                id="2.Ba.<?=$CS->TES?>" />
-                                            <label style="<?= $border_style ?>" class="<?= $label_class ?>"
-                                                for="2.Ba.<?=$CS->TES?>">
-                                                <?=$CS2->TES.substr($CS2->CS1,4)?>
-                                                <?php if ($CS2->JUMLAH_DATA < 1): ?>
-                                                <div class="status-cs">
-                                                    AVAILABLE
-                                                </div>
-                                                <?php elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4): ?>
-                                                <div class="status-cs">
-                                                    <?= $CS2->JUMLAH_DATA ?>/4 RAK
-                                                </div>
-                                                <?php else: ?>
-                                                <div class="status-cs">
-                                                    FULL
-                                                </div>
-                                                <?php endif ?>
-                                            </label>
-                                        </li>
-                                        <?php elseif ((($CS2->CS1)=='B62Bb') AND (($CS2->TES)==$i)): ?>
-                                        <li class="seat">
-                                            <input type="checkbox" class="rb" data-rackname="B-<?= $nomor ?>b"
-                                                id="2.Bb.<?=$CS->TES?>" />
-                                            <label style="<?= $border_style ?>" class="<?= $label_class ?>"
-                                                for="2.Bb.<?=$CS->TES?>">
-                                                <?=$CS2->TES.substr($CS2->CS1,4)?>
-                                                <?php if ($CS2->JUMLAH_DATA < 1): ?>
-                                                <div class="status-cs">
-                                                    AVAILABLE
-                                                </div>
-                                                <?php elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4): ?>
-                                                <div class="status-cs">
-                                                    <?= $CS2->JUMLAH_DATA ?>/4 RAK
-                                                </div>
-                                                <?php else: ?>
-                                                <div class="status-cs">
-                                                    FULL
-                                                </div>
-                                                <?php endif ?>
-                                            </label>
-                                        </li>
-                                        <?php endif ?>
-                                        <?php endforeach ?>
-                                    </ol>
-                                </li>
-                                <?php $i++; endforeach; ?>
-                            </ol>
-
-                            <div class="exit back train-body">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 wrap-cs">
-                        <h2>COLD STORAGE <br> 3</h2>
-                        <div class="train">
-                            <div class="exit front train-body">
-                                <div>A</div>
-                                <div></div>
-                                <div>B</div>
-                            </div>
-
-                            <ol class="wagon train-body">
-                                <?php $i = 1; foreach ($get_data_cs3->result() as $CS): ?>
-                                <li class="row row--<?=$CS->TES?>">
-                                    <ol class="seats">
-                                        <?php foreach ($data_racks3 as $CS2):?>
-                                        <?php
-                            $label_class = "bg-red";
-                            if ($CS2->JUMLAH_DATA < 1) {
-                                $label_class = "bg-green";
-                            } elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4) {
-                                $label_class = "bg-orange";
-                            }
-    
-                            $border_style = "";
-                            if (!empty($CS2->TANGGAL_TERTUA)) {
-                                $datetime1 = new DateTime(date("Y-m-d", strtotime($CS2->TANGGAL_TERTUA)));
-                                $datetime2 = new DateTime(date("Y-m-d"));
-                                $difference = $datetime1->diff($datetime2);
-                                // echo "<pre/>";print_r($CS2);
-                                // echo "<pre/>";print_r($difference);exit;
-    
-                                if ($difference->days > 90) {
-                                $border_style = "border-bottom: 5px solid purple";
-                                }
-                            }
-    
-                            $nomor = $CS->TES;
-                            if ($nomor < 10) {
-                                $nomor = "0".$nomor;
-                            }
-                            ?>
-                                        <?php if ((($CS2->CS1)=='B63Aa') AND ($CS2->TES)==$i): ?>
-                                        <li class="seat">
-                                            <input type="checkbox" class="rb" data-rackname="A-<?= $nomor ?>a"
-                                                id="3.Aa.<?=$CS->TES?>" />
-                                            <label style="<?= $border_style ?>" class="<?= $label_class ?>"
-                                                for="3.Aa.<?=$CS->TES?>">
-                                                <?=$CS2->TES.substr($CS2->CS1,4)?>
-                                                <?php if ($CS2->JUMLAH_DATA < 1): ?>
-                                                <div class="status-cs">
-                                                    AVAILABLE
-                                                </div>
-                                                <?php elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4): ?>
-                                                <div class="status-cs">
-                                                    <?= $CS2->JUMLAH_DATA ?>/4 RAK
-                                                </div>
-                                                <?php else: ?>
-                                                <div class="status-cs">
-                                                    FULL
-                                                </div>
-                                                <?php endif ?>
-                                            </label>
-                                        </li>
-                                        <?php elseif ((($CS2->CS1)=='B63Ab') AND (($CS2->TES)==$i)): ?>
-                                        <li class="seat">
-                                            <input type="checkbox" class="rb" data-rackname="A-<?= $nomor ?>b"
-                                                id="3.Ab.<?=$CS->TES?>" />
-                                            <label style="<?= $border_style ?>" class="<?= $label_class ?>"
-                                                for="3.Ab.<?=$CS->TES?>">
-                                                <?=$CS2->TES.substr($CS2->CS1,4)?>
-                                                <?php if ($CS2->JUMLAH_DATA < 1): ?>
-                                                <div class="status-cs">
-                                                    AVAILABLE
-                                                </div>
-                                                <?php elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4): ?>
-                                                <div class="status-cs">
-                                                    <?= $CS2->JUMLAH_DATA ?>/4 RAK
-                                                </div>
-                                                <?php else: ?>
-                                                <div class="status-cs">
-                                                    FULL
-                                                </div>
-                                                <?php endif ?>
-                                            </label>
-                                        </li>
-                                        <?php elseif ((($CS2->CS1)=='B63Ba') AND (($CS2->TES)==$i)): ?>
-                                        <li class="seat">
-                                            <input type="checkbox" class="rb" data-rackname="B-<?= $nomor ?>a"
-                                                id="3.Ba.<?=$CS->TES?>" />
-                                            <label style="<?= $border_style ?>" class="<?= $label_class ?>"
-                                                for="3.Ba.<?=$CS->TES?>">
-                                                <?=$CS2->TES.substr($CS2->CS1,4)?>
-                                                <?php if ($CS2->JUMLAH_DATA < 1): ?>
-                                                <div class="status-cs">
-                                                    AVAILABLE
-                                                </div>
-                                                <?php elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4): ?>
-                                                <div class="status-cs">
-                                                    <?= $CS2->JUMLAH_DATA ?>/4 RAK
-                                                </div>
-                                                <?php else: ?>
-                                                <div class="status-cs">
-                                                    FULL
-                                                </div>
-                                                <?php endif ?>
-                                            </label>
-                                        </li>
-                                        <?php elseif ((($CS2->CS1)=='B63Bb') AND (($CS2->TES)==$i)): ?>
-                                        <li class="seat">
-                                            <input type="checkbox" class="rb" data-rackname="B-<?= $nomor ?>b"
-                                                id="3.Bb.<?=$CS->TES?>" />
-                                            <label style="<?= $border_style ?>" class="<?= $label_class ?>"
-                                                for="3.Bb.<?=$CS->TES?>">
-                                                <?=$CS2->TES.substr($CS2->CS1,4)?>
-                                                <?php if ($CS2->JUMLAH_DATA < 1): ?>
-                                                <div class="status-cs">
-                                                    AVAILABLE
-                                                </div>
-                                                <?php elseif ($CS2->JUMLAH_DATA >= 1 && $CS2->JUMLAH_DATA < 4): ?>
-                                                <div class="status-cs">
-                                                    <?= $CS2->JUMLAH_DATA ?>/4 RAK
-                                                </div>
-                                                <?php else: ?>
-                                                <div class="status-cs">
-                                                    FULL
-                                                </div>
-                                                <?php endif ?>
-                                            </label>
-                                        </li>
-                                        <?php endif ?>
-                                        <?php endforeach ?>
-                                    </ol>
-                                </li>
-                                <?php $i++; endforeach; ?>
-                            </ol>
-
-                            <div class="exit back train-body">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach ?>
+                    
                 </div>
             </div>
             <!-- /.box-body -->
@@ -730,17 +348,15 @@ Placement
 <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('vendor/select2/js/' . app()->getLocale() . '.js') }}"></script>
 
-<script>
-    $(function() {
-        $('#select_tingkat').select2({
-            theme: 'bootstrap4 select-tags',
-            language: "{{ app()->getLocale() }}",
-            allowClear: true,
-
-        });
+<script type="text/javascript">
+    $(".seat").on('click', function() {
+        var rackno  = $(this).data('rackno');
+        var url     = "{{ route('placement.index', ':id') }}";
+            url     = url.replace(':id', rackno);
+        console.log(rackno, url);
+        window.location.href = url;
     });
 </script>
-
 <script>
     $(".Checkbox-parent input").on('click',function(){
     var _parent=$(this);
@@ -799,258 +415,5 @@ Placement
         } 
     });
     }
-</script>
-
-<script>
-    $(".disableclick").keydown(function(event) { 
-        return false;
-    });
-</script>
-
-
-<script>
-    $(function () {
-        $('#example1').DataTable(
-          {"language": {"paginate": { "previous": "&lt","next": "&gt",}}}
-          )
-        $('#example2').DataTable({
-          'paging'      : true,
-          'lengthChange': false,
-          'searching'   : false,
-          'ordering'    : true,
-          'info'        : true,
-          'autoWidth'   : false
-        })
-      })
-</script>
-<script type="text/javascript">
-    $("#example1 tr").click(function(){
-        if ($(this).hasClass("selected")){
-            $(this).removeClass("selected");
-        }else{
-            $(this).addClass("selected").siblings().removeClass("selected");
-        }
-    });
-    
-    $(document).ready(function() {
-          setTimeout(() => {
-            document.location.reload();
-            console.log("Reload page 2detik")
-          }, 900000);
-        })
-</script>
-
-<script>
-    function chartfunct() {
-      $('#myChart').remove(); // this is my <canvas> element
-      $('#chart1').append('<canvas id="myChart"><canvas>');
-     
-    const values = [];
-      values.push(document.getElementById("dt1").value);
-      values.push(document.getElementById("dt2").value);
-      values.push(document.getElementById("dt3").value);
-      values.push(document.getElementById("dt4").value);
-      values.push(document.getElementById("dt5").value);
-      values.push(document.getElementById("dt6").value);
-      values.push(document.getElementById("dt7").value);
-      values.push(document.getElementById("dt8").value);
-      values.push(document.getElementById("dt9").value);
-      values.push(document.getElementById("dt10").value);
-      values.push(document.getElementById("dt11").value);
-      values.push(document.getElementById("dt12").value);
-      values.push(document.getElementById("dt13").value);
-      values.push(document.getElementById("dt14").value);
-      values.push(document.getElementById("dt15").value);
-      /*var dtb1 = document.getElementById("dt1").innerText;
-      var dtb2 = document.getElementById("dt2").innerText;
-      var dtb3 = document.getElementById("dt3").innerText;
-      var dtb4 = document.getElementById("dt4").innerText;
-      var dtb5 = document.getElementById("dt5").innerText;
-      var dtb6 = document.getElementById("dt6").innerText;
-      var dtb7 = document.getElementById("dt7").innerText;
-      var dtb8 = document.getElementById("dt8").innerText;
-      var dtb9 = document.getElementById("dt9").innerText;
-      var dtb10 = document.getElementById("dt10").innerText;
-      var dtb11 = document.getElementById("dt11").innerText;
-      var dtb12 = document.getElementById("dt12").innerText;
-      var dtb13 = document.getElementById("dt13").innerText;
-      var dtb14 = document.getElementById("dt14").innerText;
-      var dtb15 = document.getElementById("dt15").innerText;
-      */
-    
-      var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: ["1", "2", "3", "4", "5", "6","7","8","9","10","11","12","13","14","15"],
-            datasets: [{
-              label: 'Depletion',
-              data: values,
-              backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              ],
-              borderColor: [
-              'rgba(255, 159, 64, 1)'
-              ],
-              borderWidth: 1
-            }]
-          },
-          options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Tabel Of Depletion'
-                        }
-                    },
-    
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero:true
-                },
-               
-              }],
-              xAxes: [{
-                    display: true,
-                    title: {
-                    display: true,
-                    text: 'Value'
-                    }
-              }],
-            }
-          }
-        });
-    
-    
-      
-    }
-    
-</script>
-
-<script>
-    $(function () {
-      $("#dt1,#dt2,#dt3,#dt4,#dt5,#dt6,#dt7,#dt8,#dt9,#dt10,#dt11,#dt12,#dt13,#dt14,#dt15").keyup(function () {
-        $("#jumlah").val(+$("#dt1").val() + +$("#dt2").val() + +$("#dt3").val() + +$("#dt4").val() + +$("#dt5").val() +
-                         +$("#dt6").val() + +$("#dt7").val() + +$("#dt8").val() + +$("#dt9").val() + +$("#dt10").val() + 
-                         +$("#dt11").val() + +$("#dt12").val() + +$("#dt13").val() + +$("#dt14").val() + +$("#dt15").val()
-                        );
-        });
-       });
-</script>
-
-<!-- Untuk Multiple Upload -->
-<script>
-    $('.upload-wrap input[type=file]').change(function(){
-        var id = $(this).attr("id");
-        var newimage = new FileReader();
-        newimage.readAsDataURL(this.files[0]);
-        newimage.onload = function(e){
-          $('.uploadpreview.' + id ).css('background-image', 'url(' + e.target.result + ')' );
-        }
-      });
-    
-</script>
-
-<script>
-    function myFunction() {
-     
-      var x = document.getElementById("farmes");
-      var val = x.value;
-      var n = val.split('|');
-     
-      document.getElementById("pemilik").value = n[1];
-      document.getElementById("alamat").value = n[2];
-    
-    
-      
-    }
-    
-    // function confirmdelete(){
-    //   var del = confirm('Delete Data, Are You Sure?');
-    //   if (del)
-    //     return true;
-    //   else
-    //     return false;
-    // }
-</script>
-<script>
-    document.getElementById('datePicker').valueAsDate = new Date();
-     document.getElementById('datePicker2').valueAsDate = new Date();
-</script>
-<script type="text/javascript">
-    function showDiv(select){
-       if(select.value==2){
-        document.getElementById('hidden_div').style.display = "none";
-       } else{
-        document.getElementById('hidden_div').style.display = "";
-       }
-    } 
-</script>
-<script>
-    /*$(document).ready(function () {
-          var cs = $('#cbs').val();*/
-          
-    function cs1Aa( i ){
-      return function(){
-        var cek = $('#v1Aa'+i).val();
-        $('#1Aaa'+i).append(cek);
-      }
-    }
-    
-    $(document).ready(function(){
-      for(var i = 0; i < 15; i++) {
-        $('#1Aa' + i).click( cs1Aa( i ) );
-      }
-    
-    
-      $(".rb").change(function() {
-        $('.display_rack').empty();
-        $(".rb").prop('checked', false);
-        $(this).prop('checked', true);
-    
-        var id_rack = $(this).attr('id');
-        var rack_name = $(this).data('rackname');
-    
-        // $("#rack_name").text(rack_name);
-        $.ajax({
-          url:'<?=base_url()?>C_Warehouse/get_rack_detail',
-          method: 'post',
-          data: {id_rack: id_rack},
-          dataType: 'json',
-          success: function(response){
-            $.each(response, function(level, data){
-              var split_rackname = rack_name.split("-");
-              var rn_level = split_rackname[0] + "-0" + level + "-" + split_rackname[1];
-              var rackname_level = 'Rak : ' + rn_level;
-              if (data) {
-                var html = ``;
-                var pallet_no = '';
-                $.each(data, function(index, item){
-                  pallet_no = "Pallet : " + item.PALLET_NO;
-                  html += `<tr>`;
-                    html += `<td>${item.NAME}</td>`;
-                    html += `<td>${item.PROD_DATE}</td>`;
-                    html += `<td>${item.DAYS}</td>`;
-                    html += `<td>${item.SACK_BAG}</td>`;
-                    html += `<td>${item.QTY}</td>`;
-                    html += `<td>${item.BW}</td>`;
-                  html += `</tr>`;
-                });
-                $("#pallet_name_level_" + level).text(pallet_no);
-                $('#display_rack_' + level).append(html);
-              }
-              $("#rack_name_level_" + level).text(rackname_level);
-            });
-            $("#outofalldata").modal('show');
-          }
-        });
-      });
-    });
-    
-          /*
-        $('#1Aa1').click(function () {
-                 $('#1Aa1').append(cs);
-        });*/
-    /*});*/
 </script>
 @endpush
