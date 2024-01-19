@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Services\PlacementServices;
 
 class PlacementController extends Controller
 {
@@ -84,14 +85,16 @@ class PlacementController extends Controller
     }
 
 	public function mapping_placement(Request $request) {
-		$data['get_data_rackcs1'] = $this->M_Warehouse->m_get_data_rack();
-		$data['get_data_cs1'] = $this->M_Warehouse->m_get_data_cs1();
+		$placement = PlacementServices::getRackList();
 
-		$data['get_data_rackcs2'] = $this->M_Warehouse->m_get_data_rack2();
-		$data['get_data_cs2'] = $this->M_Warehouse->m_get_data_cs2();
+		// $data['get_data_rackcs1'] = $this->M_Warehouse->m_get_data_rack();
+		// $data['get_data_cs1'] = $this->M_Warehouse->m_get_data_cs1();
+
+		// $data['get_data_rackcs2'] = $this->M_Warehouse->m_get_data_rack2();
+		// $data['get_data_cs2'] = $this->M_Warehouse->m_get_data_cs2();
 		
-		$data['get_data_rackcs3'] = $this->M_Warehouse->m_get_data_rack3();
-		$data['get_data_cs3'] = $this->M_Warehouse->m_get_data_cs3();
+		// $data['get_data_rackcs3'] = $this->M_Warehouse->m_get_data_rack3();
+		// $data['get_data_cs3'] = $this->M_Warehouse->m_get_data_cs3();
 		return view('placement.mapping');
 	} 
 
