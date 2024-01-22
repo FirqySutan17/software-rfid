@@ -121,7 +121,7 @@ class PlacementController extends Controller
     		}
     	}
 
-    	return redirect()->route('placement.index', $rack_no)->with('success', 'Placement success!');
+    	return redirect()->route('mapping', $rack_no)->with('success', 'Placement success!');
     }
 
     // public function message(Request $request) {
