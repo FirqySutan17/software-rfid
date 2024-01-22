@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Services\PlacementServices;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PlacementController extends Controller
 {
@@ -125,8 +126,8 @@ class PlacementController extends Controller
 				}
     		}
     	}
-
-    	return redirect()->route('mapping', $rack_no)->with('success', 'Placement success!');
+		Alert::success('Berhasil', 'Data berhasil tersimpan!');
+    	return redirect()->route('mapping', $rack_no);
     }
 
     // public function message(Request $request) {

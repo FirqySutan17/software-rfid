@@ -409,6 +409,7 @@ Placement
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('vendor/select2/js/' . app()->getLocale() . '.js') }}"></script>
+<script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
 
 <script type="text/javascript">
     $(".seat").on('click', function() {

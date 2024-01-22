@@ -7,6 +7,8 @@ Placement
 @push('css-external')
 <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2-bootstrap4.min.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">
+
 
 <style>
     .select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered {
@@ -182,9 +184,13 @@ Placement
         padding-bottom: 16px;
     }
 
+    div:where(.swal2-icon) .swal2-icon-content {
+        font-size: 0.75em !important;
+    }
+
     @media(max-width: 940px) {
         .placement-item {
-        height: auto;
+            height: auto;
         }
     }
 </style>
@@ -195,13 +201,15 @@ Placement
     <div class="br-title">
         <h2 class="breadcrumb-title-non"><a href="javascript:void(0)">Placement</a></h2>
         <i class="fa-solid fa-chevron-right"></i>
-        <h2 class="breadcrumb-title-active">CS {{ $rack_data['cold_storage_name'] }} - {{ $rack_data['rack_position'] }} - {{ $rack_data['sequence'] }}</h2>
+        <h2 class="breadcrumb-title-active">CS {{ $rack_data['cold_storage_name'] }} - {{ $rack_data['rack_position'] }}
+            - {{ $rack_data['sequence'] }}</h2>
     </div>
 
     <div class="placement-detail">
         <div class="placement-box">
             <h4 class="title-transdet">Form Placement</h4>
-            <form action="{{ route('placement.store', $rack_no) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('placement.store', $rack_no) }}" method="POST" enctype="multipart/form-data"
+                role="alert">
                 @csrf
                 <input type="hidden" name="status" value="{{ $rack_data['cold_storage'] }}">
                 <div class="row d-flex align-items-stretch">
@@ -213,8 +221,8 @@ Placement
                                         Cold Storage
                                     </label>
                                     <input id="coldstorage" name="coldstorage" type="text" class="form-control"
-                                        placeholder="1" value="{{ $rack_data['cold_storage_name'] }}" style="text-align: center; font-weight: 700;"
-                                        readonly />
+                                        placeholder="1" value="{{ $rack_data['cold_storage_name'] }}"
+                                        style="text-align: center; font-weight: 700;" readonly />
                                 </div>
                             </div>
                             <div class="col-4">
@@ -223,7 +231,8 @@ Placement
                                         Rak
                                     </label>
                                     <input id="rak" name="rak" type="text" class="form-control" placeholder="Aa"
-                                        value="{{ $rack_data['rack_position'] }}" style="text-align: center; font-weight: 700;" readonly />
+                                        value="{{ $rack_data['rack_position'] }}"
+                                        style="text-align: center; font-weight: 700;" readonly />
                                 </div>
                             </div>
                             <div class="col-4">
@@ -232,8 +241,8 @@ Placement
                                         Urutan
                                     </label>
                                     <input id="urutan_rak" name="urutan_rak" type="text" class="form-control"
-                                        placeholder="12" value="{{ $rack_data['sequence'] }}" style="text-align: center; font-weight: 700;"
-                                        readonly />
+                                        placeholder="12" value="{{ $rack_data['sequence'] }}"
+                                        style="text-align: center; font-weight: 700;" readonly />
                                 </div>
                             </div>
                             <div class="col-12">
@@ -261,28 +270,31 @@ Placement
                         </label>
                         <div class="placement-item">
                             <?php if (!empty($placement_data)): ?>
-                                <?php $no = 1; ?>
-                                <?php foreach ($placement_data as $batch_time => $batch): ?>
-                                    <div class="Checkbox-parent Accordion">
-                                        <input class="material-icons" type="checkbox" />
-                                        <label>Batch {{ $no }} ( {{ date('Y-m-d H:i', strtotime($batch['LOGDATE'])) }} )</label>
+                            <?php $no = 1; ?>
+                            <?php foreach ($placement_data as $batch_time => $batch): ?>
+                            <div class="Checkbox-parent Accordion">
+                                <input class="material-icons" type="checkbox" />
+                                <label>Batch {{ $no }} ( {{ date('Y-m-d H:i', strtotime($batch['LOGDATE'])) }} )</label>
+                                </input>
+
+                            </div>
+                            <div class="Accordion-panel">
+                                <ul class="Checkbox-child">
+                                    <?php foreach ($batch['DATA'] as $item): ?>
+                                    <li>
+                                        <input name="data_placement[]" value="{{ $item['ITEM'].'|'.$item['LOGDATE'] }}"
+                                            class="material-icons" type="checkbox" />
+                                        <label><b>{{ $item['ITEM'] }} - {{ $item['ITEM_NAME'] }}</b> | <b>{{
+                                                $item['WEIGHT'] }} KG</b> | <b>{{ date('Y-m-d H:i',
+                                                strtotime($item['PROD_DATE'])) }}</b></label>
                                         </input>
 
-                                    </div>
-                                    <div class="Accordion-panel">
-                                        <ul class="Checkbox-child">
-                                            <?php foreach ($batch['DATA'] as $item): ?>
-                                                <li>
-                                                    <input name="data_placement[]" value="{{ $item['ITEM'].'|'.$item['LOGDATE'] }}" class="material-icons" type="checkbox" />
-                                                    <label><b>{{ $item['ITEM'] }} - {{ $item['ITEM_NAME'] }}</b> | <b>{{ $item['WEIGHT'] }} KG</b> | <b>{{ date('Y-m-d H:i', strtotime($item['PROD_DATE'])) }}</b></label>
-                                                    </input>
-
-                                                </li>
-                                            <?php endforeach ?>
-                                        </ul>
-                                    </div>
-                                    <?php $no++; ?>
-                                <?php endforeach ?>
+                                    </li>
+                                    <?php endforeach ?>
+                                </ul>
+                            </div>
+                            <?php $no++; ?>
+                            <?php endforeach ?>
                             <?php endif ?>
                         </div>
 
@@ -312,13 +324,13 @@ Placement
                         <th width="20%" style="text-align: right">BW</th>
                     </tr>
                     <?php if(!empty($existing_data[4])): ?>
-                        <?php foreach ($existing_data[4] as $v): ?>
-                            <tr>
-                                <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
-                                <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
-                                <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
-                            </tr>
-                        <?php endforeach ?>
+                    <?php foreach ($existing_data[4] as $v): ?>
+                    <tr>
+                        <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
+                        <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
+                        <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
+                    </tr>
+                    <?php endforeach ?>
                     <?php endif ?>
                 </table>
             </div>
@@ -334,13 +346,13 @@ Placement
                         <th width="20%" style="text-align: right">BW</th>
                     </tr>
                     <?php if(!empty($existing_data[3])): ?>
-                        <?php foreach ($existing_data[3] as $v): ?>
-                            <tr>
-                                <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
-                                <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
-                                <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
-                            </tr>
-                        <?php endforeach ?>
+                    <?php foreach ($existing_data[3] as $v): ?>
+                    <tr>
+                        <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
+                        <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
+                        <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
+                    </tr>
+                    <?php endforeach ?>
                     <?php endif ?>
                 </table>
             </div>
@@ -356,13 +368,13 @@ Placement
                         <th width="20%" style="text-align: right">BW</th>
                     </tr>
                     <?php if(!empty($existing_data[2])): ?>
-                        <?php foreach ($existing_data[2] as $v): ?>
-                            <tr>
-                                <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
-                                <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
-                                <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
-                            </tr>
-                        <?php endforeach ?>
+                    <?php foreach ($existing_data[2] as $v): ?>
+                    <tr>
+                        <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
+                        <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
+                        <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
+                    </tr>
+                    <?php endforeach ?>
                     <?php endif ?>
                 </table>
             </div>
@@ -378,13 +390,13 @@ Placement
                         <th width="20%" style="text-align: right">BW</th>
                     </tr>
                     <?php if(!empty($existing_data[1])): ?>
-                        <?php foreach ($existing_data[1] as $v): ?>
-                            <tr>
-                                <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
-                                <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
-                                <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
-                            </tr>
-                        <?php endforeach ?>
+                    <?php foreach ($existing_data[1] as $v): ?>
+                    <tr>
+                        <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
+                        <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
+                        <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
+                    </tr>
+                    <?php endforeach ?>
                     <?php endif ?>
                 </table>
             </div>
@@ -400,6 +412,7 @@ Placement
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('vendor/select2/js/' . app()->getLocale() . '.js') }}"></script>
+<script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
 
 <script>
     $(function() {
@@ -470,5 +483,28 @@ Placement
         } 
     });
     }
+</script>
+
+<script>
+    $(document).ready(function() {
+		$("form[role='alert']").submit(function(event) {
+			event.preventDefault();
+			Swal.fire({
+				title: 'Warning',
+				text: 'Anda yakin ingin menyimpan data ini?',
+				icon: 'warning',
+				allowOutsideClick: false,
+				showCancelButton: true,
+				cancelButtonText: "Cancel",
+				reverseButtons: true,
+				confirmButtonText: "Yes",
+			}).then((result) => {
+				if (result.isConfirmed) {
+					// todo: process of deleting categories
+					event.target.submit();
+				}
+			});
+		});
+	});
 </script>
 @endpush
