@@ -85,8 +85,13 @@ class PlacementController extends Controller
     }
 
 	public function mapping_placement(Request $request) {
-		$placement = PlacementServices::getRackList();
-		return view('placement.mapping', compact('placement'));
+		$placement 			= PlacementServices::getRackList();
+		$coldStorageData 	= [
+			"1"	=> PlacementServices::getRackData(1),
+			"2"	=> PlacementServices::getRackData(2),
+			"3"	=> PlacementServices::getRackData(3),
+		];
+		return view('placement.mapping', compact('placement', 'coldStorageData'));
 	} 
 
     public function store($rack_no, Request $request) {
