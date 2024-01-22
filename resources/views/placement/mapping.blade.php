@@ -318,23 +318,67 @@ Placement
                                 <li class="row">
                                     <ol class="seats">
                                         <li class="seat" data-rackno="2{{ $plc['NAME'] }}Ab{{ $no_rack }}">
-                                            <label class="bg-green">
+                                            <?php 
+                                                $total_data = $coldStorageData[$plc['NAME']][$i]['Ab'];
+                                                $bg_class   = "bg-green";
+                                                if ($total_data > 0 && $total_data < 4) {
+                                                    $bg_class = "bg-warning";
+                                                } elseif ($total_data >= 4) {
+                                                    $bg_class = "bg-danger";
+                                                }
+                                            ?>
+                                            <label class="{{ $bg_class }}">
                                                 {{ $i }}b
+                                                <br>
+                                                {{ $total_data }}/4
                                             </label>
                                         </li>
                                         <li class="seat" data-rackno="2{{ $plc['NAME'] }}Aa{{ $no_rack }}">
-                                            <label class="bg-green">
+                                            <?php 
+                                                $total_data = $coldStorageData[$plc['NAME']][$i]['Aa'];
+                                                $bg_class   = "bg-green";
+                                                if ($total_data > 0 && $total_data < 4) {
+                                                    $bg_class = "bg-warning";
+                                                } elseif ($total_data >= 4) {
+                                                    $bg_class = "bg-danger";
+                                                }
+                                            ?>
+                                            <label class="{{ $bg_class }}">
                                                 {{ $i }}a
+                                                <br>
+                                                {{ $total_data }}/4
                                             </label>
                                         </li>
                                         <li class="seat" data-rackno="2{{ $plc['NAME'] }}Ba{{ $no_rack }}">
-                                            <label class="bg-green">
+                                            <?php 
+                                                $total_data = $coldStorageData[$plc['NAME']][$i]['Ba'];
+                                                $bg_class   = "bg-green";
+                                                if ($total_data > 0 && $total_data < 4) {
+                                                    $bg_class = "bg-warning";
+                                                } elseif ($total_data >= 4) {
+                                                    $bg_class = "bg-danger";
+                                                }
+                                            ?>
+                                            <label class="{{ $bg_class }}">
                                                 {{ $i }}a
+                                                <br>
+                                                {{ $total_data }}/4
                                             </label>
                                         </li>
                                         <li class="seat" data-rackno="2{{ $plc['NAME'] }}Bb{{ $no_rack }}">
-                                            <label class="bg-green">
+                                            <?php 
+                                                $total_data = $coldStorageData[$plc['NAME']][$i]['Bb'];
+                                                $bg_class   = "bg-green";
+                                                if ($total_data > 0 && $total_data < 4) {
+                                                    $bg_class = "bg-warning";
+                                                } elseif ($total_data >= 4) {
+                                                    $bg_class = "bg-danger";
+                                                }
+                                            ?>
+                                            <label class="{{ $bg_class }}">
                                                 {{ $i }}b
+                                                <br>
+                                                {{ $total_data }}/4
                                             </label>
                                         </li>
                                     </ol>
