@@ -480,10 +480,11 @@ a {
 .w3-bar .w3-bar-item {
     padding: 8px 16px;
     float: left;
-    width: auto;
+    width: 33.3%;
     border: none;
     display: block;
     outline: 0;
+    font-weight: 700;
 }
 .w3-bar .w3-dropdown-hover,
 .w3-bar .w3-dropdown-click {

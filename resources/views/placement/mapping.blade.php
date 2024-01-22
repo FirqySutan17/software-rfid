@@ -8,6 +8,7 @@ Placement
 <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2-bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/display.css') }}">
+<link rel="stylesheet" href="{{ asset('css/w3.css') }}">
 
 <style>
     .select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered {
@@ -266,8 +267,13 @@ Placement
         font-size: 10px
     }
 
-    .bg-green{
+    .bg-green {
         background-color: #00a65a !important;
+    }
+
+    #CS-2,
+    #CS-3 {
+        display: none
     }
 </style>
 @endpush
@@ -276,62 +282,69 @@ Placement
 <div class="main-content">
     <div class="wrapper">
         <div class="content-wrapper" style="margin-left: 0px">
-            <div class="container-fluid">
+            <div class="container-fluid" style="padding: 0">
                 <div class="box box-primary box-solid" style="margin-top: 10px;">
-                    <div class="box-header with-border">
+                    {{-- <div class="box-header with-border">
                         <center>
                             <h5 class="box-title">Mapping Cold Storage</h5>
                         </center>
+                    </div> --}}
+                    <div class="w3-bar w3-black" style="border-radius: 10px;">
+                        <button class="w3-bar-item w3-button tablink w3-red" onclick="openCs(event,'CS-1')">CS
+                            1</button>
+                        <button class="w3-bar-item w3-button tablink" onclick="openCs(event,'CS-2')">CS 2</button>
+                        <button class="w3-bar-item w3-button tablink" onclick="openCs(event,'CS-3')">CS 3</button>
                     </div>
+                    <br>
                 </div>
                 <div class="row">
                     <?php foreach ($placement as $plc): ?>
-                        <div class="col-md-4 wrap-cs">
-                            <h2>COLD STORAGE <br> {{ $plc['NAME'] }}</h2>
-                            <div class="train">
-                                <div class="exit front train-body">
-                                    <div>A</div>
-                                    <div></div>
-                                    <div>B</div>
-                                </div>
-                                <ol class="wagon train-body">
-                                    <?php for ($i = 1; $i <= $plc['TOTAL_ROW']; $i++): ?>
-                                        <?php $no_rack = $i < 10 ? "0".$i : $i; ?>
-                                        <li class="row">
-                                            <ol class="seats">
-                                                <li class="seat" data-rackno="2{{ $plc['NAME'] }}Ab{{ $no_rack }}">
-                                                    <label class="bg-green">
-                                                        {{ $i }}b
-                                                    </label>
-                                                </li>
-                                                <li class="seat" data-rackno="2{{ $plc['NAME'] }}Aa{{ $no_rack }}">
-                                                    <label class="bg-green">
-                                                        {{ $i }}a
-                                                    </label>
-                                                </li>
-                                                <li class="seat" data-rackno="2{{ $plc['NAME'] }}Ba{{ $no_rack }}">
-                                                    <label class="bg-green">
-                                                        {{ $i }}a
-                                                    </label>
-                                                </li>
-                                                <li class="seat" data-rackno="2{{ $plc['NAME'] }}Bb{{ $no_rack }}">
-                                                    <label class="bg-green">
-                                                        {{ $i }}b
-                                                    </label>
-                                                </li>
-                                            </ol>
+                    <div id="CS-{{ $plc['NAME'] }}" class="col-md-12 wrap-cs storage" style="margin-bottom: 20px">
+                        <h2>COLD STORAGE <br> {{ $plc['NAME'] }}</h2>
+                        <div class="train">
+                            <div class="exit front train-body">
+                                <div>A</div>
+                                <div></div>
+                                <div>B</div>
+                            </div>
+                            <ol class="wagon train-body">
+                                <?php for ($i = 1; $i <= $plc['TOTAL_ROW']; $i++): ?>
+                                <?php $no_rack = $i < 10 ? "0".$i : $i; ?>
+                                <li class="row">
+                                    <ol class="seats">
+                                        <li class="seat" data-rackno="2{{ $plc['NAME'] }}Ab{{ $no_rack }}">
+                                            <label class="bg-green">
+                                                {{ $i }}b
+                                            </label>
                                         </li>
-                                    <?php endfor ?>
-                                </ol>
-                                <div class="exit back train-body">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
+                                        <li class="seat" data-rackno="2{{ $plc['NAME'] }}Aa{{ $no_rack }}">
+                                            <label class="bg-green">
+                                                {{ $i }}a
+                                            </label>
+                                        </li>
+                                        <li class="seat" data-rackno="2{{ $plc['NAME'] }}Ba{{ $no_rack }}">
+                                            <label class="bg-green">
+                                                {{ $i }}a
+                                            </label>
+                                        </li>
+                                        <li class="seat" data-rackno="2{{ $plc['NAME'] }}Bb{{ $no_rack }}">
+                                            <label class="bg-green">
+                                                {{ $i }}b
+                                            </label>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <?php endfor ?>
+                            </ol>
+                            <div class="exit back train-body">
+                                <div></div>
+                                <div></div>
+                                <div></div>
                             </div>
                         </div>
+                    </div>
                     <?php endforeach ?>
-                    
+
                 </div>
             </div>
             <!-- /.box-body -->
@@ -414,6 +427,22 @@ Placement
         panel.style.maxHeight = panel.scrollHeight + "px";
         } 
     });
+    }
+</script>
+
+<script>
+    function openCs(evt, cityName) {
+      var i, x, tablinks;
+      x = document.getElementsByClassName("storage");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablink");
+      for (i = 0; i < x.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
+      }
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " w3-red";
     }
 </script>
 @endpush
