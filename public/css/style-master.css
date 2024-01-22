@@ -313,6 +313,7 @@ body.dark .nav-links li a:hover .link-name {
 .nav-links li {
     border-radius: 8px;
     padding: 0px 16px;
+    margin-bottom: 5px;
 }
 .nav-links li.active {
     background: #fefce8;
@@ -3496,7 +3497,7 @@ i.fa-circle {
         padding: 0px;
     }
     .open-nav {
-        width: 55%;
+        width: 35%;
         display: block;
     }
     .close-nav {

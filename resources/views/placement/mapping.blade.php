@@ -184,6 +184,11 @@ Placement
         padding-bottom: 16px;
     }
 
+    .seat label:hover {
+        background-color: yellow !important;
+        color: #000 !important
+    }
+
     @media(max-width: 940px) {
         .placement-item {
             height: auto;

@@ -31,3 +31,9 @@ Route::group(['prefix' => 'placement', 'as' =>'placement.', 'middleware' =>['aut
 });
 Route::get('/mapping-placement', [App\Http\Controllers\PlacementController::class, 'mapping_placement'])->name('mapping');
 
+
+// Report Group
+Route::get('/stock-balance-list', [App\Http\Controllers\ReportController::class, 'stock_balance'])->name('stockbalance');
+Route::get('/detail-balance-list', [App\Http\Controllers\ReportController::class, 'detail_balance'])->name('detailbalance');
+Route::get('/mapping-cold-storage', [App\Http\Controllers\ReportController::class, 'mapping_cs'])->name('mappingcs');
+
