@@ -125,8 +125,11 @@ class PlacementController extends Controller
 					oci_commit($conn);
 				}
     		}
+
+			Alert::success('Berhasil', 'Data berhasil tersimpan!');
+    	} else {
+			Alert::success('Gagal', 'Data gagal tersimpan!');
     	}
-		Alert::success('Berhasil', 'Data berhasil tersimpan!');
     	return redirect()->route('mapping', $rack_no);
     }
 

@@ -252,10 +252,10 @@ Placement
                                     </label>
                                     <select id="select_tingkat" name="tingkat_rak" data-placeholder="Pilih tingkat"
                                         class="custom-select" required>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
+                                        <?= empty($existing_data[1]) ? '<option value="1">1</option>' : '' ?>
+                                        <?= empty($existing_data[2]) ? '<option value="2">2</option>' : '' ?>
+                                        <?= empty($existing_data[3]) ? '<option value="3">3</option>' : '' ?>
+                                        <?= empty($existing_data[4]) ? '<option value="4">4</option>' : '' ?>
                                     </select>
                                 </div>
                             </div>
@@ -300,10 +300,10 @@ Placement
 
                         <div class="row" style="margin-top: 30px; margin-bottom: 15px">
                             <div class="col-12">
-                                <button type="submit" class="btn-save"
-                                    style="text-align: right; float: right">Submit</button>
-                                {{-- <a href="#" class="btn-close-modal" data-bs-dismiss="modal"
-                                    aria-label="Close">Close</a> --}}
+                                <?php if (!empty($placement_data)): ?>
+                                    <button type="submit" class="btn-save" style="text-align: right; float: right">Submit</button>
+                                <?php endif ?>
+                                <a href="{{ route('home') }}" class="btn-close-modal"  aria-label="Close" style="text-align: right; float: right">Cancel</a>
                             </div>
                         </div>
                     </div>

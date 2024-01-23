@@ -317,64 +317,80 @@ Placement
                                 <?php $no_rack = $i < 10 ? "0".$i : $i; ?>
                                 <li class="row">
                                     <ol class="seats">
-                                        <li class="seat" data-rackno="2{{ $plc['NAME'] }}Ab{{ $no_rack }}">
-                                            <?php 
-                                                $total_data = $coldStorageData[$plc['NAME']][$i]['Ab'];
-                                                $bg_class   = "bg-green";
-                                                if ($total_data > 0 && $total_data < 4) {
-                                                    $bg_class = "bg-warning";
-                                                } elseif ($total_data >= 4) {
-                                                    $bg_class = "bg-danger";
-                                                }
-                                            ?>
+                                        <?php 
+                                            $rackno     = "2".$plc['NAME']."Ab".$no_rack;
+                                            $total_data = $coldStorageData[$plc['NAME']][$i]['Ab'];
+                                            $bg_class   = "bg-green";
+                                            $style      = "";
+                                            if ($total_data > 0 && $total_data < 4) {
+                                                $bg_class = "bg-warning";
+                                            } elseif ($total_data >= 4) {
+                                                $bg_class   = "bg-danger";
+                                                $rackno     = "";
+                                                $style      = "cursor:default";
+                                            }
+                                        ?>
+                                        <li style="{{ $style }}" class="seat" data-rackno="{{ $rackno }}">
                                             <label class="{{ $bg_class }}">
                                                 {{ $i }}b
                                                 <br>
                                                 {{ $total_data }}/4
                                             </label>
                                         </li>
-                                        <li class="seat" data-rackno="2{{ $plc['NAME'] }}Aa{{ $no_rack }}">
-                                            <?php 
-                                                $total_data = $coldStorageData[$plc['NAME']][$i]['Aa'];
-                                                $bg_class   = "bg-green";
-                                                if ($total_data > 0 && $total_data < 4) {
-                                                    $bg_class = "bg-warning";
-                                                } elseif ($total_data >= 4) {
-                                                    $bg_class = "bg-danger";
-                                                }
-                                            ?>
+                                        <?php 
+                                            $rackno = "2".$plc['NAME']."Aa".$no_rack;
+                                            $total_data = $coldStorageData[$plc['NAME']][$i]['Aa'];
+                                            $bg_class   = "bg-green";
+                                            $style      = "";
+                                            if ($total_data > 0 && $total_data < 4) {
+                                                $bg_class = "bg-warning";
+                                            } elseif ($total_data >= 4) {
+                                                $bg_class = "bg-danger";
+                                                $rackno     = "";
+                                                $style      = "cursor:default";
+                                            }
+                                        ?>
+                                        <li style="{{ $style }}" class="seat" data-rackno="{{ $rackno }}">
                                             <label class="{{ $bg_class }}">
                                                 {{ $i }}a
                                                 <br>
                                                 {{ $total_data }}/4
                                             </label>
                                         </li>
-                                        <li class="seat" data-rackno="2{{ $plc['NAME'] }}Ba{{ $no_rack }}">
-                                            <?php 
-                                                $total_data = $coldStorageData[$plc['NAME']][$i]['Ba'];
-                                                $bg_class   = "bg-green";
-                                                if ($total_data > 0 && $total_data < 4) {
-                                                    $bg_class = "bg-warning";
-                                                } elseif ($total_data >= 4) {
-                                                    $bg_class = "bg-danger";
-                                                }
-                                            ?>
+                                        <?php 
+                                            $rackno = "2".$plc['NAME']."Ba".$no_rack;
+                                            $total_data = $coldStorageData[$plc['NAME']][$i]['Ba'];
+                                            $bg_class   = "bg-green";
+                                            $style      = "";
+                                            if ($total_data > 0 && $total_data < 4) {
+                                                $bg_class = "bg-warning";
+                                            } elseif ($total_data >= 4) {
+                                                $bg_class = "bg-danger";
+                                                $rackno     = "";
+                                                $style      = "cursor:default";
+                                            }
+                                        ?>
+                                        <li style="{{ $style }}" class="seat" data-rackno="{{ $rackno }}">
                                             <label class="{{ $bg_class }}">
                                                 {{ $i }}a
                                                 <br>
                                                 {{ $total_data }}/4
                                             </label>
                                         </li>
-                                        <li class="seat" data-rackno="2{{ $plc['NAME'] }}Bb{{ $no_rack }}">
-                                            <?php 
-                                                $total_data = $coldStorageData[$plc['NAME']][$i]['Bb'];
-                                                $bg_class   = "bg-green";
-                                                if ($total_data > 0 && $total_data < 4) {
-                                                    $bg_class = "bg-warning";
-                                                } elseif ($total_data >= 4) {
-                                                    $bg_class = "bg-danger";
-                                                }
-                                            ?>
+                                        <?php 
+                                            $rackno = "2".$plc['NAME']."Bb".$no_rack;
+                                            $total_data = $coldStorageData[$plc['NAME']][$i]['Bb'];
+                                            $bg_class   = "bg-green";
+                                            $style      = "";
+                                            if ($total_data > 0 && $total_data < 4) {
+                                                $bg_class = "bg-warning";
+                                            } elseif ($total_data >= 4) {
+                                                $bg_class   = "bg-danger";
+                                                $rackno     = "";
+                                                $style      = "cursor:default";
+                                            }
+                                        ?>
+                                        <li style="{{ $style }}" class="seat" data-rackno="{{ $rackno }}">
                                             <label class="{{ $bg_class }}">
                                                 {{ $i }}b
                                                 <br>
@@ -414,10 +430,11 @@ Placement
 <script type="text/javascript">
     $(".seat").on('click', function() {
         var rackno  = $(this).data('rackno');
-        var url     = "{{ route('placement.index', ':id') }}";
-            url     = url.replace(':id', rackno);
-        console.log(rackno, url);
-        window.location.href = url;
+        if (rackno !== "") {
+            var url     = "{{ route('placement.index', ':id') }}";
+                url     = url.replace(':id', rackno);
+            window.location.href = url;
+        }
     });
 </script>
 <script>
