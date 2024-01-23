@@ -3302,6 +3302,7 @@ i.fa-circle {
     grid-template-columns: repeat(8, 1fr);
     column-gap: 10px;
     margin-top: 15px;
+    height: 79vh;
 }
 .placement-detail .placement-box {
     width: 100%;

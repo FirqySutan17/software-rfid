@@ -30,7 +30,7 @@ Placement
     }
 
     .placement-item {
-        height: 130px;
+        height: 244px;
         overflow-y: auto;
         padding: 0px 20px;
     }
@@ -189,6 +189,10 @@ Placement
     }
 
     @media(max-width: 940px) {
+        .placement-detail {
+            height: auto;
+        }
+
         .placement-item {
             height: auto;
         }
@@ -201,8 +205,9 @@ Placement
     <div class="br-title">
         <h2 class="breadcrumb-title-non"><a href="javascript:void(0)">Placement</a></h2>
         <i class="fa-solid fa-chevron-right"></i>
-        <h2 class="breadcrumb-title-active">CS {{ $rack_data['cold_storage_name'] }} - {{ $rack_data['rack_position'] }}
-            - {{ $rack_data['sequence'] }}</h2>
+        <h2 class="breadcrumb-title-active">Cold Storage ({{ $rack_data['cold_storage_name'] }}) - Rak ({{
+            $rack_data['rack_position'] }})
+            - Baris ({{ $rack_data['sequence'] }})</h2>
     </div>
 
     <div class="placement-detail">
@@ -215,7 +220,7 @@ Placement
                 <div class="row d-flex align-items-stretch">
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-4">
+                            {{-- <div class="col-4">
                                 <div class="form-group _form-group">
                                     <label for="coldstorage">
                                         Cold Storage
@@ -244,7 +249,7 @@ Placement
                                         placeholder="12" value="{{ $rack_data['sequence'] }}"
                                         style="text-align: center; font-weight: 700;" readonly />
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-12">
                                 <div class="form-group _form-group">
                                     <label for="tingkat_rak">
@@ -305,9 +310,11 @@ Placement
                         <div class="row" style="margin-top: 30px; margin-bottom: 15px">
                             <div class="col-12">
                                 <?php if (!empty($placement_data)): ?>
-                                    <button type="submit" class="btn-save" style="text-align: right; float: right">Submit</button>
+                                <button type="submit" class="btn-save"
+                                    style="text-align: right; float: right">Submit</button>
                                 <?php endif ?>
-                                <a href="{{ route('home') }}" class="btn-close-modal"  aria-label="Close" style="text-align: right; float: right">Cancel</a>
+                                <a href="{{ route('home') }}" class="btn-close-modal" aria-label="Close"
+                                    style="text-align: right; float: right; margin-right: 10px">Cancel</a>
                             </div>
                         </div>
                     </div>
