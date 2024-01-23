@@ -27,7 +27,7 @@ class PlacementController extends Controller
 
     	$username   = "CJCMS";
         $password   = "admin99";
-        $database   = "//10.137.26.67:1521/BRS";
+        $database   = "//RPA_SVR:1521/RPA";
         $conn   = oci_connect($username, $password, $database);
         if (!$conn) {
             $e = oci_error();
@@ -111,7 +111,7 @@ class PlacementController extends Controller
 
     			$username   = "CJCMS";
 		        $password   = "admin99";
-		        $database   = "//10.137.26.67:1521/BRS";
+		        $database   = "//RPA_SVR:1521/RPA";
 		        $conn   = oci_connect($username, $password, $database);
 		        if (!$conn) {
 		            $e = oci_error();
