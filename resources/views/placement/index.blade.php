@@ -252,10 +252,14 @@ Placement
                                     </label>
                                     <select id="select_tingkat" name="tingkat_rak" data-placeholder="Pilih tingkat"
                                         class="custom-select" required>
-                                        <?= empty($existing_data[1]) ? '<option value="1">1</option>' : '' ?>
+                                      <!--   <?= empty($existing_data[1]) ? '<option value="1">1</option>' : '' ?>
                                         <?= empty($existing_data[2]) ? '<option value="2">2</option>' : '' ?>
                                         <?= empty($existing_data[3]) ? '<option value="3">3</option>' : '' ?>
-                                        <?= empty($existing_data[4]) ? '<option value="4">4</option>' : '' ?>
+                                        <?= empty($existing_data[4]) ? '<option value="4">4</option>' : '' ?> -->
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
                                     </select>
                                 </div>
                             </div>

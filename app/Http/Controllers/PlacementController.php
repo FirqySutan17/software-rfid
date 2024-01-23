@@ -27,7 +27,7 @@ class PlacementController extends Controller
 
     	$username   = "CJCMS";
         $password   = "admin99";
-        $database   = "//RPA_SVR:1521/RPA";
+        $database   = "//10.137.26.67:1521/BRS";
         $conn   = oci_connect($username, $password, $database);
         if (!$conn) {
             $e = oci_error();
@@ -111,7 +111,7 @@ class PlacementController extends Controller
 
     			$username   = "CJCMS";
 		        $password   = "admin99";
-		        $database   = "//RPA_SVR:1521/RPA";
+		        $database   = "//10.137.26.67:1521/BRS";
 		        $conn   = oci_connect($username, $password, $database);
 		        if (!$conn) {
 		            $e = oci_error();
@@ -126,9 +126,9 @@ class PlacementController extends Controller
 				}
     		}
 
-			Alert::success('Berhasil', 'Data berhasil tersimpan!');
+			// Alert::success('Berhasil', 'Data berhasil tersimpan!');
     	} else {
-			Alert::success('Gagal', 'Data gagal tersimpan!');
+			// Alert::success('Gagal', 'Data gagal tersimpan!');
     	}
     	return redirect()->route('mapping', $rack_no);
     }
