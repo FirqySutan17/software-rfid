@@ -126,9 +126,9 @@ class PlacementController extends Controller
 				}
     		}
 
-			Alert::success('Berhasil', 'Data berhasil tersimpan!');
+			// Alert::success('Berhasil', 'Data berhasil tersimpan!');
     	} else {
-			Alert::success('Gagal', 'Data gagal tersimpan!');
+			// Alert::success('Gagal', 'Data gagal tersimpan!');
     	}
     	return redirect()->route('mapping', $rack_no);
     }

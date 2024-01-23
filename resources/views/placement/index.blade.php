@@ -220,36 +220,36 @@ Placement
                 <div class="row d-flex align-items-stretch">
                     <div class="col-12">
                         <div class="row">
-                            {{-- <div class="col-4">
+                            <div class="col-4" style="display:none">
                                 <div class="form-group _form-group">
-                                    <label for="coldstorage">
+                                    {{-- <label for="coldstorage">
                                         Cold Storage
-                                    </label>
-                                    <input id="coldstorage" name="coldstorage" type="text" class="form-control"
+                                    </label> --}}
+                                    <input id="coldstorage" name="coldstorage" type="hidden" class="form-control"
                                         placeholder="1" value="{{ $rack_data['cold_storage_name'] }}"
                                         style="text-align: center; font-weight: 700;" readonly />
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-4" style="display:none">
                                 <div class="form-group _form-group">
-                                    <label for="rak">
+                                    {{-- <label for="rak">
                                         Rak
-                                    </label>
-                                    <input id="rak" name="rak" type="text" class="form-control" placeholder="Aa"
+                                    </label> --}}
+                                    <input id="rak" name="rak" type="hidden" class="form-control" placeholder="Aa"
                                         value="{{ $rack_data['rack_position'] }}"
                                         style="text-align: center; font-weight: 700;" readonly />
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-4" style="display:none">
                                 <div class="form-group _form-group">
-                                    <label for="urutan_rak">
+                                    {{-- <label for="urutan_rak">
                                         Urutan
-                                    </label>
-                                    <input id="urutan_rak" name="urutan_rak" type="text" class="form-control"
+                                    </label> --}}
+                                    <input id="urutan_rak" name="urutan_rak" type="hidden" class="form-control"
                                         placeholder="12" value="{{ $rack_data['sequence'] }}"
                                         style="text-align: center; font-weight: 700;" readonly />
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class="col-12">
                                 <div class="form-group _form-group">
                                     <label for="tingkat_rak">
@@ -257,7 +257,7 @@ Placement
                                     </label>
                                     <select id="select_tingkat" name="tingkat_rak" data-placeholder="Pilih tingkat"
                                         class="custom-select" required>
-                                      <!--   <?= empty($existing_data[1]) ? '<option value="1">1</option>' : '' ?>
+                                        <!--   <?= empty($existing_data[1]) ? '<option value="1">1</option>' : '' ?>
                                         <?= empty($existing_data[2]) ? '<option value="2">2</option>' : '' ?>
                                         <?= empty($existing_data[3]) ? '<option value="3">3</option>' : '' ?>
                                         <?= empty($existing_data[4]) ? '<option value="4">4</option>' : '' ?> -->
