@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Report;
 use Illuminate\Http\Request;
+use App\Http\Services\PlacementServices;
 
 class ReportController extends Controller
 {
@@ -135,7 +136,14 @@ class ReportController extends Controller
 
     public function mapping_cs()
     {
-        return view('report.mapping-cs');
+        $placement 			= PlacementServices::getRackList();
+		$coldStorageData 	= [
+			"1"	=> PlacementServices::getRackData(1),
+			"2"	=> PlacementServices::getRackData(2),
+			"3"	=> PlacementServices::getRackData(3),
+		];
+
+        return view('report.mapping-cs', compact('placement', 'coldStorageData'));
     }
  
 }

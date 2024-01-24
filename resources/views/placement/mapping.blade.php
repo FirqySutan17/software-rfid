@@ -327,11 +327,11 @@ Placement
                                             } elseif ($total_data >= 4) {
                                                 $bg_class   = "bg-danger";
                                                 $rackno     = "";
-                                                $style      = "cursor:default";
+                                                $style      = "cursor:default)";
                                             }
                                         ?>
-                                        <li style="{{ $style }}" class="seat" data-rackno="{{ $rackno }}">
-                                            <label class="{{ $bg_class }}">
+                                        <li class="seat" data-rackno="{{ $rackno }}">
+                                            <label class="{{ $bg_class }}" style="{{ $style }}">
                                                 {{ $i }}b
                                                 <br>
                                                 {{ $total_data }}/4
@@ -347,11 +347,11 @@ Placement
                                             } elseif ($total_data >= 4) {
                                                 $bg_class = "bg-danger";
                                                 $rackno     = "";
-                                                $style      = "cursor:default";
+                                                $style      = "cursor:default)";
                                             }
                                         ?>
-                                        <li style="{{ $style }}" class="seat" data-rackno="{{ $rackno }}">
-                                            <label class="{{ $bg_class }}">
+                                        <li class="seat" data-rackno="{{ $rackno }}">
+                                            <label class="{{ $bg_class }}" style="{{ $style }}">
                                                 {{ $i }}a
                                                 <br>
                                                 {{ $total_data }}/4
@@ -367,11 +367,11 @@ Placement
                                             } elseif ($total_data >= 4) {
                                                 $bg_class = "bg-danger";
                                                 $rackno     = "";
-                                                $style      = "cursor:default";
+                                                $style      = "cursor:default)";
                                             }
                                         ?>
-                                        <li style="{{ $style }}" class="seat" data-rackno="{{ $rackno }}">
-                                            <label class="{{ $bg_class }}">
+                                        <li class="seat" data-rackno="{{ $rackno }}">
+                                            <label class="{{ $bg_class }}" style="{{ $style }}">
                                                 {{ $i }}a
                                                 <br>
                                                 {{ $total_data }}/4
@@ -387,11 +387,11 @@ Placement
                                             } elseif ($total_data >= 4) {
                                                 $bg_class   = "bg-danger";
                                                 $rackno     = "";
-                                                $style      = "cursor:default";
+                                                $style      = "cursor:default)";
                                             }
                                         ?>
-                                        <li style="{{ $style }}" class="seat" data-rackno="{{ $rackno }}">
-                                            <label class="{{ $bg_class }}">
+                                        <li class="seat" data-rackno="{{ $rackno }}">
+                                            <label class="{{ $bg_class }}" style="{{ $style }}">
                                                 {{ $i }}b
                                                 <br>
                                                 {{ $total_data }}/4

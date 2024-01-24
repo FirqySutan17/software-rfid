@@ -209,14 +209,15 @@ Report - Mapping CS
     .wrap-cs {
         border-radius: 10px;
         background: #3c8dbc;
-        border: 4px solid #fff;
+        border: 4px solid #000;
         margin: 0px 0px;
     }
 
     .wrap-cs h2 {
         text-align: center;
-        font-weight: 600;
+        font-weight: 700;
         color: #fff;
+        font-size: 24px
     }
 
     .row {
@@ -275,6 +276,20 @@ Report - Mapping CS
     .bg-green {
         background-color: #00a65a !important;
     }
+
+    .box-header {
+        background: #3c8dbc;
+        border: 4px solid #000;
+        border-radius: 10px 10px 0px 0px;
+        padding: 15px 0px;
+    }
+
+    .box-title {
+        font-size: 24px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #fff
+    }
 </style>
 @endpush
 
@@ -283,13 +298,13 @@ Report - Mapping CS
     <div class="wrapper">
         <div class="content-wrapper" style="margin-left: 0px">
             <div class="container-fluid" style="padding: 0">
-                <div class="box box-primary box-solid" style="margin-top: 10px;">
-                    {{-- <div class="box-header with-border">
+                <div class="box box-primary box-solid">
+                    <div class="box-header with-border">
                         <center>
                             <h5 class="box-title">Mapping Cold Storage</h5>
                         </center>
-                    </div> --}}
-                    <div class="w3-bar w3-black" style="border-radius: 10px;">
+                    </div>
+                    <div class="w3-bar w3-black" style="border-radius: 0px 0px 10px 10px;">
                         <button class="w3-bar-item w3-button tablink w3-red" onclick="openCs(event,'CS-1')">CS
                             1</button>
                         <button class="w3-bar-item w3-button tablink" onclick="openCs(event,'CS-2')">CS 2</button>
@@ -299,7 +314,7 @@ Report - Mapping CS
                 </div>
                 <div class="row">
                     <?php foreach ($placement as $plc): ?>
-                    <div id="CS-{{ $plc['NAME'] }}" class="col-md-4 wrap-cs" style="margin-bottom: 20px">
+                    <div id="CS-{{ $plc['NAME'] }}" class="col-md-12 wrap-cs storage" style="margin-bottom: 20px">
                         <h2>COLD STORAGE <br> {{ $plc['NAME'] }}</h2>
                         <div class="train">
                             <div class="exit front train-body">
@@ -412,6 +427,111 @@ Report - Mapping CS
         </div>
 
     </div>
+    <div class="modal fade" id="outofalldata">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <!-- <h5 class="modal-title">Rak <span style="font-size:14px" id="rack_name"></span></h5>   -->
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5>
+                                Tingkat 4
+                                <span style="font-size: 14px; margin-left: 10px;float:right"
+                                    id="rack_name_level_4"></span>
+                                <span style="font-size: 14px; float:right" id="pallet_name_level_4"></span>
+                            </h5>
+                            <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
+                                <thead style="text-align: center">
+                                    <tr>
+                                        <th class="ditengah" width="55%">Nama Barang</th>
+                                        <th class="ditengah" width="15%">Prod Date</th>
+                                        <th class="ditengah" width="5%">Days</th>
+                                        <th class="ditengah" width="10%">Karung</th>
+                                        <th class="ditengah" width="10%">Ekor</th>
+                                        <th class="ditengah" width="10%">Berat (Kg)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="display_rack" id="display_rack_4"></tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-12">
+                            <h5>
+                                Tingkat 3
+                                <span style="font-size: 14px; margin-left: 10px;float:right"
+                                    id="rack_name_level_3"></span>
+                                <span style="font-size: 14px; float:right" id="pallet_name_level_3"></span>
+                            </h5>
+                            <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
+                                <thead style="text-align: center">
+                                    <tr>
+                                        <th class="ditengah" width="55%">Nama Barang</th>
+                                        <th class="ditengah" width="15%">Prod Date</th>
+                                        <th class="ditengah" width="5%">Days</th>
+                                        <th class="ditengah" width="10%">Karung</th>
+                                        <th class="ditengah" width="10%">Ekor</th>
+                                        <th class="ditengah" width="10%">Berat (Kg)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="display_rack" id="display_rack_3"></tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-12">
+                            <h5>
+                                Tingkat 2
+                                <span style="font-size: 14px; margin-left: 10px;float:right"
+                                    id="rack_name_level_2"></span>
+                                <span style="font-size: 14px; float:right" id="pallet_name_level_2"></span>
+                            </h5>
+                            <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
+                                <thead style="text-align: center">
+                                    <tr>
+                                        <th class="ditengah" width="55%">Nama Barang</th>
+                                        <th class="ditengah" width="15%">Prod Date</th>
+                                        <th class="ditengah" width="5%">Days</th>
+                                        <th class="ditengah" width="10%">Karung</th>
+                                        <th class="ditengah" width="10%">Ekor</th>
+                                        <th class="ditengah" width="10%">Berat (Kg)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="display_rack" id="display_rack_2"></tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-12">
+                            <h5>
+                                Tingkat 1
+                                <span style="font-size: 14px; margin-left: 10px;float:right"
+                                    id="rack_name_level_1"></span>
+                                <span style="font-size: 14px; float:right" id="pallet_name_level_1"></span>
+                            </h5>
+                            <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
+                                <thead style="text-align: center">
+                                    <tr>
+                                        <th class="ditengah" width="55%">Nama Barang</th>
+                                        <th class="ditengah" width="15%">Prod Date</th>
+                                        <th class="ditengah" width="5%">Days</th>
+                                        <th class="ditengah" width="10%">Karung</th>
+                                        <th class="ditengah" width="10%">Ekor</th>
+                                        <th class="ditengah" width="10%">Berat (Kg)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="display_rack" id="display_rack_1"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default pull-left btn-sm" data-dismiss="modal">Kembali</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 
@@ -492,7 +612,7 @@ Report - Mapping CS
     }
 </script>
 
-{{-- <script>
+<script>
     function openCs(evt, cityName) {
       var i, x, tablinks;
       x = document.getElementsByClassName("storage");
@@ -506,5 +626,5 @@ Report - Mapping CS
       document.getElementById(cityName).style.display = "block";
       evt.currentTarget.className += " w3-red";
     }
-</script> --}}
+</script>
 @endpush
