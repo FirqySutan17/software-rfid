@@ -42,6 +42,10 @@
     li.dropdown.active {
         padding-bottom: 20px
     }
+
+    th {
+        height: auto !important;
+    }
 </style>
 
 <nav id="myNav">
@@ -62,7 +66,7 @@
                 </a>
             </li>
 
-            <li class="{{routeActive(['stockbalance', 'detailbalance', 'mappingcs.index'])}} dropdown">
+            <li class="{{routeActive(['stockbalance', 'detailbalance', 'mappingcs'])}} dropdown">
                 <a href="javascript:void(0)">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 19V5C4 3.89543 4.89543 3 6 3H19.4C19.7314 3 20 3.26863 20 3.6V16.7143"
