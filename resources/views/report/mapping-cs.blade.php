@@ -584,7 +584,7 @@ Report - Mapping CS
                     <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
                         <thead style="text-align: center">
                             <tr>
-                                <th>Item Barang</th>
+                                <th>Nama item</th>
                                 <th>Date</th>
                                 <th>Qty</th>
                                 <th style="text-align: right">BW</th>
@@ -602,7 +602,7 @@ Report - Mapping CS
                     <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
                         <thead style="text-align: center">
                             <tr>
-                                <th>Item Barang</th>
+                                <th>Nama item</th>
                                 <th>Date</th>
                                 <th>Qty</th>
                                 <th style="text-align: right">BW</th>
@@ -620,7 +620,7 @@ Report - Mapping CS
                     <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
                         <thead style="text-align: center">
                             <tr>
-                                <th>Item Barang</th>
+                                <th>Nama item</th>
                                 <th>Date</th>
                                 <th>Qty</th>
                                 <th style="text-align: right">BW</th>
@@ -638,7 +638,7 @@ Report - Mapping CS
                     <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
                         <thead style="text-align: center">
                             <tr>
-                                <th>Item Barang</th>
+                                <th>Nama item</th>
                                 <th>Date</th>
                                 <th>Qty</th>
                                 <th style="text-align: right">BW</th>

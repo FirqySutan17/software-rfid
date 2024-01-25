@@ -330,7 +330,7 @@ Placement
                 </label>
                 <table class="table">
                     <tr>
-                        <th>Item Barang</th>
+                        <th>Nama item</th>
                         <th>Date</th>
                         <th>Qty</th>
                         <th style="text-align: right">BW</th>
@@ -354,7 +354,7 @@ Placement
                 </label>
                 <table class="table">
                     <tr>
-                        <th>Item Barang</th>
+                        <th>Nama item</th>
                         <th>Date</th>
                         <th>Qty</th>
                         <th style="text-align: right">BW</th>
@@ -378,7 +378,7 @@ Placement
                 </label>
                 <table class="table">
                     <tr>
-                        <th>Item Barang</th>
+                        <th>Nama item</th>
                         <th>Date</th>
                         <th>Qty</th>
                         <th style="text-align: right">BW</th>
@@ -402,7 +402,7 @@ Placement
                 </label>
                 <table class="table">
                     <tr>
-                        <th>Item Barang</th>
+                        <th>Nama item</th>
                         <th>Date</th>
                         <th>Qty</th>
                         <th style="text-align: right">BW</th>
