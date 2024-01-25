@@ -9,6 +9,7 @@ Report - Stock Balance
 <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2-bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/display.css') }}">
 <link rel="stylesheet" href="{{ asset('css/w3.css') }}">
+
 <link rel="stylesheet" href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}">
 <link rel="stylesheet" href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}">
@@ -98,6 +99,15 @@ Report - Stock Balance
     .box-header.with-border {
         border-bottom: 1px solid #f4f4f4;
     }
+
+    .b-style {
+        font-family: pjsBold;
+        font-size: 14px;
+        color: #0f172a;
+        margin-bottom: 0px;
+        background: transparent;
+        padding: 0px
+    }
 </style>
 @endpush
 
@@ -127,92 +137,96 @@ Report - Stock Balance
                         <h5 class="box-title" style="font-size: 16px">Filter</h5>
 
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                            <button type="button" class="btn btn-box-tool" data-toggle="collapse"
+                                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i
                                     class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>
 
-                    <div class="box-body">
-                        <form class="form-horizontal" action="" method="POST" target="">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-addon">COMPANY</span>
-                                        <select class="form-control" name="AS_COMPANY" id="plant">
-                                            <option value="%">All</option>
-                                            <option value="01">01. PT SUJA</option>
-                                        </select>
+                    <div class="collapse" id="collapseExample">
+                        <div class="box-body ">
+                            <form class="form-horizontal" action="" method="POST" target="">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">COMPANY</span>
+                                            <select class="form-control" name="AS_COMPANY" id="plant">
+                                                <option value="%">All</option>
+                                                <option value="01">01. PT SUJA</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-addon">PLANT</span>
+                                    <div class="col-md-3">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">PLANT</span>
 
-                                        <select name="AS_PLANT" class="form-control" style="width: 100%;">
-                                            <option value="%">All</option>
-                                            <option value="">
-                                            </option>
-                                        </select>
+                                            <select name="AS_PLANT" class="form-control" style="width: 100%;">
+                                                <option value="%">All</option>
+                                                <option value="">
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-addon">START</span>
-                                        <input type="date" name="AS_SDATE" class="form-control" value="">
+                                    <div class="col-md-3">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">START</span>
+                                            <input type="date" name="AS_SDATE" class="form-control" value="">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-addon">END</span>
-                                        <input type="date" name="AS_EDATE" class="form-control" value="">
+                                    <div class="col-md-3">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">END</span>
+                                            <input type="date" name="AS_EDATE" class="form-control" value="">
+                                        </div>
                                     </div>
-                                </div>
 
-                            </div>
-                            <p></p>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-addon">COLD STORAGE</span>
+                                </div>
+                                <p></p>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">COLD STORAGE</span>
 
-                                        <select name="AS_PO" class="form-control" style="width: 100%;">
-                                            <option value="%">All</option>
+                                            <select name="AS_PO" class="form-control" style="width: 100%;">
+                                                <option value="%">All</option>
 
-                                            <option value="">
-                                            </option>
-                                        </select>
+                                                <option value="">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">PALLET NO</span>
+                                            <select name="AS_SUPPLIER" class="form-control" style="width: 100%;">
+                                                <option value="%">All</option>
+
+                                                <option value="">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">ITEM LIST</span>
+                                            <input list="ITEM" name="AS_MATERIAL" id="visit1" placeholder="All"
+                                                class="form-control" onchange="myFunction2()"
+                                                title="Please Select Rack Number">
+                                            <datalist id="ITEM">
+                                                <option value=""></option>
+                                            </datalist>
+
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-addon">PALLET NO</span>
-                                        <select name="AS_SUPPLIER" class="form-control" style="width: 100%;">
-                                            <option value="%">All</option>
-
-                                            <option value="">
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-addon">ITEM LIST</span>
-                                        <input list="ITEM" name="AS_MATERIAL" id="visit1" placeholder="All"
-                                            class="form-control" onchange="myFunction2()"
-                                            title="Please Select Rack Number">
-                                        <datalist id="ITEM">
-                                            <option value=""></option>
-                                        </datalist>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <P></P>
-                            <button type="submit" id="btn-filter"
-                                class="btn btn-block btn-sm btn-primary">Filter</button>
-                        </form>
+                                <P></P>
+                                <button type="submit" id="btn-filter"
+                                    class="btn btn-block btn-sm btn-primary">Filter</button>
+                            </form>
+                        </div>
                     </div>
+
                 </div>
             </section>
 
@@ -426,6 +440,7 @@ Report - Stock Balance
 
 @push('javascript-external')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('vendor/select2/js/' . app()->getLocale() . '.js') }}"></script>
 <script src="{{ asset('vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
