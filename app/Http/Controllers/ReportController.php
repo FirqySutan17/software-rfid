@@ -96,35 +96,31 @@ class ReportController extends Controller
     {
         error_reporting(0);
   		ini_set('display_errors', 0);
-        if ($this->session->userdata('empno') == true) {
-			$AS_EMPNO = $this->input->post('empno');
-			$AS_SDATE       = str_replace('-', '', $this->input->post('AS_SDATE'));
-			$AS_EDATE       = str_replace('-', '', $this->input->post('AS_EDATE'));
-			$AS_MATERIAL    = !empty($this->input->post('AS_MATERIAL')) ? $this->input->post('AS_MATERIAL') : '%';
-			$AS_SUPPLIER    = !empty($this->input->post('AS_PALLET')) ? $this->input->post('AS_PALLET') : '%';
-			$AS_COMPANY     = !empty($this->input->post('AS_COMPANY')) ? $this->input->post('AS_COMPANY') : '%';
-			$AS_PLANT       = !empty($this->input->post('AS_PLANT')) ? $this->input->post('AS_PLANT') : '%';
-			$AS_CS          = !empty($this->input->post('AS_PO')) ? $this->input->post('AS_PO') : '%';
-			$session_id     = $this->session->userdata('empno');
+        $AS_SDATE       = str_replace('-', '', $request->AS_SDATE);
+		$AS_EDATE       = str_replace('-', '', $request->AS_EDATE);
+		$AS_MATERIAL    = !empty($request->AS_MATERIAL) ? $request->AS_MATERIAL : '%';
+		$AS_SUPPLIER    = !empty($request->AS_PALLET) ? $request->AS_PALLET : '%';
+		$AS_COMPANY     = !empty($request->AS_COMPANY) ? $request->AS_COMPANY : '%';
+		$AS_PLANT       = !empty($request->AS_PLANT) ? $request->AS_PLANT : '%';
+		$AS_CS          = !empty($request->AS_PO) ? $request->AS_PO : '%';
 
-			$data['List_Plant'] = $this->M_Warehouse->m_get_plant_name2();
-			$data['List_Item'] = $this->M_Warehouse->m_get_item_name2();
-			$data['List_Pallet'] = $this->M_Warehouse->m_get_pallet();
-			$data['List_rackno'] = $this->M_Warehouse->m_get_rackno();
-			$data['List_coldstorage'] = $this->M_Warehouse->m_get_coldstorage();
+		// $data['List_Plant'] = $this->M_Warehouse->m_get_plant_name2();
+		// $data['List_Item'] = $this->M_Warehouse->m_get_item_name2();
+		// $data['List_Pallet'] = $this->M_Warehouse->m_get_pallet();
+		// $data['List_rackno'] = $this->M_Warehouse->m_get_rackno();
+		// $data['List_coldstorage'] = $this->M_Warehouse->m_get_coldstorage();
 
-			if ($AS_SDATE =="") {
-			$AS_SDATE = date('Ymd');
-			$AS_EDATE = date('Ymd');
-			}
-			$data['tanggal'] = $AS_SDATE; $data['tanggal2'] = $AS_EDATE;
-			$data['Report'] = $this->M_Warehouse->m_wh_report_detail($AS_SDATE,$AS_EDATE,$AS_MATERIAL,$AS_SUPPLIER,$AS_PLANT,$AS_COMPANY,$AS_CS)->result();
-			// echo "<pre/>";print_r($data["Report"]);exit;
-            return view('report.detail-balance');
-        } else {
-            	redirect();
-        }
-        return view('report.detail-balance');
+		if ($AS_SDATE =="") {
+		$AS_SDATE = date('Ymd');
+		$AS_EDATE = date('Ymd');
+		}
+		$data['tanggal'] = $AS_SDATE; $data['tanggal2'] = $AS_EDATE;
+
+		$report = PlacementServices::getDetailBalanceList($AS_SDATE,$AS_EDATE,$AS_MATERIAL,$AS_SUPPLIER,$AS_PLANT,$AS_COMPANY,$AS_CS);
+		$data['Report'] = $report;
+		// $data['Report'] = $this->M_Warehouse->m_wh_report_detail($AS_SDATE,$AS_EDATE,$AS_MATERIAL,$AS_SUPPLIER,$AS_PLANT,$AS_COMPANY,$AS_CS)->result();
+		// echo "<pre/>";print_r($data["Report"]);exit;
+        return view('report.detail-balance', compact('data'));
     }
 
     public function mapping_cs()

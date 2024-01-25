@@ -15,17 +15,187 @@ Report - Detail Balance
 
 @section('content')
 <div class="main-content">
+    <section class="content-header">
+        <div class="box box-info  box-solid">
+            <div class="box-header with-border">
+                <h5 class="box-title">Filter</h5>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <?php echo $this->session->flashdata('message');?>
+            <div class="box-body">
+                <?php echo $this->session->flashdata('successinsert');?>
+                <?php echo $this->session->flashdata('GAGAL');?>
+                <form class="form-horizontal" action="" method="POST" target="">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">COMPANY</span>
+                                <select class="form-control" name="AS_COMPANY" id="plant">
+                                    <option <?php if ($this->session->userdata('plant') == "0102") {echo "selected";}?>
+                                        value="%">All</option>
+                                    <option <?php if ($this->session->userdata('plant') == "0401") {echo "selected";}?>
+                                        value="01">01. PT SUJA</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">PLANT</span>
+                                <?php 
+                      if (isset($_POST['AS_PLANT'])) {
+                        $DATA_AS_PLANT = $_POST['AS_PLANT'];
+                      }
+                      else {
+                        $DATA_AS_PLANT = "";
+                      }
+                    ?>
+                                <select name="AS_PLANT" class="form-control" style="width: 100%;">
+                                    <option value="%">All</option>
+                                    <?php $no=1; foreach ($List_Plant->result() as $baris):?>
+                                    <option <?php if ($DATA_AS_PLANT==$baris->PLANT) {echo "selected";}?> value="
+                                        <?php echo substr($baris->PLANT, 0, 30)?>">
+                                        <?php echo substr($baris->CODE_NAME, 0, 30)?>
+                                    </option>
+                                    <?php $no++; endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">START</span>
+                                <?php 
+                      if (isset($_POST['AS_SDATE'])) {
+                        $DATA_AS_SDATE = $_POST['AS_SDATE'];
+                      }
+                      else {
+                        $DATA_AS_SDATE = date('Y-m-d');
+                      }
+                    ?>
+                                <input type="date" name="AS_SDATE" class="form-control"
+                                    value="<?php echo $DATA_AS_SDATE; ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">END</span>
+
+                                <?php 
+                      if (isset($_POST['AS_EDATE'])) {
+                        $DATA_AS_EDATE = $_POST['AS_EDATE'];
+                      }
+                      else {
+                        $DATA_AS_EDATE = date('Y-m-d');
+                      }
+                    ?>
+                                <input type="date" name="AS_EDATE" class="form-control"
+                                    value="<?php echo $DATA_AS_EDATE; ?>">
+                            </div>
+                        </div>
+
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">COLD STORAGE</span>
+                                <?php 
+                      if (isset($_POST['AS_PO'])) {
+                        $DATA_AS_PO = $_POST['AS_PO'];
+  
+                      }
+                      else {
+                        $DATA_AS_PO = "";
+                      }
+                    ?>
+                                <select name="AS_PO" class="form-control" style="width: 100%;">
+                                    <option value="%">All</option>
+                                    <?php $no=1; foreach ($List_coldstorage->result() as $baris):?>
+                                    <option <?php if ($DATA_AS_PO==$baris->COLD_STORAGE) {echo "selected";}?> value="
+                                        <?php echo $baris->COLD_STORAGE;?>">
+                                        <?php echo $baris->COLD_STORAGE;?>
+                                    </option>
+                                    <?php $no++; endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">PALLET NO</span>
+                                <?php 
+                      if (isset($_POST['AS_PALLET'])) {
+                        $DATA_AS_PALLET = $_POST['AS_PALLET'];
+                      }
+                      else {
+                        $DATA_AS_PALLET = "";
+                      }
+                    ?>
+                                <!--  <input type="text" name="AS_PALLET" class="form-control" value="<?php echo $DATA_AS_PALLET; ?>"> -->
+                                <select name="AS_PALLET" class="select2 form-control" style="width: 100%;">
+                                    <option value="%">All</option>
+                                    <?php $no=1; foreach ($List_Pallet->result() as $baris):?>
+                                    <option <?php if ($DATA_AS_PALLET==$baris->PALLET_NO) {echo "selected";}?> value="
+                                        <?php echo $baris->PALLET_NO;?>">
+                                        <?php echo $baris->PALLET_NO;?>
+                                    </option>
+                                    <?php $no++; endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">ITEM LIST</span>
+                                <?php 
+                      if (isset($_POST['AS_MATERIAL'])) {
+                        $DATA_AS_MATERIAL = $_POST['AS_MATERIAL'];
+  
+                      }
+                      else {
+                        $DATA_AS_MATERIAL = "";
+                      }
+                    ?>
+                                <input list="ITEM" name="AS_MATERIAL" id="visit1" placeholder="All" class="form-control"
+                                    onchange="myFunction2()" title="Please Select Rack Number"
+                                    style="border-radius: 20px !important;">
+                                <datalist id="ITEM">
+                                    <?php $no=1; foreach ($List_Item->result() as $baris):?>
+                                    <option value="<?php echo $baris->ITEM;?>">
+                                        <?php echo $baris->SHORT_NAME;?>
+                                    </option>
+                                    <?php $no++; endforeach; ?>
+                                </datalist>
+
+                            </div>
+                        </div>
+                    </div>
+                    <P></P>
+                    <button type="submit" id="btn-filter" class="btn btn-block btn-sm btn-primary">Filter</button>
+                </form>
+            </div>
+        </div>
+    </section>
     <section class="content">
         <!-- Info boxes -->
 
         <div class="box box-info">
+            <?php $D_PLANT = $DATA_AS_PLANT;$D_PO = $DATA_AS_PO;$D_SUPPLIER = $DATA_AS_PALLET;
+            if (($DATA_AS_PLANT == '%') or ($DATA_AS_PLANT == '')) {$D_PLANT = 'N';};
+            if (($DATA_AS_PO == '%') or ($DATA_AS_PO == '')) {$D_PO = 'N';};
+            if (($DATA_AS_PALLET == '%') or ($DATA_AS_PALLET == '')) {$D_SUPPLIER = 'N';};
+            ?>
+            <div class="box-header"><a id="downloadLink"
+                    href="<?= base_url();?>warehouse/rawdata_detail/01/<?=$D_PLANT?>/<?=$DATA_AS_SDATE?>/<?=$DATA_AS_EDATE?>/<?=$D_PO?>/<?=$D_SUPPLIER?>/<?php if (is_null($DATA_AS_MATERIAL)) {echo($DATA_AS_MATERIAL);} else echo("
+                    N"); ?>"><button type="button" class="btn btn-success">Export to excel</button></a></div>
             <div class="box-header" style="text-align: center;">
 
                 <h2 class="box-title"><B>Detail RPA Warehouse Inventory</B></h2><br>
                 <span class="label label-default">
-                    <?php echo substr($data['tanggal'], 6, 2)."/".substr($data['tanggal'], 4, 2)."/". substr($data['tanggal'], 0, 4) ?>
+                    <?php echo substr($tanggal, 6, 2)."/".substr($tanggal, 4, 2)."/". substr($tanggal, 0, 4) ?>
                     -
-                    <?php echo substr($data['tanggal2'], 6, 2)."/".substr($data['tanggal2'], 4, 2)."/".substr($data['tanggal2'], 0,4) ?>
+                    <?php echo substr($tanggal2, 6, 2)."/".substr($tanggal2, 4, 2)."/".substr($tanggal2, 0,4) ?>
                 </span>
             </div>
             <div class="box-body">
@@ -72,11 +242,11 @@ Report - Detail Balance
                       $totalOUT_BAG = 0; $totalOUT_QTY = 0; $totalOUT_BW = 0;
                       $totalEND_BAG = 0; $totalEND_QTY = 0; $totalEND_BW = 0;
                     ?>
-                            <?php foreach ($data['Report'] as $baris):?>
+                            <?php foreach ($Report as $baris):?>
                             <?php 
                         // $rack_no = "Queue";
-                        // if ($baris['RACK_NO'] != "..") {
-                          // $pecah_rack_no = explode(".", $baris['RACK_NO']);
+                        // if ($baris->RACK_NO != "..") {
+                          // $pecah_rack_no = explode(".", $baris->RACK_NO);
                           // $row = $pecah_rack_no[0][0];
                           // $number = $pecah_rack_no[1].$pecah_rack_no[0][1];
                           // $level = $pecah_rack_no[2];
@@ -89,80 +259,80 @@ Report - Detail Balance
                           // $rack_no = $row." - ".$level." - ".$number;
                           // echo "<pre/>";print_r($pecah_rack_no);exit;
   
-                          // $datetime1 = new DateTime(date("Y-m-d", strtotime($baris['PROD_DATE'])));
+                          // $datetime1 = new DateTime(date("Y-m-d", strtotime($baris->PROD_DATE)));
                           // $datetime2 = new DateTime($today);
                           // $difference = $datetime1->diff($datetime2);
                           // $days = $difference->days;
                         // }
                         $style = "";
-                        if ($baris['DAYS'] > 90) {
+                        if ($baris->DAYS > 90) {
                           $style = "color: red";
                         }
   
-                        $totalBG_BAG += $baris['BG_SACK_BAG']; $totalBG_QTY += $baris['BG_QTY']; $totalBG_BW += $baris['BG_BW'];
-                        $totalIN_BAG += $baris['IN_SACK_BAG']; $totalIN_QTY += $baris['IN_QTY']; $totalIN_BW += $baris['IN_BW'];
-                        $totalOUT_BAG += $baris['OUT_SACK_BAG']; $totalOUT_QTY += $baris['OUT_QTY']; $totalOUT_BW += $baris['OUT_BW'];
-                        $totalEND_BAG += $baris['END_SACK_BAG']; $totalEND_QTY += $baris['END_QTY']; $totalEND_BW += $baris['END_BW'];
+                        $totalBG_BAG += $baris->BG_SACK_BAG; $totalBG_QTY += $baris->BG_QTY; $totalBG_BW += $baris->BG_BW;
+                        $totalIN_BAG += $baris->IN_SACK_BAG; $totalIN_QTY += $baris->IN_QTY; $totalIN_BW += $baris->IN_BW;
+                        $totalOUT_BAG += $baris->OUT_SACK_BAG; $totalOUT_QTY += $baris->OUT_QTY; $totalOUT_BW += $baris->OUT_BW;
+                        $totalEND_BAG += $baris->END_SACK_BAG; $totalEND_QTY += $baris->END_QTY; $totalEND_BW += $baris->END_BW;
                       ?>
                             <tr id="data-<?= $no ?>">
                                 <td><input type="checkbox" style="width: 100%;" name="check_row" class="check-row"
                                         id="<?= $no ?>"
-                                        value="<?= $baris['END_SACK_BAG'].'-'.$baris['END_QTY'].'-'.$baris['END_BW'] ?>"></td>
+                                        value="<?= $baris->END_SACK_BAG.'-'.$baris->END_QTY.'-'.$baris->END_BW ?>"></td>
                                 <td style="text-align: left;">
-                                    <?php echo $baris['ITEM'];?> -
-                                    <?php echo $baris['FULL_NAME'];?>
+                                    <?php echo $baris->ITEM;?> -
+                                    <?php echo $baris->FULL_NAME;?>
                                 </td>
                                 <td style="text-align: center; <?= $style ?>">
-                                    <?php echo $baris['COLD_STORAGE'];?>
+                                    <?php echo $baris->COLD_STORAGE;?>
                                 </td>
                                 <td style="text-align: center; <?= $style ?>">
-                                    <?php echo $baris['RACK_NO_TEXT'];?>
+                                    <?php echo $baris->RACK_NO_TEXT;?>
                                 </td>
                                 <td style="text-align: center; <?= $style ?>">
-                                    <?php echo $baris['PALLET_NO'];?>
+                                    <?php echo $baris->PALLET_NO;?>
                                 </td>
                                 <td style="text-align: center; <?= $style ?>">
-                                    <?php echo date("Y.m.d", strtotime($baris['PROD_DATE']));?>
+                                    <?php echo date("Y.m.d", strtotime($baris->PROD_DATE));?>
                                 </td>
                                 <td style="text-align: center; <?= $style ?>">
-                                    <?php echo number_format($baris['DAYS']) ?>
+                                    <?php echo number_format($baris->DAYS) ?>
                                 </td>
                                 <td style="text-align: center; <?= $style ?>">KG</td>
                                 <td style="text-align: right; <?= $style ?>">
-                                    <?php echo number_format($baris['BG_SACK_BAG']);?>
+                                    <?php echo number_format($baris->BG_SACK_BAG);?>
                                 </td>
                                 <td style="text-align: right; <?= $style ?>">
-                                    <?php echo number_format($baris['BG_QTY']);?>
+                                    <?php echo number_format($baris->BG_QTY);?>
                                 </td>
                                 <td style="text-align: right; <?= $style ?>">
-                                    <?php echo number_format($baris['BG_BW'], 2);?>
+                                    <?php echo number_format($baris->BG_BW, 2);?>
                                 </td>
                                 <td style="text-align: right; <?= $style ?>">
-                                    <?php echo number_format($baris['IN_SACK_BAG']);?>
+                                    <?php echo number_format($baris->IN_SACK_BAG);?>
                                 </td>
                                 <td style="text-align: right; <?= $style ?>">
-                                    <?php echo number_format($baris['IN_QTY']);?>
+                                    <?php echo number_format($baris->IN_QTY);?>
                                 </td>
                                 <td style="text-align: right; <?= $style ?>">
-                                    <?php echo number_format($baris['IN_BW'], 2);?>
+                                    <?php echo number_format($baris->IN_BW, 2);?>
                                 </td>
                                 <td style="text-align: right; <?= $style ?>">
-                                    <?php echo number_format($baris['OUT_SACK_BAG']);?>
+                                    <?php echo number_format($baris->OUT_SACK_BAG);?>
                                 </td>
                                 <td style="text-align: right; <?= $style ?>">
-                                    <?php echo number_format($baris['OUT_QTY']);?>
+                                    <?php echo number_format($baris->OUT_QTY);?>
                                 </td>
                                 <td style="text-align: right; <?= $style ?>">
-                                    <?php echo number_format($baris['OUT_BW'], 2);?>
+                                    <?php echo number_format($baris->OUT_BW, 2);?>
                                 </td>
                                 <td style="text-align: right; <?= $style ?>">
-                                    <?php echo number_format($baris['END_SACK_BAG']);?>
+                                    <?php echo number_format($baris->END_SACK_BAG);?>
                                 </td>
                                 <td style="text-align: right; <?= $style ?>">
-                                    <?php echo number_format($baris['END_QTY']);?>
+                                    <?php echo number_format($baris->END_QTY);?>
                                 </td>
                                 <td style="text-align: right; <?= $style ?>">
-                                    <?php echo number_format($baris['END_BW'], 2);?>
+                                    <?php echo number_format($baris->END_BW, 2);?>
                                 </td>
                             </tr>
                             <?php $no++; endforeach; ?>
