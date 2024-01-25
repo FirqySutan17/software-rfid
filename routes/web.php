@@ -37,3 +37,4 @@ Route::get('/stock-balance-list', [App\Http\Controllers\ReportController::class,
 Route::get('/detail-balance-list', [App\Http\Controllers\ReportController::class, 'detail_balance'])->name('detailbalance');
 Route::get('/mapping-cold-storage', [App\Http\Controllers\ReportController::class, 'mapping_cs'])->name('mappingcs');
 
+

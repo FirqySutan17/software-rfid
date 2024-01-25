@@ -290,6 +290,11 @@ Report - Mapping CS
         text-transform: uppercase;
         color: #fff
     }
+
+    #CS-2,
+    #CS-3 {
+        display: none
+    }
 </style>
 @endpush
 

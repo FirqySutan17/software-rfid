@@ -145,5 +145,80 @@ class ReportController extends Controller
 
         return view('report.mapping-cs', compact('placement', 'coldStorageData'));
     }
+
+    public function detail_mapping() {
+        $cold_storage_name = $rack_no[1];
+    	$cold_storage 	= $rack_no[0].$rack_no[1];
+    	$rack_position	= $rack_no[2].$rack_no[3];
+    	$sequence 		= $rack_no[4].$rack_no[5];
+
+    	if ($sequence < 10) {
+    		$sequence 	= $rack_no[5];
+    	}
+
+    	$rack_data = [
+    		"cold_storage_name"	=> $cold_storage_name,
+    		"cold_storage" 	=> $cold_storage,
+    		"rack_position"	=> $rack_position,
+    		"sequence"		=> $sequence
+    	];
+
+        $username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "//10.137.26.67:1521/BRS";
+        $conn   = oci_connect($username, $password, $database);
+        if (!$conn) {
+            $e = oci_error();
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        } 
+
+        $query 	= "
+        	SELECT
+        		a.ITEM,
+        		b.FULL_NAME as ITEM_NAME,
+        		a.RFIDNO,
+        		a.RACK_NO,
+        		a.LOGDATE,
+        		a.QTY,
+        		a.WEIGHT,
+        		a.PROD_DATE
+        	FROM 
+        		SH_PD_ABF_RESULT a, CD_ITEM b 
+        	WHERE 
+        		a.ITEM = b.ITEM
+        		AND a.EPCNO IS NOT NULL
+        		AND a.DEL_DATE IS NULL
+        		AND a.STATUS = '".$cold_storage."'
+        	ORDER BY a.LOGDATE ASC
+        ";
+        $stid 	= oci_parse($conn, $query);
+        oci_execute($stid);
+
+        $existing_data 	= [
+        	1 => [],
+        	2 => [],
+        	3 => [],
+        	4 => []
+        ];
+        $placement_data = [];
+        while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+        	$timestamp = strtotime($row['LOGDATE']);
+
+        	if ($row['RACK_NO'] == 'X') {
+	        	if (!array_key_exists($timestamp, $placement_data)) {
+	        		$placement_data[$timestamp] = [
+	        			"LOGDATE" 	=> $row['LOGDATE'],
+	        			"DATA"		=> []
+	        		];
+	        	}
+	        	$placement_data[$timestamp]["DATA"][] = $row;
+        	} else {
+        		$pecah_rack = explode(".", $row['RACK_NO']);
+        		$sequence_data = $pecah_rack[2];
+        		$existing_data[$sequence_data][] = $row;
+        	}
+
+        }
+    }
  
 }

@@ -330,15 +330,17 @@ Placement
                 </label>
                 <table class="table">
                     <tr>
-                        <th width="55%">Item Barang</th>
-                        <th width="25%">Prod Date</th>
-                        <th width="20%" style="text-align: right">BW</th>
+                        <th>Item Barang</th>
+                        <th>Date</th>
+                        <th>Qty</th>
+                        <th style="text-align: right">BW</th>
                     </tr>
                     <?php if(!empty($existing_data[4])): ?>
                     <?php foreach ($existing_data[4] as $v): ?>
                     <tr>
                         <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
                         <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
+                        <td>{{ $v['QTY'] }}</td>
                         <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
                     </tr>
                     <?php endforeach ?>
@@ -352,15 +354,17 @@ Placement
                 </label>
                 <table class="table">
                     <tr>
-                        <th width="55%">Item Barang</th>
-                        <th width="25%">Prod Date</th>
-                        <th width="20%" style="text-align: right">BW</th>
+                        <th>Item Barang</th>
+                        <th>Date</th>
+                        <th>Qty</th>
+                        <th style="text-align: right">BW</th>
                     </tr>
                     <?php if(!empty($existing_data[3])): ?>
                     <?php foreach ($existing_data[3] as $v): ?>
                     <tr>
                         <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
                         <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
+                        <td>{{ $v['QTY'] }}</td>
                         <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
                     </tr>
                     <?php endforeach ?>
@@ -374,15 +378,17 @@ Placement
                 </label>
                 <table class="table">
                     <tr>
-                        <th width="55%">Item Barang</th>
-                        <th width="25%">Prod Date</th>
-                        <th width="20%" style="text-align: right">BW</th>
+                        <th>Item Barang</th>
+                        <th width="25%">Date</th>
+                        <th>Qty</th>
+                        <th style="text-align: right">BW</th>
                     </tr>
                     <?php if(!empty($existing_data[2])): ?>
                     <?php foreach ($existing_data[2] as $v): ?>
                     <tr>
                         <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
                         <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
+                        <td>{{ $v['QTY'] }}</td>
                         <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
                     </tr>
                     <?php endforeach ?>
@@ -396,15 +402,17 @@ Placement
                 </label>
                 <table class="table">
                     <tr>
-                        <th width="55%">Item Barang</th>
-                        <th width="25%">Prod Date</th>
-                        <th width="20%" style="text-align: right">BW</th>
+                        <th>Item Barang</th>
+                        <th width="25%">Date</th>
+                        <th>Qty</th>
+                        <th style="text-align: right">BW</th>
                     </tr>
                     <?php if(!empty($existing_data[1])): ?>
                     <?php foreach ($existing_data[1] as $v): ?>
                     <tr>
                         <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
                         <td>{{ date('Y-m-d H:i', strtotime($v['PROD_DATE'])) }}</td>
+                        <td>{{ $v['QTY'] }}</td>
                         <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
                     </tr>
                     <?php endforeach ?>
