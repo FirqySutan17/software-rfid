@@ -15,17 +15,186 @@ Report - Stock Balance
 
 @section('content')
 <div class="main-content">
+    <section class="content-header">
+        <div class="box box-info  box-solid">
+            <div class="box-header with-border">
+                <h5 class="box-title">Filter</h5>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <?php echo $this->session->flashdata('message');?>
+            <div class="box-body">
+                <?php echo $this->session->flashdata('successinsert');?>
+                <?php echo $this->session->flashdata('GAGAL');?>
+                <form class="form-horizontal" action="" method="POST" target="">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">COMPANY</span>
+                                <select class="form-control" name="AS_COMPANY" id="plant">
+                                    <option <?php if ($this->session->userdata('plant') == "0102") {echo "selected";}?>
+                                        value="%">All</option>
+                                    <option <?php if ($this->session->userdata('plant') == "0401") {echo "selected";}?>
+                                        value="01">01. PT SUJA</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">PLANT</span>
+                                <?php 
+                      if (isset($_POST['AS_PLANT'])) {
+                        $DATA_AS_PLANT = $_POST['AS_PLANT'];
+                      }
+                      else {
+                        $DATA_AS_PLANT = "";
+                      }
+                    ?>
+                                <select name="AS_PLANT" class="form-control" style="width: 100%;">
+                                    <option value="%">All</option>
+                                    <?php $no=1; foreach ($List_Plant->result() as $baris):?>
+                                    <option <?php if ($DATA_AS_PLANT==$baris->PLANT) {echo "selected";}?> value="
+                                        <?php echo substr($baris->PLANT, 0, 30)?>">
+                                        <?php echo substr($baris->CODE_NAME, 0, 30)?>
+                                    </option>
+                                    <?php $no++; endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">START</span>
+                                <?php 
+                      if (isset($_POST['AS_SDATE'])) {
+                        $DATA_AS_SDATE = $_POST['AS_SDATE'];
+                      }
+                      else {
+                        $DATA_AS_SDATE = date('Y-m-d');
+                      }
+                    ?>
+                                <input type="date" name="AS_SDATE" class="form-control"
+                                    value="<?php echo $DATA_AS_SDATE; ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">END</span>
+
+                                <?php 
+                      if (isset($_POST['AS_EDATE'])) {
+                        $DATA_AS_EDATE = $_POST['AS_EDATE'];
+                      }
+                      else {
+                        $DATA_AS_EDATE = date('Y-m-d');
+                      }
+                    ?>
+                                <input type="date" name="AS_EDATE" class="form-control"
+                                    value="<?php echo $DATA_AS_EDATE; ?>">
+                            </div>
+                        </div>
+
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">COLD STORAGE</span>
+                                <?php 
+                      if (isset($_POST['AS_PO'])) {
+                        $DATA_AS_PO = $_POST['AS_PO'];
+  
+                      }
+                      else {
+                        $DATA_AS_PO = "";
+                      }
+                    ?>
+                                <select name="AS_PO" class="form-control" style="width: 100%;">
+                                    <option value="%">All</option>
+                                    <?php $no=1; foreach ($List_coldstorage->result() as $baris):?>
+                                    <option <?php if ($DATA_AS_PO==$baris->COLD_STORAGE) {echo "selected";}?> value="
+                                        <?php echo $baris->COLD_STORAGE;?>">
+                                        <?php echo $baris->COLD_STORAGE;?>
+                                    </option>
+                                    <?php $no++; endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">PALLET NO</span>
+                                <?php 
+                      if (isset($_POST['AS_SUPPLIER'])) {
+                        $DATA_AS_SUPPLIER = $_POST['AS_SUPPLIER'];
+                      }
+                      else {
+                        $DATA_AS_SUPPLIER = "";
+                      }
+                    ?>
+                                <select name="AS_SUPPLIER" class="form-control" style="width: 100%;">
+                                    <option value="%">All</option>
+                                    <?php $no=1; foreach ($List_Pallet->result() as $baris):?>
+                                    <option <?php if ($DATA_AS_SUPPLIER==$baris->PALLET_NO) {echo "selected";}?> value="
+                                        <?php echo $baris->PALLET_NO;?>">
+                                        <?php echo $baris->PALLET_NO;?>
+                                    </option>
+                                    <?php $no++; endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">ITEM LIST</span>
+                                <?php 
+                      if (isset($_POST['AS_MATERIAL'])) {
+                        $DATA_AS_MATERIAL = $_POST['AS_MATERIAL'];
+  
+                      }
+                      else {
+                        $DATA_AS_MATERIAL = "";
+                      }
+                    ?>
+                                <input list="ITEM" name="AS_MATERIAL" id="visit1" placeholder="All" class="form-control"
+                                    onchange="myFunction2()" title="Please Select Rack Number"
+                                    style="border-radius: 20px !important;">
+                                <datalist id="ITEM">
+                                    <?php $no=1; foreach ($List_Item->result() as $baris):?>
+                                    <option value="<?php echo $baris->ITEM;?>">
+                                        <?php echo $baris->SHORT_NAME;?>
+                                    </option>
+                                    <?php $no++; endforeach; ?>
+                                </datalist>
+
+                            </div>
+                        </div>
+                    </div>
+                    <P></P>
+                    <button type="submit" id="btn-filter" class="btn btn-block btn-sm btn-primary">Filter</button>
+                </form>
+            </div>
+        </div>
+    </section>
     <section class="content">
         <!-- Info boxes -->
 
         <div class="box box-info">
+            <?php $D_PLANT = $DATA_AS_PLANT;$D_PO = $DATA_AS_PO;$D_SUPPLIER = $DATA_AS_SUPPLIER;
+            if (($DATA_AS_PLANT == '%') or ($DATA_AS_PLANT == '')) {$D_PLANT = 'N';};
+            if (($DATA_AS_PO == '%') or ($DATA_AS_PO == '')) {$D_PO = 'N';};
+            if (($DATA_AS_SUPPLIER == '%') or ($DATA_AS_SUPPLIER == '')) {$D_SUPPLIER = 'N';};
+            ?>
+            <div class="box-header"><a id="downloadLink"
+                    href="<?= base_url();?>warehouse/rawdata/01/<?=$D_PLANT?>/<?=$DATA_AS_SDATE?>/<?=$DATA_AS_EDATE?>/<?=$D_PO?>/<?=$D_SUPPLIER?>/<?php if (is_null($DATA_AS_MATERIAL)) {echo($DATA_AS_MATERIAL);} else echo("
+                    N"); ?>"><button type="button" class="btn btn-success">Export to excel</button></a></div>
             <div class="box-header" style="text-align: center;">
 
                 <h2 class="box-title"><B>RPA Warehouse Inventory</B></h2><br>
                 <span class="label label-default">
-                    <?php echo substr($data['tanggal'], 6, 2)."/".substr($data['tanggal'], 4, 2)."/". substr($data['tanggal'], 0, 4) ?>
+                    <?php echo substr($tanggal, 6, 2)."/".substr($tanggal, 4, 2)."/". substr($tanggal, 0, 4) ?>
                     -
-                    <?php echo substr($data['tanggal2'], 6, 2)."/".substr($data['tanggal2'], 4, 2)."/".substr($data['tanggal2'], 0,4) ?>
+                    <?php echo substr($tanggal2, 6, 2)."/".substr($tanggal2, 4, 2)."/".substr($tanggal2, 0,4) ?>
                 </span>
             </div>
             <div class="box-body">
@@ -65,7 +234,7 @@ Report - Stock Balance
                       $totalOUT_BAG = 0; $totalOUT_QTY = 0; $totalOUT_BW = 0;
                       $totalEND_BAG = 0; $totalEND_QTY = 0; $totalEND_BW = 0;
                     ?>
-                            <?php $no=1; foreach ($data['Report'] as $baris):?>
+                            <?php $no=1; foreach ($Report as $baris):?>
                             <?php
                       $totalBG_BAG += $baris["BG_SACK_BAG"]; $totalBG_QTY += $baris["BG_QTY"]; $totalBG_BW += $baris["BG_BW"];
                       $totalIN_BAG += $baris["IN_SACK_BAG"]; $totalIN_QTY += $baris["IN_QTY"]; $totalIN_BW += $baris["IN_BW"];

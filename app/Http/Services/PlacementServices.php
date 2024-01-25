@@ -110,7 +110,98 @@ class PlacementServices {
         	}
         }
         return $rackStorage;
-    	
+    }
+
+    public static function getStockBalanceList($AS_SDATE,$AS_EDATE,$AS_MATERIAL,$AS_SUPPLIER,$AS_PLANT,$AS_COMPANY,$AS_CS) {
+    	$username   = "SUJA";
+        $password   = "SUJA";
+        $database   = "//10.137.26.67:1521/BRS";
+        $conn   = oci_connect($username, $password, $database);
+        if (!$conn) {
+            $e = oci_error();
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+        $query 	= "
+        	SELECT COMPANY_NAME,PLANT,PLANT_NAME,GOODS_KINDS,ITEM,FULL_NAME,PACKING_UNIT,
+		              SUM(BG_SACK_BAG) BG_SACK_BAG,
+		              SUM(BG_QTY) AS BG_QTY,
+		              SUM(IN_SACK_BAG) AS IN_SACK_BAG,
+		              SUM(OUT_SACK_BAG) AS OUT_SACK_BAG,
+		              (SUM(BG_SACK_BAG) + SUM(IN_SACK_BAG) ) - SUM(OUT_SACK_BAG) AS END_SACK_BAG,
+		              SUM(IN_QTY) AS IN_QTY,
+		              SUM(OUT_QTY) AS OUT_QTY,
+		              (SUM(BG_QTY) + SUM(IN_QTY) ) - SUM(OUT_QTY) AS END_QTY,
+		              SUM(BG_BW) AS BG_BW,
+		              SUM(IN_BW) AS IN_BW,
+		              SUM(OUT_BW) AS OUT_BW,
+		              (SUM(BG_BW) + SUM(IN_BW) ) - SUM(OUT_BW) AS END_BW
+		      FROM (       
+		          SELECT FN_CODE_NAME('AA',A.COMPANY)                  AS COMPANY_NAME,
+		                         A.PLANT,
+		                         FN_CODE_NAME('AB',A.PLANT)       AS PLANT_NAME,
+		                         C.GOODS_KINDS,
+		                         FN_CODE_NAME('GK',C.GOODS_KINDS)           AS GOODS_KIND_NAME,
+		                         A.ITEM ,
+		                         C.FULL_NAME,C.PACKING_UNIT,
+		                        SUM((CASE WHEN TRANS_IO ='I' THEN SACK_BAG ELSE 0 END )) - SUM((CASE WHEN TRANS_IO ='I' THEN 0 ELSE SACK_BAG END )) BG_SACK_BAG,
+		                        SUM((CASE WHEN TRANS_IO ='I' THEN QTY ELSE 0 END )) - SUM((CASE WHEN TRANS_IO ='I' THEN 0 ELSE QTY END )) BG_QTY,
+		                         0 AS IN_SACK_BAG,
+		                         0 AS OUT_SACK_BAG,
+		                         0 AS IN_QTY,
+		                         0 AS OUT_QTY,
+		                         SUM((CASE WHEN TRANS_IO ='I' THEN BW ELSE 0 END )) - SUM((CASE WHEN TRANS_IO ='I' THEN 0 ELSE BW END )) BG_BW,
+		                         0 AS IN_BW,
+		                         0 AS OUT_BW
+		          FROM   SH_SS_STORAGE A, 
+		                      CD_ITEM C     
+		           WHERE C.ITEM            = A.ITEM  
+		             AND A.COMPANY LIKE '$AS_COMPANY'|| '%'
+		             AND A.PLANT LIKE '$AS_PLANT'|| '%'
+		             AND A.TRANS_DATE < $AS_SDATE
+		             AND A.COLD_STORAGE LIKE '$AS_CS'||'%'
+		             AND A.ITEM LIKE '$AS_MATERIAL'|| '%'
+		             AND A.PALLET_NO LIKE '$AS_SUPPLIER'|| '%'
+		           GROUP BY A.COMPANY, C.GOODS_KINDS,A.ITEM, C.FULL_NAME,PLANT,C.PACKING_UNIT
+		           UNION ALL 
+		          SELECT FN_CODE_NAME('AA',A.COMPANY)                  AS COMPANY_NAME,
+		                         A.PLANT,
+		                         FN_CODE_NAME('AB',A.PLANT)       AS PLANT_NAME,
+		                         C.GOODS_KINDS,
+		                         FN_CODE_NAME('GK',C.GOODS_KINDS)           AS GOODS_KIND_NAME,
+		                         A.ITEM, 
+		                         C.FULL_NAME,C.PACKING_UNIT,
+		                         0 BG_QTY,
+		                         0 BG_SACK_BAG,
+		                         SUM((CASE WHEN TRANS_IO ='I' THEN SACK_BAG ELSE 0 END ))AS IN_SACK_BAG,
+		                         SUM((CASE WHEN TRANS_IO ='O' THEN SACK_BAG ELSE 0 END ))AS OUT_SACK_BAG,
+		                         SUM((CASE WHEN TRANS_IO ='I' THEN QTY ELSE 0 END ))AS IN_QTY,
+		                         SUM((CASE WHEN TRANS_IO ='O' THEN QTY ELSE 0 END ))AS OUT_QTY,
+		                           0 BG_BW,
+		                         SUM((CASE WHEN TRANS_IO ='I' THEN BW ELSE 0 END ))AS IN_BW,
+		                         SUM((CASE WHEN TRANS_IO ='O' THEN BW ELSE 0 END ))AS OUT_BW
+		          FROM   SH_SS_STORAGE A, 
+		                      CD_ITEM C     
+		           WHERE C.ITEM            = A.ITEM  
+		             AND A.COMPANY LIKE '$AS_COMPANY'|| '%'
+		             AND A.PLANT LIKE '$AS_PLANT'|| '%'
+		             AND A.ITEM LIKE '$AS_MATERIAL'|| '%'
+		             AND A.PALLET_NO LIKE '$AS_SUPPLIER'|| '%'
+		             AND A.COLD_STORAGE LIKE '$AS_CS'||'%'
+		             AND A.TRANS_DATE BETWEEN $AS_SDATE AND '$AS_EDATE'
+		           GROUP BY A.COMPANY, C.GOODS_KINDS,A.ITEM, C.FULL_NAME,PLANT,C.PACKING_UNIT
+		      )     
+		      GROUP BY COMPANY_NAME,PLANT,PLANT_NAME,GOODS_KINDS,GOODS_KIND_NAME,ITEM,FULL_NAME,PACKING_UNIT
+		      ORDER BY  COMPANY_NAME,PLANT,PLANT_NAME,GOODS_KINDS,GOODS_KIND_NAME,ITEM
+        ";
+        // echo "<pre/>";print_r($query);exit();
+        $stid 	= oci_parse($conn, $query);
+        oci_execute($stid);
+
+        $data = [];
+        while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+        	$data[] = $row;
+        }
+        return $data;
     }
 
 }
