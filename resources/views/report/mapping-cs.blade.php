@@ -296,6 +296,139 @@ Report - Mapping CS
         display: none
     }
 </style>
+
+<style>
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 100;
+        /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+        -webkit-animation-name: fadeIn;
+        /* Fade in the background */
+        -webkit-animation-duration: 0.4s;
+        animation-name: fadeIn;
+        animation-duration: 0.4s
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: fixed;
+        bottom: 0;
+        background-color: #fefefe;
+        width: 100%;
+        -webkit-animation-name: slideIn;
+        -webkit-animation-duration: 0.4s;
+        animation-name: slideIn;
+        animation-duration: 0.4s;
+        border-radius: 15px 15px 0px 0px !important;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #000;
+        float: right;
+        margin-right: 10px;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    /* Add Animation */
+    @-webkit-keyframes slideIn {
+        from {
+            bottom: -300px;
+            opacity: 0
+        }
+
+        to {
+            bottom: 0;
+            opacity: 1
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            bottom: -300px;
+            opacity: 0
+        }
+
+        to {
+            bottom: 0;
+            opacity: 1
+        }
+    }
+
+    @-webkit-keyframes fadeIn {
+        from {
+            opacity: 0
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+    .title-transdet {
+        margin: 0px;
+        border-bottom: 1px solid #0f172a;
+        padding: 20px 0px;
+        border-radius: 10px;
+        padding-left: 15px;
+        margin-bottom: 20px;
+    }
+
+    h5.place-detail {
+        margin-bottom: 5px !important;
+        font-size: 14px;
+        font-weight: 500
+    }
+</style>
 @endpush
 
 @section('content')
@@ -345,7 +478,8 @@ Report - Mapping CS
                                                 $style      = "cursor:default";
                                             }
                                         ?>
-                                        <li style="{{ $style }}" class="seat" data-rackno="{{ $rackno }}">
+                                        <li id="openDetail" style="{{ $style }}" class="seat"
+                                            data-rackno="{{ $rackno }}">
                                             <label class="{{ $bg_class }}">
                                                 {{ $i }}b
                                                 <br>
@@ -365,7 +499,8 @@ Report - Mapping CS
                                                 $style      = "cursor:default";
                                             }
                                         ?>
-                                        <li style="{{ $style }}" class="seat" data-rackno="{{ $rackno }}">
+                                        <li id="openDetail" style="{{ $style }}" class="seat"
+                                            data-rackno="{{ $rackno }}">
                                             <label class="{{ $bg_class }}">
                                                 {{ $i }}a
                                                 <br>
@@ -385,7 +520,8 @@ Report - Mapping CS
                                                 $style      = "cursor:default";
                                             }
                                         ?>
-                                        <li style="{{ $style }}" class="seat" data-rackno="{{ $rackno }}">
+                                        <li id="openDetail" style="{{ $style }}" class="seat"
+                                            data-rackno="{{ $rackno }}">
                                             <label class="{{ $bg_class }}">
                                                 {{ $i }}a
                                                 <br>
@@ -405,7 +541,8 @@ Report - Mapping CS
                                                 $style      = "cursor:default";
                                             }
                                         ?>
-                                        <li style="{{ $style }}" class="seat" data-rackno="{{ $rackno }}">
+                                        <li id="openDetail" style="{{ $style }}" class="seat"
+                                            data-rackno="{{ $rackno }}">
                                             <label class="{{ $bg_class }}">
                                                 {{ $i }}b
                                                 <br>
@@ -430,112 +567,90 @@ Report - Mapping CS
             <!-- /.box-body -->
 
         </div>
-
     </div>
-    <div class="modal fade" id="outofalldata">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    <!-- <h5 class="modal-title">Rak <span style="font-size:14px" id="rack_name"></span></h5>   -->
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h5>
-                                Tingkat 4
-                                <span style="font-size: 14px; margin-left: 10px;float:right"
-                                    id="rack_name_level_4"></span>
-                                <span style="font-size: 14px; float:right" id="pallet_name_level_4"></span>
-                            </h5>
-                            <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
-                                <thead style="text-align: center">
-                                    <tr>
-                                        <th class="ditengah" width="55%">Nama Barang</th>
-                                        <th class="ditengah" width="15%">Prod Date</th>
-                                        <th class="ditengah" width="5%">Days</th>
-                                        <th class="ditengah" width="10%">Karung</th>
-                                        <th class="ditengah" width="10%">Ekor</th>
-                                        <th class="ditengah" width="10%">Berat (Kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="display_rack" id="display_rack_4"></tbody>
-                            </table>
-                        </div>
-                        <div class="col-lg-12">
-                            <h5>
-                                Tingkat 3
-                                <span style="font-size: 14px; margin-left: 10px;float:right"
-                                    id="rack_name_level_3"></span>
-                                <span style="font-size: 14px; float:right" id="pallet_name_level_3"></span>
-                            </h5>
-                            <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
-                                <thead style="text-align: center">
-                                    <tr>
-                                        <th class="ditengah" width="55%">Nama Barang</th>
-                                        <th class="ditengah" width="15%">Prod Date</th>
-                                        <th class="ditengah" width="5%">Days</th>
-                                        <th class="ditengah" width="10%">Karung</th>
-                                        <th class="ditengah" width="10%">Ekor</th>
-                                        <th class="ditengah" width="10%">Berat (Kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="display_rack" id="display_rack_3"></tbody>
-                            </table>
-                        </div>
-                        <div class="col-lg-12">
-                            <h5>
-                                Tingkat 2
-                                <span style="font-size: 14px; margin-left: 10px;float:right"
-                                    id="rack_name_level_2"></span>
-                                <span style="font-size: 14px; float:right" id="pallet_name_level_2"></span>
-                            </h5>
-                            <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
-                                <thead style="text-align: center">
-                                    <tr>
-                                        <th class="ditengah" width="55%">Nama Barang</th>
-                                        <th class="ditengah" width="15%">Prod Date</th>
-                                        <th class="ditengah" width="5%">Days</th>
-                                        <th class="ditengah" width="10%">Karung</th>
-                                        <th class="ditengah" width="10%">Ekor</th>
-                                        <th class="ditengah" width="10%">Berat (Kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="display_rack" id="display_rack_2"></tbody>
-                            </table>
-                        </div>
-                        <div class="col-lg-12">
-                            <h5>
-                                Tingkat 1
-                                <span style="font-size: 14px; margin-left: 10px;float:right"
-                                    id="rack_name_level_1"></span>
-                                <span style="font-size: 14px; float:right" id="pallet_name_level_1"></span>
-                            </h5>
-                            <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
-                                <thead style="text-align: center">
-                                    <tr>
-                                        <th class="ditengah" width="55%">Nama Barang</th>
-                                        <th class="ditengah" width="15%">Prod Date</th>
-                                        <th class="ditengah" width="5%">Days</th>
-                                        <th class="ditengah" width="10%">Karung</th>
-                                        <th class="ditengah" width="10%">Ekor</th>
-                                        <th class="ditengah" width="10%">Berat (Kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="display_rack" id="display_rack_1"></tbody>
-                            </table>
-                        </div>
+    <div id="myModal" class="modal">
 
-                    </div>
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="title-transdet">Detail Placement - CS (1) - Rak (Aa) - Baris (1) <span
+                            class="close">&times;</span></h4>
+                    <h5 class="place-detail">
+                        Tingkat 4
+                        <span style="font-size: 14px; margin-left: 10px;float:right" id="rack_name_level_4"></span>
+                        <span style="font-size: 14px; float:right" id="pallet_name_level_4"></span>
+                    </h5>
+                    <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
+                        <thead style="text-align: center">
+                            <tr>
+                                <th>Item Barang</th>
+                                <th>Date</th>
+                                <th>Qty</th>
+                                <th style="text-align: right">BW</th>
+                            </tr>
+                        </thead>
+                        <tbody class="display_rack" id="display_rack_4"></tbody>
+                    </table>
                 </div>
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-default pull-left btn-sm" data-dismiss="modal">Kembali</button>
-
+                <div class="col-lg-12">
+                    <h5 class="place-detail">
+                        Tingkat 3
+                        <span style="font-size: 14px; margin-left: 10px;float:right" id="rack_name_level_3"></span>
+                        <span style="font-size: 14px; float:right" id="pallet_name_level_3"></span>
+                    </h5>
+                    <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
+                        <thead style="text-align: center">
+                            <tr>
+                                <th>Item Barang</th>
+                                <th>Date</th>
+                                <th>Qty</th>
+                                <th style="text-align: right">BW</th>
+                            </tr>
+                        </thead>
+                        <tbody class="display_rack" id="display_rack_3"></tbody>
+                    </table>
                 </div>
+                <div class="col-lg-12">
+                    <h5 class="place-detail">
+                        Tingkat 2
+                        <span style="font-size: 14px; margin-left: 10px;float:right" id="rack_name_level_2"></span>
+                        <span style="font-size: 14px; float:right" id="pallet_name_level_2"></span>
+                    </h5>
+                    <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
+                        <thead style="text-align: center">
+                            <tr>
+                                <th>Item Barang</th>
+                                <th>Date</th>
+                                <th>Qty</th>
+                                <th style="text-align: right">BW</th>
+                            </tr>
+                        </thead>
+                        <tbody class="display_rack" id="display_rack_2"></tbody>
+                    </table>
+                </div>
+                <div class="col-lg-12">
+                    <h5 class="place-detail">
+                        Tingkat 1
+                        <span style="font-size: 14px; margin-left: 10px;float:right" id="rack_name_level_1"></span>
+                        <span style="font-size: 14px; float:right" id="pallet_name_level_1"></span>
+                    </h5>
+                    <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
+                        <thead style="text-align: center">
+                            <tr>
+                                <th>Item Barang</th>
+                                <th>Date</th>
+                                <th>Qty</th>
+                                <th style="text-align: right">BW</th>
+                            </tr>
+                        </thead>
+                        <tbody class="display_rack" id="display_rack_1"></tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
+
     </div>
 </div>
 @endsection
@@ -547,7 +662,7 @@ Report - Mapping CS
 <script src="{{ asset('vendor/select2/js/' . app()->getLocale() . '.js') }}"></script>
 <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
 
-<script type="text/javascript">
+{{-- <script type="text/javascript">
     $(".seat").on('click', function() {
         var rackno  = $(this).data('rackno');
         if (rackno !== "") {
@@ -556,7 +671,7 @@ Report - Mapping CS
             window.location.href = url;
         }
     });
-</script>
+</script> --}}
 <script>
     $(".Checkbox-parent input").on('click',function(){
     var _parent=$(this);
@@ -630,6 +745,34 @@ Report - Mapping CS
       }
       document.getElementById(cityName).style.display = "block";
       evt.currentTarget.className += " w3-red";
+    }
+</script>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    
+    // Get the button that opens the modal
+    var btn = document.getElementById("openDetail");
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
     }
 </script>
 @endpush

@@ -379,7 +379,7 @@ Placement
                 <table class="table">
                     <tr>
                         <th>Item Barang</th>
-                        <th width="25%">Date</th>
+                        <th>Date</th>
                         <th>Qty</th>
                         <th style="text-align: right">BW</th>
                     </tr>
@@ -403,7 +403,7 @@ Placement
                 <table class="table">
                     <tr>
                         <th>Item Barang</th>
-                        <th width="25%">Date</th>
+                        <th>Date</th>
                         <th>Qty</th>
                         <th style="text-align: right">BW</th>
                     </tr>
