@@ -98,15 +98,6 @@ Report - Detail Balance
     .box-header.with-border {
         border-bottom: 1px solid #f4f4f4;
     }
-
-    .b-style {
-        font-family: pjsBold;
-        font-size: 14px;
-        color: #0f172a;
-        margin-bottom: 0px;
-        background: transparent;
-        padding: 0px
-    }
 </style>
 @endpush
 
@@ -136,97 +127,94 @@ Report - Detail Balance
                         <h5 class="box-title" style="font-size: 16px">Filter</h5>
 
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-toggle="collapse"
-                                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                                     class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>
-                    <div class="collapse" id="collapseExample">
-                        <div class="box-body">
-                            <form class="form-horizontal" action="" method="POST" target="">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-addon">COMPANY</span>
-                                            <select class="form-control" name="AS_COMPANY" id="plant">
-                                                <option value="%">All</option>
-                                                <option value="01">01. PT SUJA</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-addon">PLANT</span>
 
-                                            <select name="AS_PLANT" class="form-control" style="width: 100%;">
-                                                <option value="%">All</option>
-                                                <option value="">
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-addon">START</span>
-                                            <input type="date" name="AS_SDATE" class="form-control" value="">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-addon">END</span>
-                                            <input type="date" name="AS_EDATE" class="form-control" value="">
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <p></p>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-addon">COLD STORAGE</span>
-
-                                            <select name="AS_PO" class="form-control" style="width: 100%;">
-                                                <option value="%">All</option>
-
-                                                <option value="">
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-addon">PALLET NO</span>
-                                            <select name="AS_SUPPLIER" class="form-control" style="width: 100%;">
-                                                <option value="%">All</option>
-
-                                                <option value="">
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-addon">ITEM LIST</span>
-                                            <input list="ITEM" name="AS_MATERIAL" id="visit1" placeholder="All"
-                                                class="form-control" onchange="myFunction2()"
-                                                title="Please Select Rack Number">
-                                            <datalist id="ITEM">
-                                                <option value=""></option>
-                                            </datalist>
-
-                                        </div>
+                    <div class="box-body">
+                        <form class="form-horizontal" action="" method="POST" target="">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon">COMPANY</span>
+                                        <select class="form-control" name="AS_COMPANY" id="plant">
+                                            <option value="%">All</option>
+                                            <option value="01">01. PT SUJA</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <P></P>
-                                <button type="submit" id="btn-filter"
-                                    class="btn btn-block btn-sm btn-primary">Filter</button>
-                            </form>
-                        </div>
+                                <div class="col-md-3">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon">PLANT</span>
+
+                                        <select name="AS_PLANT" class="form-control" style="width: 100%;">
+                                            <option value="%">All</option>
+                                            <option value="">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon">START</span>
+                                        <input type="date" name="AS_SDATE" class="form-control" value="">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon">END</span>
+                                        <input type="date" name="AS_EDATE" class="form-control" value="">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <p></p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon">COLD STORAGE</span>
+
+                                        <select name="AS_PO" class="form-control" style="width: 100%;">
+                                            <option value="%">All</option>
+
+                                            <option value="">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon">PALLET NO</span>
+                                        <select name="AS_SUPPLIER" class="form-control" style="width: 100%;">
+                                            <option value="%">All</option>
+
+                                            <option value="">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon">ITEM LIST</span>
+                                        <input list="ITEM" name="AS_MATERIAL" id="visit1" placeholder="All"
+                                            class="form-control" onchange="myFunction2()"
+                                            title="Please Select Rack Number">
+                                        <datalist id="ITEM">
+                                            <option value=""></option>
+                                        </datalist>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <P></P>
+                            <button type="submit" id="btn-filter"
+                                class="btn btn-block btn-sm btn-primary">Filter</button>
+                        </form>
                     </div>
                 </div>
             </section> -->
-
 
             <div class="box-body">
                 <div style="overflow: hidden;">
@@ -235,8 +223,8 @@ Report - Detail Balance
                             style="width: 1500px">
                             <thead style="text-align: center; width: 100%">
                                 <tr style="text-align: center">
-                                    <th style="text-align: center; vertical-align: middle;width: 3%" rowspan="2">
-                                        <input type="checkbox" style="width: 100%;" class="check-all" name="check_all">
+                                    <th style="text-align: center; vertical-align: middle;width: 3%" rowspan="2"><input
+                                            type="checkbox" style="width: 100%;" class="check-all" name="check_all">
                                     </th>
                                     <th style="text-align: center; min-width: 250px; vertical-align: middle;"
                                         rowspan="2">
@@ -244,8 +232,7 @@ Report - Detail Balance
                                     <th style="text-align: center; vertical-align: middle;" rowspan="2">Cold Storage
                                     </th>
                                     <th style="text-align: center; vertical-align: middle;" rowspan="2">Rack No</th>
-                                    <th style="text-align: center; vertical-align: middle;" rowspan="2">Pallet No
-                                    </th>
+                                    <th style="text-align: center; vertical-align: middle;" rowspan="2">Pallet No</th>
                                     <th style="text-align: center; min-width: 75px; vertical-align: middle;"
                                         rowspan="2">
                                         Prod Date</th>
@@ -273,15 +260,14 @@ Report - Detail Balance
                             </thead>
                             <tbody>
                                 <?php
-                              $today = date("Ymd"); $no=1;
-                              $totalBG_BAG = 0; $totalBG_QTY = 0; $totalBG_BW = 0;
-                              $totalIN_BAG = 0; $totalIN_QTY = 0; $totalIN_BW = 0;
-                              $totalOUT_BAG = 0; $totalOUT_QTY = 0; $totalOUT_BW = 0;
-                              $totalEND_BAG = 0; $totalEND_QTY = 0; $totalEND_BW = 0;
-                            ?>
+                          $today = date("Ymd"); $no=1;
+                          $totalBG_BAG = 0; $totalBG_QTY = 0; $totalBG_BW = 0;
+                          $totalIN_BAG = 0; $totalIN_QTY = 0; $totalIN_BW = 0;
+                          $totalOUT_BAG = 0; $totalOUT_QTY = 0; $totalOUT_BW = 0;
+                          $totalEND_BAG = 0; $totalEND_QTY = 0; $totalEND_BW = 0;
+                        ?>
                                 <?php foreach ($data['Report'] as $baris):?>
                                 <?php 
-<<<<<<< HEAD
                                 
                             // $rack_no = "Queue";
                             // if ($baris['RACK_NO'] != "..") {
@@ -313,38 +299,6 @@ Report - Detail Balance
                             $totalOUT_BAG += $baris['OUT_SACK_BAG']; $totalOUT_QTY += $baris['OUT_QTY']; $totalOUT_BW += $baris['OUT_BW'];
                             $totalEND_BAG += $baris['END_SACK_BAG']; $totalEND_QTY += $baris['END_QTY']; $totalEND_BW += $baris['END_BW'];
                           ?>
-=======
-                                // $rack_no = "Queue";
-                                // if ($baris['RACK_NO'] != "..") {
-                                  // $pecah_rack_no = explode(".", $baris['RACK_NO']);
-                                  // $row = $pecah_rack_no[0][0];
-                                  // $number = $pecah_rack_no[1].$pecah_rack_no[0][1];
-                                  // $level = $pecah_rack_no[2];
-          
-                                  // $rack_no = $row.".".$number.".".$level;
-                                  // $row = $pecah_rack_no[0][0];
-                                  // $number = $pecah_rack_no[1].$pecah_rack_no[0][1];
-                                  // $level = $pecah_rack_no[2];
-          
-                                  // $rack_no = $row." - ".$level." - ".$number;
-                                  // echo "<pre/>";print_r($pecah_rack_no);exit;
-          
-                                  // $datetime1 = new DateTime(date("Y-m-d", strtotime($baris['PROD_DATE'])));
-                                  // $datetime2 = new DateTime($today);
-                                  // $difference = $datetime1->diff($datetime2);
-                                  // $days = $difference->days;
-                                // }
-                                $style = "";
-                                if ($baris['DAYS'] > 90) {
-                                  $style = "color: red";
-                                }
-          
-                                $totalBG_BAG += $baris['BG_SACK_BAG']; $totalBG_QTY += $baris['BG_QTY']; $totalBG_BW += $baris['BG_BW'];
-                                $totalIN_BAG += $baris['IN_SACK_BAG']; $totalIN_QTY += $baris['IN_QTY']; $totalIN_BW += $baris['IN_BW'];
-                                $totalOUT_BAG += $baris['OUT_SACK_BAG']; $totalOUT_QTY += $baris['OUT_QTY']; $totalOUT_BW += $baris['OUT_BW'];
-                                $totalEND_BAG += $baris['END_SACK_BAG']; $totalEND_QTY += $baris['END_QTY']; $totalEND_BW += $baris['END_BW'];
-                              ?>
->>>>>>> d16d0420a7f6809ed9ae444bfff7a4976eb8564e
                                 <tr id="data-<?= $no ?>">
                                     <td><input type="checkbox" style="width: 100%;" name="check_row" class="check-row"
                                             id="<?= $no ?>"
@@ -370,40 +324,40 @@ Report - Detail Balance
                                         <?php echo number_format($baris['DAYS']) ?>
                                     </td>
                                     <td style="text-align: center; <?= $style ?>">KG</td>
-                                    <td style="text-align: center; <?= $style ?>">
+                                    <td style="text-align: right; <?= $style ?>">
                                         <?php echo number_format($baris['BG_SACK_BAG']);?>
                                     </td>
-                                    <td style="text-align: center; <?= $style ?>">
+                                    <td style="text-align: right; <?= $style ?>">
                                         <?php echo number_format($baris['BG_QTY']);?>
                                     </td>
-                                    <td style="text-align: center; <?= $style ?>">
+                                    <td style="text-align: right; <?= $style ?>">
                                         <?php echo number_format($baris['BG_BW'], 2);?>
                                     </td>
-                                    <td style="text-align: center; <?= $style ?>">
+                                    <td style="text-align: right; <?= $style ?>">
                                         <?php echo number_format($baris['IN_SACK_BAG']);?>
                                     </td>
-                                    <td style="text-align: center; <?= $style ?>">
+                                    <td style="text-align: right; <?= $style ?>">
                                         <?php echo number_format($baris['IN_QTY']);?>
                                     </td>
-                                    <td style="text-align: center; <?= $style ?>">
+                                    <td style="text-align: right; <?= $style ?>">
                                         <?php echo number_format($baris['IN_BW'], 2);?>
                                     </td>
-                                    <td style="text-align: center; <?= $style ?>">
+                                    <td style="text-align: right; <?= $style ?>">
                                         <?php echo number_format($baris['OUT_SACK_BAG']);?>
                                     </td>
-                                    <td style="text-align: center; <?= $style ?>">
+                                    <td style="text-align: right; <?= $style ?>">
                                         <?php echo number_format($baris['OUT_QTY']);?>
                                     </td>
-                                    <td style="text-align: center; <?= $style ?>">
+                                    <td style="text-align: right; <?= $style ?>">
                                         <?php echo number_format($baris['OUT_BW'], 2);?>
                                     </td>
-                                    <td style="text-align: center; <?= $style ?>">
+                                    <td style="text-align: right; <?= $style ?>">
                                         <?php echo number_format($baris['END_SACK_BAG']);?>
                                     </td>
-                                    <td style="text-align: center; <?= $style ?>">
+                                    <td style="text-align: right; <?= $style ?>">
                                         <?php echo number_format($baris['END_QTY']);?>
                                     </td>
-                                    <td style="text-align: center; <?= $style ?>">
+                                    <td style="text-align: right; <?= $style ?>">
                                         <?php echo number_format($baris['END_BW'], 2);?>
                                     </td>
                                 </tr>
@@ -411,42 +365,42 @@ Report - Detail Balance
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th style="text-align: center; vertical-align: middle;" colspan="8"><strong>Grand
+                                    <th style="text-align: right; vertical-align: middle;" colspan="8"><strong>Grand
                                             Total</strong></th>
-                                    <th style="text-align: center; vertical-align: middle;"><strong>
+                                    <th style="text-align: right; vertical-align: middle;"><strong>
                                             <?= number_format($totalBG_BAG) ?>
                                         </strong></th>
-                                    <th style="text-align: center; vertical-align: middle;"><strong>
+                                    <th style="text-align: right; vertical-align: middle;"><strong>
                                             <?= number_format($totalBG_QTY) ?>
                                         </strong></th>
-                                    <th style="text-align: center; vertical-align: middle;"><strong>
+                                    <th style="text-align: right; vertical-align: middle;"><strong>
                                             <?= number_format($totalBG_BW, 2) ?>
                                         </strong></th>
-                                    <th style="text-align: center; vertical-align: middle;"><strong>
+                                    <th style="text-align: right; vertical-align: middle;"><strong>
                                             <?= number_format($totalIN_BAG) ?>
                                         </strong></th>
-                                    <th style="text-align: center; vertical-align: middle;"><strong>
+                                    <th style="text-align: right; vertical-align: middle;"><strong>
                                             <?= number_format($totalIN_QTY) ?>
                                         </strong></th>
-                                    <th style="text-align: center; vertical-align: middle;"><strong>
+                                    <th style="text-align: right; vertical-align: middle;"><strong>
                                             <?= number_format($totalIN_BW, 2) ?>
                                         </strong></th>
-                                    <th style="text-align: center; vertical-align: middle;"><strong>
+                                    <th style="text-align: right; vertical-align: middle;"><strong>
                                             <?= number_format($totalOUT_BAG) ?>
                                         </strong></th>
-                                    <th style="text-align: center; vertical-align: middle;"><strong>
+                                    <th style="text-align: right; vertical-align: middle;"><strong>
                                             <?= number_format($totalOUT_QTY) ?>
                                         </strong></th>
-                                    <th style="text-align: center; vertical-align: middle;"><strong>
+                                    <th style="text-align: right; vertical-align: middle;"><strong>
                                             <?= number_format($totalOUT_BW, 2) ?>
                                         </strong></th>
-                                    <th style="text-align: center; vertical-align: middle;"><strong>
+                                    <th style="text-align: right; vertical-align: middle;"><strong>
                                             <?= number_format($totalEND_BAG) ?>
                                         </strong></th>
-                                    <th style="text-align: center; vertical-align: middle;"><strong>
+                                    <th style="text-align: right; vertical-align: middle;"><strong>
                                             <?= number_format($totalEND_QTY) ?>
                                         </strong></th>
-                                    <th style="text-align: center; vertical-align: middle;"><strong>
+                                    <th style="text-align: right; vertical-align: middle;"><strong>
                                             <?= number_format($totalEND_BW, 2) ?>
                                         </strong></th>
                                 </tr>
@@ -477,7 +431,6 @@ Report - Detail Balance
                     </div>
                 </div>
             </div>
-
         </div>
 
 
@@ -492,7 +445,6 @@ Report - Detail Balance
 
 @push('javascript-external')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('vendor/select2/js/' . app()->getLocale() . '.js') }}"></script>
 <script src="{{ asset('vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
