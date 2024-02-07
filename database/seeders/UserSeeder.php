@@ -24,19 +24,7 @@ class UserSeeder extends Seeder
             'active_until' => Carbon::now()->addDays(360),
             'email_verified_at' =>Carbon::now(),
             'phone_verified_at' =>Carbon::now(),
-            'password' => bcrypt('123456789')
-        ]);
-
-        User::create([
-            'name' => 'Member',
-            'email' => 'fahmifa2018@outlook.com',
-            'phone' => '6285155489797',
-            'born_date' => date(Carbon::parse('1998-04-02')),
-            'role' => 2,
-            'active_until' => Carbon::now()->addDays(360),
-            'email_verified_at' =>Carbon::now(),
-            'phone_verified_at' =>Carbon::now(),
-            'password' => bcrypt('123456789')
+            'password' => bcrypt('admin')
         ]);
     }
 }
