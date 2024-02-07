@@ -135,6 +135,24 @@ class ReportController extends Controller
         return view('report.mapping-cs', compact('placement', 'coldStorageData'));
     }
 
+    public function detail_mapping_cs(Request $request)
+    {
+    	$rackNo 		= $request->rackNo;
+    	$coldStorage 	= $rackNo[1];
+
+    	$rackNoData 	= substr($rackNo, 2, 2);
+    	$barisData 		= (int) substr($rackNo, 4, 2);
+
+    	// unset($rackNo[0]);
+    	$rackNo = $rackNoData.".".$barisData.".";
+        $placementDetail 	= PlacementServices::getDetailRack($coldStorage, $rackNo);
+
+        $return = [
+        	"data"	=> $placementDetail
+        ];
+        return response()->json($return);
+    }
+
     public function detail_mapping() {
         $cold_storage_name = $rack_no[1];
     	$cold_storage 	= $rack_no[0].$rack_no[1];

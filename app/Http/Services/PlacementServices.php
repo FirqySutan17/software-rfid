@@ -4,9 +4,9 @@ namespace App\Http\Services;
 
 class PlacementServices {
     public static function getRackList() {
-    	$username   = "SUJA";
-        $password   = "SUJA";
-        $database   = "//10.137.26.67:1521/BRS";
+    	$username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "RPA_SVR/RPA";
         $conn   = oci_connect($username, $password, $database);
         if (!$conn) {
             $e = oci_error();
@@ -23,7 +23,7 @@ class PlacementServices {
 			    FROM 
 			        CD_CODE A
 			    WHERE 
-			        A.HEAD_CODE = 'SH11'
+			        A.HEAD_CODE = 'SH19'
 			        AND (A.CODE LIKE 'B61%' OR A.CODE LIKE 'B62%' OR A.CODE LIKE 'B63%')
 			) tabledata
 			GROUP BY tabledata.CSDATA
@@ -49,9 +49,9 @@ class PlacementServices {
     }
 
     public static function getRackData($coldStorage) {
-    	$username   = "SUJA";
-        $password   = "SUJA";
-        $database   = "//10.137.26.67:1521/BRS";
+    	$username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "RPA_SVR/RPA";
         $conn   = oci_connect($username, $password, $database);
         if (!$conn) {
             $e = oci_error();
@@ -80,7 +80,7 @@ class PlacementServices {
 				GROUP BY plant||cold_storage||RACK_NO, ITEM, RACK_NO, PALLET_NO
 				) B
 			WHERE 
-				HEAD_CODE = 'SH11'
+				HEAD_CODE = 'SH19'
 				AND A.CODE LIKE '".$coldStorageCode."%'
 				AND  A.CODE = B.CD(+)
 			GROUP BY A.CODE
@@ -113,9 +113,9 @@ class PlacementServices {
     }
 
     public static function getStockBalanceList($AS_SDATE,$AS_EDATE,$AS_MATERIAL,$AS_SUPPLIER,$AS_PLANT,$AS_COMPANY,$AS_CS) {
-    	$username   = "SUJA";
-        $password   = "SUJA";
-        $database   = "//10.137.26.67:1521/BRS";
+    	$username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "RPA_SVR/RPA";
         $conn   = oci_connect($username, $password, $database);
         if (!$conn) {
             $e = oci_error();
@@ -205,9 +205,10 @@ class PlacementServices {
     }
 
     public static function getDetailBalanceList($AS_SDATE,$AS_EDATE,$AS_MATERIAL,$AS_SUPPLIER,$AS_PLANT,$AS_COMPANY,$AS_CS) {
-    	$username   = "SUJA";
-        $password   = "SUJA";
-        $database   = "//10.137.26.67:1521/BRS";
+    	$username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "RPA_SVR/RPA";
+        // $database   = "10.137.26.67:1521/BRS";
         $conn   = oci_connect($username, $password, $database);
         if (!$conn) {
             $e = oci_error();
@@ -216,10 +217,7 @@ class PlacementServices {
         $query 	= "
         	SELECT 
 		      COMPANY_NAME, PLANT, PLANT_NAME, GOODS_KINDS, GOODS_KIND_NAME, 
-		      COLD_STORAGE, RACK_NO, PALLET_NO, ITEM, FULL_NAME, PACKING_UNIT, PROD_DATE, TRUNC(SYSDATE  - TO_DATE(PROD_DATE,'YYYYMMDD')) days, 
-		       (CASE WHEN COLD_STORAGE = 'Queue' 
-		            THEN 'Antrian' else
-		        SUBSTR(RACK_NO,1,1)||'-'||TRIM(TO_CHAR(SUBSTR(RACK_NO,-1),'00'))||'-'||TRIM(TO_CHAR(SUBSTR(RACK_NO,4,INSTR(SUBSTR(RACK_NO,4,10),'.') -1),'00'))||SUBSTR(RACK_NO,2,1) end) RACK_NO_TEXT,
+		      COLD_STORAGE, RACK_NO, PALLET_NO, ITEM, FULL_NAME, PACKING_UNIT, PROD_DATE, TRUNC(SYSDATE  - TO_DATE(PROD_DATE,'YYYYMMDD')) days,
 		              SUM(BG_SACK_BAG) BG_SACK_BAG,
 		              SUM(IN_SACK_BAG) AS IN_SACK_BAG,
 		              SUM(OUT_SACK_BAG) AS OUT_SACK_BAG,
@@ -295,6 +293,61 @@ class PlacementServices {
         	$data[] = $row;
         }
         return $data;
+    }
+
+    public static function getDetailRack($coldStorage, $rackNo) {
+    	$username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "RPA_SVR/RPA";
+        $conn   = oci_connect($username, $password, $database);
+        if (!$conn) {
+            $e = oci_error();
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+        $query 	= "
+        	SELECT A.*,B.SHORT_NAME, TRUNC(SYSDATE  - TO_DATE(A.PROD_DATE,'YYYYMMDD')) DAYS, REGEXP_SUBSTR(A.RACK_NO, '[^.]+', 1, 3) AS TINGKAT
+	        FROM SH_SS_STORAGE_INVENTORY A, CD_ITEM B
+	        WHERE A.COMPANY = '01'
+	          AND A.ITEM = B.ITEM
+	          AND A.COLD_STORAGE = '".$coldStorage."'
+	          AND A.RACK_NO LIKE '".$rackNo."%'
+        ";
+        // echo "<pre/>";print_r($query);exit();
+        $stid 	= oci_parse($conn, $query);
+        oci_execute($stid);
+
+        $data = [
+        	"1" => [],
+        	"2"	=> [],
+        	"3"	=> [],
+        	"4"	=> []
+        ];
+        while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+        	if (!array_key_exists($row['ITEM'], $data[$row['TINGKAT']])) {
+        		$data[$row['TINGKAT']][$row['ITEM']] = [];
+        	}
+
+        	if (!array_key_exists($row['PROD_DATE'], $data[$row['TINGKAT']][$row['ITEM']])) {
+        		$data[$row['TINGKAT']][$row['ITEM']][$row['PROD_DATE']] = $row;
+        	} else {
+        		$data[$row['TINGKAT']][$row['ITEM']][$row['PROD_DATE']]['QTY'] += $row['QTY'];
+        		$data[$row['TINGKAT']][$row['ITEM']][$row['PROD_DATE']]['BW'] += $row['BW'];
+        	}
+        }
+
+        $result = [];
+        $index = 0;
+        foreach ($data as $tingkat => $item) {
+        	foreach ($item as $prod_date => $item_proddate) {
+        		foreach ($item_proddate as $i => $v) {
+        			$result[$index] = $v;
+        			$result[$index]["BW"] = round($result[$index]["BW"], 3);
+        			$index++;
+        		}
+        	}
+        }
+        return $result;
     }
 
 }

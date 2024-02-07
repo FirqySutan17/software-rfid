@@ -27,7 +27,7 @@ class PlacementController extends Controller
 
     	$username   = "CJCMS";
         $password   = "admin99";
-        $database   = "//10.137.26.67:1521/BRS";
+        $database   = "RPA_SVR/RPA";
         $conn   = oci_connect($username, $password, $database);
         if (!$conn) {
             $e = oci_error();
@@ -63,9 +63,9 @@ class PlacementController extends Controller
         	4 => []
         ];
         $placement_data = [];
+        $all_data = [];
         while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
         	$timestamp = strtotime($row['LOGDATE']);
-
         	if ($row['RACK_NO'] == 'X') {
 	        	if (!array_key_exists($timestamp, $placement_data)) {
 	        		$placement_data[$timestamp] = [
@@ -79,9 +79,9 @@ class PlacementController extends Controller
         		$sequence_data = $pecah_rack[2];
         		$existing_data[$sequence_data][] = $row;
         	}
-
+            $all_data[] = $row;
         }
-        // dd($rack_no, $rack_data, $placement_data, $existing_data);
+        // dd($rack_no, $rack_data, $placement_data, $existing_data, $all_data);
         return view('placement.index', compact('rack_no', 'rack_data', 'placement_data', 'existing_data'));
     }
 
@@ -99,19 +99,20 @@ class PlacementController extends Controller
 
     	$data_placement = $request->data_placement;
     	$rack_no_data	= $request->rak.".".$request->urutan_rak.".".$request->tingkat_rak;
-
+        // dd($rack_no_data, $data_placement);
     	if (!empty($data_placement)) {
     		foreach ($data_placement as $v) {
     			$explode 	= explode("|", $v);
     			$item 		= $explode[0];
     			$log_date 	= $explode[1];
+                $rfid       = $explode[2];
 
-    			$query_update = "UPDATE SH_PD_ABF_RESULT SET RACK_NO = '".$rack_no_data."' WHERE ITEM = '".$item."' AND LOGDATE = '".$log_date."' AND RACK_NO = 'X'";
+    			$query_update = "UPDATE SH_PD_ABF_RESULT SET RACK_NO = '".$rack_no_data."' WHERE ITEM = '".$item."' AND LOGDATE = '".$log_date."' AND RACK_NO = 'X' AND RFIDNO = '".$rfid."'";
 
 
     			$username   = "CJCMS";
 		        $password   = "admin99";
-		        $database   = "//10.137.26.67:1521/BRS";
+		        $database   = "RPA_SVR/RPA";
 		        $conn   = oci_connect($username, $password, $database);
 		        if (!$conn) {
 		            $e = oci_error();

@@ -474,8 +474,6 @@ Report - Mapping CS
                                                 $bg_class = "bg-warning";
                                             } elseif ($total_data >= 4) {
                                                 $bg_class   = "bg-danger";
-                                                $rackno     = "";
-                                                $style      = "cursor:default";
                                             }
                                         ?>
                                         <li id="openDetail" style="{{ $style }}" class="seat"
@@ -495,8 +493,6 @@ Report - Mapping CS
                                                 $bg_class = "bg-warning";
                                             } elseif ($total_data >= 4) {
                                                 $bg_class = "bg-danger";
-                                                $rackno     = "";
-                                                $style      = "cursor:default";
                                             }
                                         ?>
                                         <li id="openDetail" style="{{ $style }}" class="seat"
@@ -516,8 +512,6 @@ Report - Mapping CS
                                                 $bg_class = "bg-warning";
                                             } elseif ($total_data >= 4) {
                                                 $bg_class = "bg-danger";
-                                                $rackno     = "";
-                                                $style      = "cursor:default";
                                             }
                                         ?>
                                         <li id="openDetail" style="{{ $style }}" class="seat"
@@ -537,8 +531,6 @@ Report - Mapping CS
                                                 $bg_class = "bg-warning";
                                             } elseif ($total_data >= 4) {
                                                 $bg_class   = "bg-danger";
-                                                $rackno     = "";
-                                                $style      = "cursor:default";
                                             }
                                         ?>
                                         <li id="openDetail" style="{{ $style }}" class="seat"
@@ -574,7 +566,9 @@ Report - Mapping CS
         <div class="modal-content">
             <div class="row">
                 <div class="col-lg-12">
-                    <h4 class="title-transdet">Detail Placement - CS (1) - Rak (Aa) - Baris (1) <span
+                    <!-- <h4 class="title-transdet">Detail Placement - CS (<span id="display_title_cs"></span>) - Rak (<span id="display_title_rack"></span>) - Baris (<span id="display_title_row"></span>) <span
+                            class="close">&times;</span></h4> -->
+                    <h4 class="title-transdet">Detail Placement - <strong><span id="display_title"></span></strong> <span
                             class="close">&times;</span></h4>
                     <h5 class="place-detail">
                         Tingkat 4
@@ -662,16 +656,43 @@ Report - Mapping CS
 <script src="{{ asset('vendor/select2/js/' . app()->getLocale() . '.js') }}"></script>
 <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
 
-{{-- <script type="text/javascript">
+<script type="text/javascript">
     $(".seat").on('click', function() {
         var rackno  = $(this).data('rackno');
+        $(".display_rack").empty();
         if (rackno !== "") {
-            var url     = "{{ route('placement.index', ':id') }}";
-                url     = url.replace(':id', rackno);
-            window.location.href = url;
+            $.ajax({
+                url: "{{ route('mappingcs.detail') }}",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "rackNo": rackno
+                },
+                success: function(response) {
+                    const data = response.data;
+
+                    $.each(data, function(i, item) {
+                        console.log(item);
+                        let html = `
+                            <tr>
+                                <td>${item.SHORT_NAME}</td>
+                                <td>${item.PROD_DATE}</td>
+                                <td>${item.QTY}</td>
+                                <td>${item.BW}</td>
+                            </tr>
+                        `;
+                        $(`#display_rack_${item.TINGKAT}`).append(html);
+                    });
+                    $("#display_title").text(rackno);
+                    $("#myModal").show();
+                },
+                error: function(error) {
+                    
+                }
+            })
         }
     });
-</script> --}}
+</script>
 <script>
     $(".Checkbox-parent input").on('click',function(){
     var _parent=$(this);
@@ -753,15 +774,15 @@ Report - Mapping CS
     var modal = document.getElementById("myModal");
     
     // Get the button that opens the modal
-    var btn = document.getElementById("openDetail");
+    // var btn = document.getElementById("openDetail");
     
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
     
-    // When the user clicks the button, open the modal 
-    btn.onclick = function() {
-      modal.style.display = "block";
-    }
+    // // When the user clicks the button, open the modal 
+    // btn.onclick = function() {
+    //   modal.style.display = "block";
+    // }
     
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {

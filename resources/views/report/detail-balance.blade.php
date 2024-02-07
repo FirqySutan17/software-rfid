@@ -120,7 +120,7 @@ Report - Detail Balance
                 </div>
             </div>
 
-            <section class="content-header" style="padding: 0px">
+            <!-- <section class="content-header" style="padding: 0px">
                 <div class="box box-info  box-solid">
                     <div class="box-header with-border" style="padding: 10px;font-size: 16px;border: 0px solid #000;
                     border-radius: 0px 0px 0px 0px;">
@@ -214,7 +214,7 @@ Report - Detail Balance
                         </form>
                     </div>
                 </div>
-            </section>
+            </section> -->
 
             <div class="box-body">
                 <div style="overflow: hidden;">
@@ -268,6 +268,7 @@ Report - Detail Balance
                         ?>
                                 <?php foreach ($data['Report'] as $baris):?>
                                 <?php 
+                                
                             // $rack_no = "Queue";
                             // if ($baris['RACK_NO'] != "..") {
                               // $pecah_rack_no = explode(".", $baris['RACK_NO']);
@@ -311,7 +312,7 @@ Report - Detail Balance
                                         <?php echo $baris['COLD_STORAGE'];?>
                                     </td>
                                     <td style="text-align: center; <?= $style ?>">
-                                        <?php echo $baris['RACK_NO_TEXT'];?>
+                                        <?php echo $baris['RACK_NO'];?>
                                     </td>
                                     <td style="text-align: center; <?= $style ?>">
                                         <?php echo $baris['PALLET_NO'];?>

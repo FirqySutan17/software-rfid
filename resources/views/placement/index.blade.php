@@ -283,7 +283,7 @@ Placement
                             <?php foreach ($placement_data as $batch_time => $batch): ?>
                             <div class="Checkbox-parent Accordion">
                                 <input class="material-icons" type="checkbox" />
-                                <label>Batch {{ $no }} ( {{ date('Y-m-d H:i', strtotime($batch['LOGDATE'])) }} )</label>
+                                <label>Batch {{ $no }} ( {{ date('Y-m-d H:i', strtotime($batch['LOGDATE'])) }} ) <strong>TOTAL : {{ count($batch['DATA']) }} DATA</strong></label>
                                 </input>
 
                             </div>
@@ -291,11 +291,10 @@ Placement
                                 <ul class="Checkbox-child">
                                     <?php foreach ($batch['DATA'] as $item): ?>
                                     <li>
-                                        <input name="data_placement[]" value="{{ $item['ITEM'].'|'.$item['LOGDATE'] }}"
+                                        <input name="data_placement[]" value="{{ $item['ITEM'].'|'.$item['LOGDATE'].'|'.$item['RFIDNO'] }}"
                                             class="material-icons" type="checkbox" />
                                         <label><b>{{ $item['ITEM'] }} - {{ $item['ITEM_NAME'] }}</b> | <b>{{
-                                                $item['WEIGHT'] }} KG</b> | <b>{{ date('Y-m-d H:i',
-                                                strtotime($item['PROD_DATE'])) }}</b></label>
+                                                $item['WEIGHT'] }} KG</b></label>
                                         </input>
 
                                     </li>

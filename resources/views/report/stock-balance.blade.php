@@ -120,7 +120,7 @@ Report - Stock Balance
                 </div>
             </div>
 
-            <section class="content-header" style="padding: 0px">
+           <!--  <section class="content-header" style="padding: 0px">
                 <div class="box box-info  box-solid">
                     <div class="box-header with-border" style="padding: 10px;font-size: 16px;border: 0px solid #000;
                     border-radius: 0px 0px 0px 0px;">
@@ -214,7 +214,7 @@ Report - Stock Balance
                         </form>
                     </div>
                 </div>
-            </section>
+            </section> -->
 
             <div class="box-body">
                 <div class="" style="overflow: hidden;">
