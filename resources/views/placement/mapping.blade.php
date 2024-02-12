@@ -280,6 +280,147 @@ Placement
     #CS-3 {
         display: none
     }
+
+    .x-rack {
+        background: #fff;
+        color: #000;
+        font-weight: 700;
+        padding: 0px 20px;
+        border: none;
+    }
+</style>
+
+<style>
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 100;
+        /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+        -webkit-animation-name: fadeIn;
+        /* Fade in the background */
+        -webkit-animation-duration: 0.4s;
+        animation-name: fadeIn;
+        animation-duration: 0.4s
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: fixed;
+        bottom: 0;
+        background-color: #fefefe;
+        width: 100%;
+        -webkit-animation-name: slideIn;
+        -webkit-animation-duration: 0.4s;
+        animation-name: slideIn;
+        animation-duration: 0.4s;
+        border-radius: 15px 15px 0px 0px !important;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #000;
+        float: right;
+        margin-right: 10px;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    /* Add Animation */
+    @-webkit-keyframes slideIn {
+        from {
+            bottom: -300px;
+            opacity: 0
+        }
+
+        to {
+            bottom: 0;
+            opacity: 1
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            bottom: -300px;
+            opacity: 0
+        }
+
+        to {
+            bottom: 0;
+            opacity: 1
+        }
+    }
+
+    @-webkit-keyframes fadeIn {
+        from {
+            opacity: 0
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+    .title-transdet {
+        margin: 0px;
+        border-bottom: 1px solid #0f172a;
+        padding: 20px 0px;
+        border-radius: 10px;
+        padding-left: 15px;
+        margin-bottom: 20px;
+    }
+
+    h5.place-detail {
+        margin-bottom: 5px !important;
+        font-size: 14px;
+        font-weight: 500
+    }
 </style>
 @endpush
 
@@ -309,7 +450,7 @@ Placement
                         <div class="train">
                             <div class="exit front train-body">
                                 <div>A</div>
-                                <div></div>
+                                <div><button id="myBtn" class="x-rack" data-coldstorage="{{ $plc['NAME'] }}">X</button></div>
                                 <div>B</div>
                             </div>
                             <ol class="wagon train-body">
@@ -417,6 +558,35 @@ Placement
         </div>
 
     </div>
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- <h4 class="title-transdet">Detail Placement - CS (<span id="display_title_cs"></span>) - Rak (<span id="display_title_rack"></span>) - Baris (<span id="display_title_row"></span>) <span
+                            class="close">&times;</span></h4> -->
+                    <h4 class="title-transdet">Placement - <strong><span id="display_title"></span></strong> <span
+                            class="close">&times;</span></h4>
+                </div>
+                <div class="col-lg-12">
+                     <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
+                        <thead style="text-align: center">
+                            <tr>
+                                <th style="text-align: left;">RFID</th>
+                                <th style="text-align: left;">Nama</th>
+                                <th style="text-align: center;">Date</th>
+                                <th style="text-align: center;">Qty</th>
+                                <th style="text-align: center">BW</th>
+                            </tr>
+                        </thead>
+                        <tbody class="display_rack" id="display_rack_X"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 @endsection
 
@@ -434,6 +604,46 @@ Placement
             var url     = "{{ route('placement.index', ':id') }}";
                 url     = url.replace(':id', rackno);
             window.location.href = url;
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(".x-rack").on('click', function() {
+        var rackno  = 'X';
+        var coldStorage = $(this).data('coldstorage');
+        $(".display_rack").empty();
+        if (rackno !== "") {
+            $.ajax({
+                url: "{{ route('mappingcs.detail') }}",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "coldStorage": coldStorage,
+                    "rackNo": rackno
+                },
+                success: function(response) {
+                    const data = response.data;
+
+                    $.each(data, function(i, item) {
+                        console.log(item);
+                        let html = `
+                            <tr>
+                                <td style="text-align: left;">${item.PALLET_NO}</td>
+                                <td style="text-align: left;">${item.SHORT_NAME}</td>
+                                <td style="text-align: center;">${item.PROD_DATE}</td>
+                                <td style="text-align: center;">${item.QTY}</td>
+                                <td style="text-align: center;">${item.BW}</td>
+                            </tr>
+                        `;
+                        $(`#display_rack_${item.TINGKAT}`).append(html);
+                    });
+                    $("#display_title").text(rackno);
+                    $("#myModal").show();
+                },
+                error: function(error) {
+                    
+                }
+            })
         }
     });
 </script>
@@ -510,6 +720,34 @@ Placement
       }
       document.getElementById(cityName).style.display = "block";
       evt.currentTarget.className += " w3-red";
+    }
+</script>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    
+    // Get the button that opens the modal
+    // var btn = document.getElementById("openDetail");
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // // When the user clicks the button, open the modal 
+    // btn.onclick = function() {
+    //   modal.style.display = "block";
+    // }
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
     }
 </script>
 @endpush

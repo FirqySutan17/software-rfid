@@ -138,13 +138,17 @@ class ReportController extends Controller
     public function detail_mapping_cs(Request $request)
     {
     	$rackNo 		= $request->rackNo;
-    	$coldStorage 	= $rackNo[1];
+    	if ($rackNo == 'X') {
+    		$coldStorage = $request->coldStorage;
+    	} else {
+	    	$coldStorage 	= $rackNo[1];
 
-    	$rackNoData 	= substr($rackNo, 2, 2);
-    	$barisData 		= (int) substr($rackNo, 4, 2);
+	    	$rackNoData 	= substr($rackNo, 2, 2);
+	    	$barisData 		= (int) substr($rackNo, 4, 2);
 
-    	// unset($rackNo[0]);
-    	$rackNo = $rackNoData.".".$barisData.".";
+	    	// unset($rackNo[0]);
+	    	$rackNo = $rackNoData.".".$barisData.".";
+    	}
         $placementDetail 	= PlacementServices::getDetailRack($coldStorage, $rackNo);
 
         $return = [
