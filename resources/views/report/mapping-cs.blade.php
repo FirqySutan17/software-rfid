@@ -295,6 +295,14 @@ Report - Mapping CS
     #CS-3 {
         display: none
     }
+
+    .x-rack {
+        background: #fff;
+        color: #000;
+        font-weight: 700;
+        padding: 0px 20px;
+        border: none;
+    }
 </style>
 
 <style>
@@ -348,6 +356,22 @@ Report - Mapping CS
 
     .close:hover,
     .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* The Close Button */
+    .close-x {
+        color: #000;
+        float: right;
+        margin-right: 10px;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close-x:hover,
+    .close-x:focus {
         color: #000;
         text-decoration: none;
         cursor: pointer;
@@ -457,7 +481,7 @@ Report - Mapping CS
                         <div class="train">
                             <div class="exit front train-body">
                                 <div>A</div>
-                                <div></div>
+                                <div><button id="myBtnx" class="x-rack" data-coldstorage="{{ $plc['NAME'] }}">X</button></div>
                                 <div>B</div>
                             </div>
                             <ol class="wagon train-body">
@@ -644,6 +668,35 @@ Report - Mapping CS
 
             </div>
         </div>
+    </div>
+
+    <div id="myModalx" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- <h4 class="title-transdet">Detail Placement - CS (<span id="display_title_cs"></span>) - Rak (<span id="display_title_rack"></span>) - Baris (<span id="display_title_row"></span>) <span
+                            class="close">&times;</span></h4> -->
+                    <h4 class="title-transdet">Placement - <strong><span id="display_title_x"></span></strong> <span
+                            class="close-x">&times;</span></h4>
+                </div>
+                <div class="col-lg-12">
+                     <table border="2" class="table table-bordered table-striped" style="white-space: nowrap;">
+                        <thead style="text-align: center">
+                            <tr>
+                                <th style="text-align: left;">RFID</th>
+                                <th style="text-align: left;">Nama</th>
+                                <th style="text-align: center;">Date</th>
+                                <th style="text-align: center;">Qty</th>
+                                <th style="text-align: center">BW</th>
+                            </tr>
+                        </thead>
+                        <tbody class="display_rack" id="display_rack_X"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
@@ -769,30 +822,99 @@ Report - Mapping CS
     }
 </script>
 
+<script type="text/javascript">
+    $(".x-rack").on('click', function() {
+        var rackno  = 'X';
+        var coldStorage = $(this).data('coldstorage');
+        $(".display_rack").empty();
+        if (rackno !== "") {
+            $.ajax({
+                url: "{{ route('mappingcs.detail') }}",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "coldStorage": coldStorage,
+                    "rackNo": rackno
+                },
+                success: function(response) {
+                    const data = response.data;
+
+                    $.each(data, function(i, item) {
+                        console.log(item);
+                        let html = `
+                            <tr>
+                                <td style="text-align: left;">${item.PALLET_NO}</td>
+                                <td style="text-align: left;">${item.SHORT_NAME}</td>
+                                <td style="text-align: center;">${item.PROD_DATE}</td>
+                                <td style="text-align: center;">${item.QTY}</td>
+                                <td style="text-align: center;">${item.BW}</td>
+                            </tr>
+                        `;
+                        $(`#display_rack_${item.TINGKAT}`).append(html);
+                    });
+                    $("#display_title_x").text(rackno);
+                    $("#myModalx").show();
+                },
+                error: function(error) {
+                    
+                }
+            })
+        }
+    });
+</script>
+
 <script>
     // Get the modal
     var modal = document.getElementById("myModal");
-    
+
     // Get the button that opens the modal
-    // var btn = document.getElementById("openDetail");
-    
+    var btn = document.getElementById("myBtn");
+
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
-    
-    // // When the user clicks the button, open the modal 
-    // btn.onclick = function() {
-    //   modal.style.display = "block";
-    // }
-    
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
       modal.style.display = "none";
     }
-    
+
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
       if (event.target == modal) {
         modal.style.display = "none";
+      }
+    }
+</script>
+
+<script>
+    // Get the modal
+    var modalx = document.getElementById("myModalx");
+
+    // Get the button that opens the modal
+    var btnx = document.getElementById("myBtnx");
+
+    // Get the <span> element that closes the modal
+    var spanx = document.getElementsByClassName("close-x")[0];
+
+    // When the user clicks the button, open the modal 
+    btnx.onclick = function() {
+      modalx.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    spanx.onclick = function() {
+      modalx.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modalx.style.display = "none";
       }
     }
 </script>

@@ -306,7 +306,7 @@ class PlacementServices {
         }
 
         $query 	= "
-        	SELECT A.*,B.SHORT_NAME, TRUNC(SYSDATE  - TO_DATE(A.PROD_DATE,'YYYYMMDD')) DAYS, REGEXP_SUBSTR(A.RACK_NO, '[^.]+', 1, 3) AS TINGKAT
+        	SELECT A.*,B.SHORT_NAME, TRUNC(SYSDATE  - TO_DATE(A.PROD_DATE,'YYYYMMDD')) DAYS, CASE WHEN RACK_NO = 'X' THEN 'X' ELSE REGEXP_SUBSTR(A.RACK_NO, '[^.]+', 1, 3) END AS TINGKAT
 	        FROM SH_SS_STORAGE_INVENTORY A, CD_ITEM B
 	        WHERE A.COMPANY = '01'
 	          AND A.ITEM = B.ITEM
@@ -321,7 +321,8 @@ class PlacementServices {
         	"1" => [],
         	"2"	=> [],
         	"3"	=> [],
-        	"4"	=> []
+        	"4"	=> [],
+        	"X"	=> []
         ];
         while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
         	if (!array_key_exists($row['ITEM'], $data[$row['TINGKAT']])) {
