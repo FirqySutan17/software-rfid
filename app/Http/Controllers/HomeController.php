@@ -26,8 +26,8 @@ class HomeController extends Controller
        
         // // Create connection to Oracle
         
-        $username   = "CJCMS";
-        $password   = "admin99";
+        $username   = "suja";
+        $password   = "suja";
         $database   = "//10.137.26.67:1521/BRS";
         $conn   = oci_connect($username, $password, $database);
         // if (!$conn) {
