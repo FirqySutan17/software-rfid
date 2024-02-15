@@ -267,6 +267,12 @@ Placement
                                         <option value="4">4</option>
                                     </select>
                                 </div>
+                                <div class="form-group _form-group">
+                                    <label for="remark">
+                                        Remark
+                                    </label>
+                                    <input id="remark" name="remark" type="text" class="form-control" placeholder="Write remark here.." />
+                                </div>
                             </div>
                         </div>
 

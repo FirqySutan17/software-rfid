@@ -98,6 +98,7 @@ class PlacementController extends Controller
     public function store($rack_no, Request $request) {
 
     	$data_placement = $request->data_placement;
+        $remark = $request->remark;
     	$rack_no_data	= $request->rak.".".$request->urutan_rak.".".$request->tingkat_rak;
         // dd($rack_no_data, $data_placement);
     	if (!empty($data_placement)) {
@@ -107,8 +108,7 @@ class PlacementController extends Controller
     			$log_date 	= $explode[1];
                 $rfid       = $explode[2];
 
-    			$query_update = "UPDATE SH_PD_ABF_RESULT SET RACK_NO = '".$rack_no_data."' WHERE ITEM = '".$item."' AND LOGDATE = '".$log_date."' AND RACK_NO = 'X' AND RFIDNO = '".$rfid."'";
-
+    			$query_update = "UPDATE SH_PD_ABF_RESULT SET RACK_NO = '".$rack_no_data."', REMARK = '".$remark."' WHERE ITEM = '".$item."' AND LOGDATE = '".$log_date."' AND RACK_NO = 'X' AND RFIDNO = '".$rfid."'";
 
     			$username   = "CJCMS";
 		        $password   = "admin99";
