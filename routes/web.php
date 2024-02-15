@@ -33,8 +33,8 @@ Route::get('/mapping-placement', [App\Http\Controllers\PlacementController::clas
 
 
 // Report Group
-Route::get('/stock-balance-list', [App\Http\Controllers\ReportController::class, 'stock_balance'])->name('stockbalance');
-Route::get('/detail-balance-list', [App\Http\Controllers\ReportController::class, 'detail_balance'])->name('detailbalance');
+Route::match(['get', 'post'], '/stock-balance-list', [App\Http\Controllers\ReportController::class, 'stock_balance'])->name('stockbalance');
+Route::match(['get', 'post'], '/detail-balance-list', [App\Http\Controllers\ReportController::class, 'detail_balance'])->name('detailbalance');
 Route::get('/mapping-cold-storage', [App\Http\Controllers\ReportController::class, 'mapping_cs'])->name('mappingcs');
 Route::post('/detail-mapping-cold-storage', [App\Http\Controllers\ReportController::class, 'detail_mapping_cs'])->name('mappingcs.detail');
 

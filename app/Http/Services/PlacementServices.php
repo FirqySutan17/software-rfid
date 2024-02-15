@@ -351,4 +351,96 @@ class PlacementServices {
         return $result;
     }
 
+    public static function m_get_plant_name2(){
+    	$username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "RPA_SVR/RPA";
+        $conn   = oci_connect($username, $password, $database);
+        if (!$conn) {
+            $e = oci_error();
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+	    $query       = "SELECT DISTINCT A.PLANT,B.CODE_NAME
+	      FROM SH_SS_STORAGE_INVENTORY A, CD_CODE B
+	      WHERE HEAD_CODE = 'AB'
+	      AND DESC6 = 'Y'
+	      AND A.PLANT = B.CODE
+	        ";
+	    $stid 	= oci_parse($conn, $query);
+        oci_execute($stid);
+
+        $data = [];
+        while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+        	$data[] = $row;
+        }
+        return $data;
+	}
+
+	public static function m_get_item_name2(){
+    	$username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "RPA_SVR/RPA";
+        $conn   = oci_connect($username, $password, $database);
+        if (!$conn) {
+            $e = oci_error();
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+	    $query       = "SELECT DISTINCT A.ITEM,B.SHORT_NAME
+	    FROM SH_SS_STORAGE_INVENTORY A,
+	            CD_ITEM B
+	    WHERE A.ITEM = B.ITEM";
+	    $stid 	= oci_parse($conn, $query);
+        oci_execute($stid);
+
+        $data = [];
+        while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+        	$data[] = $row;
+        }
+        return $data;
+	}
+
+	public static function m_get_coldstorage(){
+    	$username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "RPA_SVR/RPA";
+        $conn   = oci_connect($username, $password, $database);
+        if (!$conn) {
+            $e = oci_error();
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+	    $query       = "SELECT DISTINCT COLD_STORAGE FROM SH_SS_STORAGE_INVENTORY ORDER BY COLD_STORAGE ASC";
+	    $stid 	= oci_parse($conn, $query);
+        oci_execute($stid);
+
+        $data = [];
+        while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+        	$data[] = $row;
+        }
+        return $data;
+	}
+
+	public static function m_get_pallet(){
+    	$username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "RPA_SVR/RPA";
+        $conn   = oci_connect($username, $password, $database);
+        if (!$conn) {
+            $e = oci_error();
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+	    $query       = "SELECT DISTINCT PALLET_NO FROM SH_SS_STORAGE ORDER BY PALLET_NO ASC";
+	    $stid 	= oci_parse($conn, $query);
+        oci_execute($stid);
+
+        $data = [];
+        while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+        	$data[] = $row;
+        }
+        return $data;
+	}
+
 }

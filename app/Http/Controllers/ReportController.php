@@ -25,11 +25,11 @@ class ReportController extends Controller
 
 		$report = [];
 		$report_data_raw = [];
-		// $data['List_Plant'] = $this->M_Warehouse->m_get_plant_name2();
-		// $data['List_Item'] = $this->M_Warehouse->m_get_item_name2();
-		// $data['List_Pallet'] = $this->M_Warehouse->m_get_pallet();
-		// $data['List_rackno'] = $this->M_Warehouse->m_get_rackno();
-		// $data['List_coldstorage'] = $this->M_Warehouse->m_get_coldstorage();          
+		$data['List_Plant'] = PlacementServices::m_get_plant_name2();
+		$data['List_Item'] = PlacementServices::m_get_item_name2();
+		$data['List_Pallet'] = PlacementServices::m_get_pallet();
+		// $data['List_rackno'] = PlacementServices::m_get_rackno();
+		$data['List_coldstorage'] = PlacementServices::m_get_coldstorage();          
         if ($AS_SDATE=="") {
             $AS_SDATE = date('Ymd');
             $AS_EDATE = date('Ymd');
@@ -92,7 +92,7 @@ class ReportController extends Controller
         return view('report.stock-balance', compact('data'));
     }
 
-    public function detail_balance()
+    public function detail_balance(Request $request)
     {
         error_reporting(0);
   		ini_set('display_errors', 0);
@@ -104,11 +104,11 @@ class ReportController extends Controller
 		$AS_PLANT       = !empty($request->AS_PLANT) ? $request->AS_PLANT : '%';
 		$AS_CS          = !empty($request->AS_PO) ? $request->AS_PO : '%';
 
-		// $data['List_Plant'] = $this->M_Warehouse->m_get_plant_name2();
-		// $data['List_Item'] = $this->M_Warehouse->m_get_item_name2();
-		// $data['List_Pallet'] = $this->M_Warehouse->m_get_pallet();
-		// $data['List_rackno'] = $this->M_Warehouse->m_get_rackno();
-		// $data['List_coldstorage'] = $this->M_Warehouse->m_get_coldstorage();
+		$data['List_Plant'] = PlacementServices::m_get_plant_name2();
+		$data['List_Item'] = PlacementServices::m_get_item_name2();
+		$data['List_Pallet'] = PlacementServices::m_get_pallet();
+		// $data['List_rackno'] = PlacementServices::m_get_rackno();
+		$data['List_coldstorage'] = PlacementServices::m_get_coldstorage();
 
 		if ($AS_SDATE =="") {
 		$AS_SDATE = date('Ymd');
