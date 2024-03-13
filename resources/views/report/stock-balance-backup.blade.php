@@ -229,18 +229,18 @@ Report - Stock Balance
                         </thead>
                         <tbody>
                             <?php
-                      $totalBG_BAG = 0; $totalBG_QTY = 0; $totalBG_BW = 0;
-                      $totalIN_BAG = 0; $totalIN_QTY = 0; $totalIN_BW = 0;
-                      $totalOUT_BAG = 0; $totalOUT_QTY = 0; $totalOUT_BW = 0;
-                      $totalEND_BAG = 0; $totalEND_QTY = 0; $totalEND_BW = 0;
-                    ?>
+                            $totalBG_BAG = 0; $totalBG_QTY = 0; $totalBG_BW = 0;
+                            $totalIN_BAG = 0; $totalIN_QTY = 0; $totalIN_BW = 0;
+                            $totalOUT_BAG = 0; $totalOUT_QTY = 0; $totalOUT_BW = 0;
+                            $totalEND_BAG = 0; $totalEND_QTY = 0; $totalEND_BW = 0;
+                            ?>
                             <?php $no=1; foreach ($Report as $baris):?>
                             <?php
-                      $totalBG_BAG += $baris["BG_SACK_BAG"]; $totalBG_QTY += $baris["BG_QTY"]; $totalBG_BW += $baris["BG_BW"];
-                      $totalIN_BAG += $baris["IN_SACK_BAG"]; $totalIN_QTY += $baris["IN_QTY"]; $totalIN_BW += $baris["IN_BW"];
-                      $totalOUT_BAG += $baris["OUT_SACK_BAG"]; $totalOUT_QTY += $baris["OUT_QTY"]; $totalOUT_BW += $baris["OUT_BW"];
-                      $totalEND_BAG += $baris["END_SACK_BAG"]; $totalEND_QTY += $baris["END_QTY"]; $totalEND_BW += $baris["END_BW"];
-                    ?>
+                            $totalBG_BAG += $baris["BG_SACK_BAG"]; $totalBG_QTY += $baris["BG_QTY"]; $totalBG_BW += $baris["BG_BW"];
+                            $totalIN_BAG += $baris["IN_SACK_BAG"]; $totalIN_QTY += $baris["IN_QTY"]; $totalIN_BW += $baris["IN_BW"];
+                            $totalOUT_BAG += $baris["OUT_SACK_BAG"]; $totalOUT_QTY += $baris["OUT_QTY"]; $totalOUT_BW += $baris["OUT_BW"];
+                            $totalEND_BAG += $baris["END_SACK_BAG"]; $totalEND_QTY += $baris["END_QTY"]; $totalEND_BW += $baris["END_BW"];
+                            ?>
                             <tr id="data-<?= $no ?>">
                                 <td><input type="checkbox" style="width: 100%;" name="check_row" class="check-row"
                                         id="<?= $no ?>"
