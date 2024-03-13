@@ -21,6 +21,7 @@
     <link href="{{ asset('vendor/css/fontawesome.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/css/brands.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/css/solid.css') }}" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">

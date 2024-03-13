@@ -120,7 +120,7 @@ Report - Detail Balance
                 </div>
             </div>
 
-            <!-- <section class="content-header" style="padding: 0px">
+            <section class="content-header" style="padding: 0px">
                 <div class="box box-info  box-solid">
                     <div class="box-header with-border" style="padding: 10px;font-size: 16px;border: 0px solid #000;
                     border-radius: 0px 0px 0px 0px;">
@@ -135,6 +135,7 @@ Report - Detail Balance
 
                     <div class="box-body">
                         <form class="form-horizontal" action="" method="POST" target="">
+                            @csrf
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="input-group input-group-sm">
@@ -151,8 +152,11 @@ Report - Detail Balance
 
                                         <select name="AS_PLANT" class="form-control" style="width: 100%;">
                                             <option value="%">All</option>
-                                            <option value="">
-                                            </option>
+                                            <?php if (!empty($data['List_Plant'])): ?>
+                                                <?php foreach ($data['List_Plant'] as $v): ?>
+                                                    <option value="{{ $v['PLANT'] }}">{{ $v['CODE_NAME'] }}</option>
+                                                <?php endforeach ?>
+                                            <?php endif ?>
                                         </select>
                                     </div>
                                 </div>
@@ -178,9 +182,11 @@ Report - Detail Balance
 
                                         <select name="AS_PO" class="form-control" style="width: 100%;">
                                             <option value="%">All</option>
-
-                                            <option value="">
-                                            </option>
+                                            <?php if (!empty($data['List_coldstorage'])): ?>
+                                                <?php foreach ($data['List_coldstorage'] as $v): ?>
+                                                    <option value="{{ $v['COLD_STORAGE'] }}">{{ $v['COLD_STORAGE'] }}</option>
+                                                <?php endforeach ?>
+                                            <?php endif ?>
                                         </select>
                                     </div>
                                 </div>
@@ -189,9 +195,11 @@ Report - Detail Balance
                                         <span class="input-group-addon">PALLET NO</span>
                                         <select name="AS_SUPPLIER" class="form-control" style="width: 100%;">
                                             <option value="%">All</option>
-
-                                            <option value="">
-                                            </option>
+                                            <?php if (!empty($data['List_Pallet'])): ?>
+                                                <?php foreach ($data['List_Pallet'] as $v): ?>
+                                                    <option value="{{ $v['PALLET_NO'] }}">{{ $v['PALLET_NO'] }}</option>
+                                                <?php endforeach ?>
+                                            <?php endif ?>
                                         </select>
                                     </div>
                                 </div>
@@ -202,19 +210,22 @@ Report - Detail Balance
                                             class="form-control" onchange="myFunction2()"
                                             title="Please Select Rack Number">
                                         <datalist id="ITEM">
-                                            <option value=""></option>
+                                            <?php if (!empty($data['List_Item'])): ?>
+                                                <?php foreach ($data['List_Item'] as $v): ?>
+                                                    <option value="{{ $v['ITEM'] }}">{{ $v['SHORT_NAME'] }}</option>
+                                                <?php endforeach ?>
+                                            <?php endif ?>
                                         </datalist>
 
                                     </div>
                                 </div>
-                            </div>
                             <P></P>
                             <button type="submit" id="btn-filter"
                                 class="btn btn-block btn-sm btn-primary">Filter</button>
                         </form>
                     </div>
                 </div>
-            </section> -->
+            </section>
 
             <div class="box-body">
                 <div style="overflow: hidden;">

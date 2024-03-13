@@ -51,7 +51,7 @@
 <nav id="myNav">
     <div class="menu-items">
         <ul class="nav-links">
-            <li class="{{routeActive(['home', 'mapping', 'placement.index'])}}">
+            <li class="{{routeActive(['home', 'mapping', 'placement.index', 'moving.index'])}}">
                 <a href="{{ route('home') }}">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path

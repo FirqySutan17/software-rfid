@@ -69,15 +69,15 @@ class PlacementServices {
 					WHEN regexp_substr(A.CODE, '[^.]+', 1, 1) = '".$coldStorageCode."Ba' THEN 3
 					WHEN regexp_substr(A.CODE, '[^.]+', 1, 1) = '".$coldStorageCode."Bb' THEN 4
 				END AS POSITION,
-				(SELECT COUNT(DISTINCT(RACK_NO)) FROM SH_SS_STORAGE_INVENTORY WHERE COLD_STORAGE = '".$coldStorage."' AND RACK_NO LIKE SUBSTR(A.CODE, 4, 5) || '%') as JUMLAH_DATA,
-				(SELECT MIN(PROD_DATE) as tanggalStok FROM SH_SS_STORAGE_INVENTORY  WHERE COLD_STORAGE = '".$coldStorage."' AND RACK_NO LIKE SUBSTR(A.CODE, 4, 5) || '%') as TANGGAL_TERTUA
+				(SELECT COUNT(DISTINCT(RACK_NO)) FROM SH_PD_ABF_RESULT WHERE CS_NO = '".$coldStorage."' AND RACK_NO LIKE SUBSTR(A.CODE, 4, 5) || '%') as JUMLAH_DATA,
+				(SELECT MIN(PROD_DATE) as tanggalStok FROM SH_PD_ABF_RESULT  WHERE CS_NO = '".$coldStorage."' AND RACK_NO LIKE SUBSTR(A.CODE, 4, 5) || '%') as TANGGAL_TERTUA
 			FROM 
 				CD_CODE A,
 				( 
-					select plant||cold_storage||RACK_NO CD, ITEM, RACK_NO, PALLET_NO,SUM(QTY) QTY,SUM(BW) BW,SUM(SACK_BAG) SACK_BAG
-					from SH_SS_STORAGE_INVENTORY 
+					select plant||CS_NO||RACK_NO CD, ITEM, RACK_NO, RFIDNO
+					from SH_PD_ABF_RESULT 
 				WHERE COMPANY = '01'
-				GROUP BY plant||cold_storage||RACK_NO, ITEM, RACK_NO, PALLET_NO
+				GROUP BY plant||CS_NO||RACK_NO, ITEM, RACK_NO, RFIDNO
 				) B
 			WHERE 
 				HEAD_CODE = 'SH19'
@@ -152,15 +152,15 @@ class PlacementServices {
 		                         SUM((CASE WHEN TRANS_IO ='I' THEN BW ELSE 0 END )) - SUM((CASE WHEN TRANS_IO ='I' THEN 0 ELSE BW END )) BG_BW,
 		                         0 AS IN_BW,
 		                         0 AS OUT_BW
-		          FROM   SH_SS_STORAGE A, 
+		          FROM   SH_PD_ABF_RESULT A, 
 		                      CD_ITEM C     
 		           WHERE C.ITEM            = A.ITEM  
 		             AND A.COMPANY LIKE '$AS_COMPANY'|| '%'
 		             AND A.PLANT LIKE '$AS_PLANT'|| '%'
 		             AND A.TRANS_DATE < $AS_SDATE
-		             AND A.COLD_STORAGE LIKE '$AS_CS'||'%'
+		             AND A.CS_NO LIKE '$AS_CS'||'%'
 		             AND A.ITEM LIKE '$AS_MATERIAL'|| '%'
-		             AND A.PALLET_NO LIKE '$AS_SUPPLIER'|| '%'
+		             AND A.RFIDNO LIKE '$AS_SUPPLIER'|| '%'
 		           GROUP BY A.COMPANY, C.GOODS_KINDS,A.ITEM, C.FULL_NAME,PLANT,C.PACKING_UNIT
 		           UNION ALL 
 		          SELECT FN_CODE_NAME('AA',A.COMPANY)                  AS COMPANY_NAME,
@@ -179,14 +179,14 @@ class PlacementServices {
 		                           0 BG_BW,
 		                         SUM((CASE WHEN TRANS_IO ='I' THEN BW ELSE 0 END ))AS IN_BW,
 		                         SUM((CASE WHEN TRANS_IO ='O' THEN BW ELSE 0 END ))AS OUT_BW
-		          FROM   SH_SS_STORAGE A, 
+		          FROM   SH_PD_ABF_RESULT A, 
 		                      CD_ITEM C     
 		           WHERE C.ITEM            = A.ITEM  
 		             AND A.COMPANY LIKE '$AS_COMPANY'|| '%'
 		             AND A.PLANT LIKE '$AS_PLANT'|| '%'
 		             AND A.ITEM LIKE '$AS_MATERIAL'|| '%'
-		             AND A.PALLET_NO LIKE '$AS_SUPPLIER'|| '%'
-		             AND A.COLD_STORAGE LIKE '$AS_CS'||'%'
+		             AND A.RFIDNO LIKE '$AS_SUPPLIER'|| '%'
+		             AND A.CS_NO LIKE '$AS_CS'||'%'
 		             AND A.TRANS_DATE BETWEEN $AS_SDATE AND '$AS_EDATE'
 		           GROUP BY A.COMPANY, C.GOODS_KINDS,A.ITEM, C.FULL_NAME,PLANT,C.PACKING_UNIT
 		      )     
@@ -217,7 +217,7 @@ class PlacementServices {
         $query 	= "
         	SELECT 
 		      COMPANY_NAME, PLANT, PLANT_NAME, GOODS_KINDS, GOODS_KIND_NAME, 
-		      COLD_STORAGE, RACK_NO, PALLET_NO, ITEM, FULL_NAME, PACKING_UNIT, PROD_DATE, TRUNC(SYSDATE  - TO_DATE(PROD_DATE,'YYYYMMDD')) days,
+		      CS_NO, RACK_NO, RFIDNO, ITEM, FULL_NAME, PACKING_UNIT, PROD_DATE, TRUNC(SYSDATE  - TO_DATE(PROD_DATE,'YYYYMMDD')) days,
 		              SUM(BG_SACK_BAG) BG_SACK_BAG,
 		              SUM(IN_SACK_BAG) AS IN_SACK_BAG,
 		              SUM(OUT_SACK_BAG) AS OUT_SACK_BAG,
@@ -229,8 +229,8 @@ class PlacementServices {
 		      SELECT 
 		        FN_CODE_NAME('AA',A.COMPANY) AS COMPANY_NAME, A.PLANT,
 		        FN_CODE_NAME('AB',A.PLANT) AS PLANT_NAME, C.GOODS_KINDS,
-		        FN_CODE_NAME('GK',C.GOODS_KINDS) AS GOODS_KIND_NAME, COLD_STORAGE, 
-		        RACK_NO, PALLET_NO, A.ITEM,  C.FULL_NAME,C.PACKING_UNIT,A.PROD_DATE,
+		        FN_CODE_NAME('GK',C.GOODS_KINDS) AS GOODS_KIND_NAME, CS_NO, 
+		        RACK_NO, RFIDNO, A.ITEM,  C.FULL_NAME,C.PACKING_UNIT,A.PROD_DATE,
 		                  SUM((CASE WHEN TRANS_IO ='I' THEN SACK_BAG ELSE 0 END )) - SUM((CASE WHEN TRANS_IO ='I' THEN 0 ELSE SACK_BAG END )) BG_SACK_BAG,
 		        SUM((CASE WHEN TRANS_IO ='I' THEN QTY ELSE 0 END )) - SUM((CASE WHEN TRANS_IO ='I' THEN 0 ELSE QTY END )) BG_QTY,
 		                   0 AS IN_SACK_BAG,
@@ -238,24 +238,24 @@ class PlacementServices {
 		        0 AS IN_QTY, 0 AS OUT_QTY,
 		        SUM((CASE WHEN TRANS_IO ='I' THEN BW ELSE 0 END )) - SUM((CASE WHEN TRANS_IO ='I' THEN 0 ELSE BW END )) BG_BW,
 		        0 AS IN_BW, 0 AS OUT_BW
-		      FROM SH_SS_STORAGE A, CD_ITEM C     
+		      FROM SH_PD_ABF_RESULT A, CD_ITEM C     
 		      WHERE 
 		        C.ITEM = A.ITEM AND
 		        A.COMPANY LIKE '$AS_COMPANY'|| '%' AND
 		        A.PLANT LIKE '$AS_PLANT'|| '%' AND
 		        A.TRANS_DATE < $AS_SDATE AND
-		        A.COLD_STORAGE LIKE '$AS_CS'||'%' AND
+		        A.CS_NO LIKE '$AS_CS'||'%' AND
 		        A.ITEM LIKE '$AS_MATERIAL'|| '%'  AND
-		        A.PALLET_NO LIKE '$AS_SUPPLIER'|| '%' 
+		        A.RFIDNO LIKE '$AS_SUPPLIER'|| '%' 
 		      GROUP BY 
 		        A.COMPANY, C.GOODS_KINDS,A.ITEM, C.FULL_NAME,PLANT,
-		        COLD_STORAGE, RACK_NO, PALLET_NO, C.PACKING_UNIT, A.PROD_DATE     
+		        CS_NO, RACK_NO, RFIDNO, C.PACKING_UNIT, A.PROD_DATE     
 		      UNION ALL 
 		      SELECT 
 		        FN_CODE_NAME('AA',A.COMPANY) AS COMPANY_NAME, A.PLANT,
 		        FN_CODE_NAME('AB',A.PLANT) AS PLANT_NAME, C.GOODS_KINDS,
 		        FN_CODE_NAME('GK',C.GOODS_KINDS) AS GOODS_KIND_NAME,
-		        COLD_STORAGE, RACK_NO, PALLET_NO, A.ITEM,  C.FULL_NAME, C.PACKING_UNIT, A.PROD_DATE,         
+		        CS_NO, RACK_NO, RFIDNO, A.ITEM,  C.FULL_NAME, C.PACKING_UNIT, A.PROD_DATE,         
 		                   0 BG_SACK_BAG,
 		        0 BG_QTY,
 		                   SUM((CASE WHEN TRANS_IO ='I' THEN SACK_BAG ELSE 0 END ))AS IN_SACK_BAG,
@@ -264,25 +264,25 @@ class PlacementServices {
 		        SUM((CASE WHEN TRANS_IO ='O' THEN QTY ELSE 0 END ))AS OUT_QTY, 0 BG_BW,
 		        SUM((CASE WHEN TRANS_IO ='I' THEN BW ELSE 0 END ))AS IN_BW,
 		        SUM((CASE WHEN TRANS_IO ='O' THEN BW ELSE 0 END ))AS OUT_BW
-		      FROM SH_SS_STORAGE A, CD_ITEM C     
+		      FROM SH_PD_ABF_RESULT A, CD_ITEM C     
 		      WHERE 
 		        C.ITEM = A.ITEM AND 
 		        A.COMPANY LIKE '$AS_COMPANY'|| '%' AND 
 		        A.PLANT LIKE '$AS_PLANT'|| '%' AND
 		        A.ITEM LIKE '$AS_MATERIAL'|| '%' AND
-		        A.PALLET_NO LIKE '$AS_SUPPLIER'|| '%' AND
-		        A.COLD_STORAGE LIKE '$AS_CS'||'%' AND 
+		        A.RFIDNO LIKE '$AS_SUPPLIER'|| '%' AND
+		        A.CS_NO LIKE '$AS_CS'||'%' AND 
 		        A.TRANS_DATE BETWEEN '$AS_SDATE' AND '$AS_EDATE'
 		      GROUP BY 
 		        A.COMPANY, C.GOODS_KINDS,A.ITEM, C.FULL_NAME,PLANT,C.PACKING_UNIT,
-		        A.SACK_BAG, COLD_STORAGE, RACK_NO, PALLET_NO, A.PROD_DATE
+		        A.SACK_BAG, CS_NO, RACK_NO, RFIDNO, A.PROD_DATE
 		    )     
 		    WHERE BG_SACK_BAG + IN_SACK_BAG  + OUT_SACK_BAG + BG_QTY + IN_QTY + OUT_QTY + BG_BW + IN_BW + OUT_BW <> 0
 		    GROUP BY 
 		      COMPANY_NAME,PLANT,PLANT_NAME,GOODS_KINDS,GOODS_KIND_NAME,ITEM,
-		      COLD_STORAGE, RACK_NO, PALLET_NO,FULL_NAME,PACKING_UNIT,PROD_DATE
+		      CS_NO, RACK_NO, RFIDNO,FULL_NAME,PACKING_UNIT,PROD_DATE
 		    ORDER BY 
-		      COMPANY_NAME,PLANT,PLANT_NAME,GOODS_KINDS,ITEM, COLD_STORAGE, RACK_NO, PALLET_NO,PROD_DATE
+		      COMPANY_NAME,PLANT,PLANT_NAME,GOODS_KINDS,ITEM, CS_NO, RACK_NO, RFIDNO,PROD_DATE
         ";
         // echo "<pre/>";print_r($query);exit();
         $stid 	= oci_parse($conn, $query);
@@ -307,10 +307,10 @@ class PlacementServices {
 
         $query 	= "
         	SELECT A.*,B.SHORT_NAME, TRUNC(SYSDATE  - TO_DATE(A.PROD_DATE,'YYYYMMDD')) DAYS, CASE WHEN RACK_NO = 'X' THEN 'X' ELSE REGEXP_SUBSTR(A.RACK_NO, '[^.]+', 1, 3) END AS TINGKAT
-	        FROM SH_SS_STORAGE_INVENTORY A, CD_ITEM B
+	        FROM SH_PD_ABF_RESULT A, CD_ITEM B
 	        WHERE A.COMPANY = '01'
 	          AND A.ITEM = B.ITEM
-	          AND A.COLD_STORAGE = '".$coldStorage."'
+	          AND A.CS_NO = '".$coldStorage."'
 	          AND A.RACK_NO LIKE '".$rackNo."%'
         ";
         // echo "<pre/>";print_r($query);exit();
@@ -350,5 +350,97 @@ class PlacementServices {
         }
         return $result;
     }
+
+    public static function m_get_plant_name2(){
+    	$username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "RPA_SVR/RPA";
+        $conn   = oci_connect($username, $password, $database);
+        if (!$conn) {
+            $e = oci_error();
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+	    $query       = "SELECT DISTINCT A.PLANT,B.CODE_NAME
+	      FROM SH_PD_ABF_RESULT A, CD_CODE B
+	      WHERE HEAD_CODE = 'AB'
+	      AND DESC6 = 'Y'
+	      AND A.PLANT = B.CODE
+	        ";
+	    $stid 	= oci_parse($conn, $query);
+        oci_execute($stid);
+
+        $data = [];
+        while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+        	$data[] = $row;
+        }
+        return $data;
+	}
+
+	public static function m_get_item_name2(){
+    	$username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "RPA_SVR/RPA";
+        $conn   = oci_connect($username, $password, $database);
+        if (!$conn) {
+            $e = oci_error();
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+	    $query       = "SELECT DISTINCT A.ITEM,B.SHORT_NAME
+	    FROM SH_PD_ABF_RESULT A,
+	            CD_ITEM B
+	    WHERE A.ITEM = B.ITEM";
+	    $stid 	= oci_parse($conn, $query);
+        oci_execute($stid);
+
+        $data = [];
+        while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+        	$data[] = $row;
+        }
+        return $data;
+	}
+
+	public static function m_get_coldstorage(){
+    	$username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "RPA_SVR/RPA";
+        $conn   = oci_connect($username, $password, $database);
+        if (!$conn) {
+            $e = oci_error();
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+	    $query       = "SELECT DISTINCT CS_NO FROM SH_PD_ABF_RESULT ORDER BY CS_NO ASC";
+	    $stid 	= oci_parse($conn, $query);
+        oci_execute($stid);
+
+        $data = [];
+        while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+        	$data[] = $row;
+        }
+        return $data;
+	}
+
+	public static function m_get_pallet(){
+    	$username   = "CJCMS";
+        $password   = "admin99";
+        $database   = "RPA_SVR/RPA";
+        $conn   = oci_connect($username, $password, $database);
+        if (!$conn) {
+            $e = oci_error();
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+	    $query       = "SELECT DISTINCT RFIDNO FROM SH_PD_ABF_RESULT ORDER BY RFIDNO ASC";
+	    $stid 	= oci_parse($conn, $query);
+        oci_execute($stid);
+
+        $data = [];
+        while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+        	$data[] = $row;
+        }
+        return $data;
+	}
 
 }
