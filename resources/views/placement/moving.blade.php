@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-Placement
+Moving
 @endsection
 
 @push('css-external')
@@ -192,6 +192,17 @@ Placement
         font-size: 20px
     }
 
+    .placement-detail .placement-box:nth-child(1) {
+        grid-column: span 8;
+    }
+
+    .placement-item .Checkbox-parent {
+        border-top: solid 1px #e8e8e8;
+        margin-top: 10px;
+        padding-top: 16px;
+        height: 40px;
+    }
+
     @media(max-width: 940px) {
         .placement-detail {
             height: auto;
@@ -207,7 +218,7 @@ Placement
 @section('content')
 <div class="main-content">
     <div class="br-title">
-        <h2 class="breadcrumb-title-non"><a href="javascript:void(0)">Placement</a></h2>
+        <h2 class="breadcrumb-title-non"><a href="javascript:void(0)">Moving From</a></h2>
         <i class="fa-solid fa-chevron-right"></i>
         <h2 class="breadcrumb-title-active">Cold Storage ({{ $rack_data['cold_storage_name'] }}) - Rak ({{
             $rack_data['rack_position'] }})
@@ -216,45 +227,56 @@ Placement
 
     <div class="placement-detail">
         <div class="placement-box">
-            <h4 class="title-transdet">Form Placement</h4>
-            <form action="{{ route('placement.store', $rack_no) }}" method="POST" enctype="multipart/form-data"
+            <h4 class="title-transdet">Moving To</h4>
+            <form action="{{ route('moving.store', $rack_no) }}" method="POST" enctype="multipart/form-data"
                 role="alert">
                 @csrf
                 <input type="hidden" name="status" value="{{ $rack_data['cold_storage'] }}">
                 <div class="row d-flex align-items-stretch">
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-4" style="display:none">
+                            <div class="col-6">
                                 <div class="form-group _form-group">
-                                    {{-- <label for="coldstorage">
+                                    <label for="coldstorage">
                                         Cold Storage
-                                    </label> --}}
-                                    <input id="coldstorage" name="coldstorage" type="hidden" class="form-control"
-                                        placeholder="1" value="{{ $rack_data['cold_storage_name'] }}"
+                                    </label>
+                                    <input id="cs" name="cs" type="text" class="form-control" placeholder="X"
+                                        value="{{ $rack_data['cold_storage_name'] }}"
                                         style="text-align: center; font-weight: 700;" readonly />
                                 </div>
                             </div>
-                            <div class="col-4" style="display:none">
+                            <div class="col-6">
                                 <div class="form-group _form-group">
-                                    {{-- <label for="rak">
+                                    <label for="rak">
                                         Rak
-                                    </label> --}}
-                                    <input id="rak" name="rak" type="hidden" class="form-control" placeholder="Aa"
-                                        value="{{ $rack_data['rack_position'] }}"
-                                        style="text-align: center; font-weight: 700;" readonly />
+                                    </label>
+                                   <select id="select_rak" name="rak" data-placeholder="Pilih rak"
+                                        class="custom-select" required>
+                                        <option value="Aa">Aa</option>
+                                        <option value="Ab">Ab</option>
+                                        <option value="Ba">Ba</option>
+                                        <option value="Bb">Bb</option>
+                                       
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-4" style="display:none">
+                            <div class="col-6">
                                 <div class="form-group _form-group">
-                                    {{-- <label for="urutan_rak">
+                                    <label for="urutan_rak">
                                         Urutan
-                                    </label> --}}
-                                    <input id="urutan_rak" name="urutan_rak" type="hidden" class="form-control"
-                                        placeholder="12" value="{{ $rack_data['sequence'] }}"
-                                        style="text-align: center; font-weight: 700;" readonly />
+                                    </label>
+                                     <select id="select_urutan" name="urutan_rak" data-placeholder="Pilih urutan"
+                                        class="custom-select" required>
+                                        <?php
+                                            for ($i=1; $i < $total_rack['TOTAL_ROW']; $i++) {
+                                                $text = $i < 10 ? "0".$i : $i;
+                                                echo '<option value="'.$i.'">'.$text.'</option>';
+                                            }
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-6">
                                 <div class="form-group _form-group">
                                     <label for="tingkat_rak">
                                         Tingkat
@@ -271,6 +293,10 @@ Placement
                                         <option value="4">4</option>
                                     </select>
                                 </div>
+ 
+                            </div>
+                            <div class="col-12">
+                                
                                 <div class="form-group _form-group">
                                     <label for="remark">
                                         Remark
@@ -330,118 +356,6 @@ Placement
                 </div>
             </form>
         </div>
-        <div class="placement-box detail-box">
-            <h4 class="title-transdet">Detail Placement</h4>
-
-            <div class="form-group _form-group">
-                <label for="coldstorage" class="place-detail">
-                    Tingkat 4
-                </label>
-                <table class="table">
-                    <tr>
-                        <th>Nama item</th>
-                        <th>Date</th>
-                        <th>Qty</th>
-                        <th style="text-align: right">BW</th>
-                        <th></th>
-                    </tr>
-                    <?php if(!empty($existing_data[4])): ?>
-                    <?php foreach ($existing_data[4] as $v): ?>
-                        <?php $routedata = $rack_no."4-".$v['ITEM']."-".$v['PROD_DATE']; ?>
-                    <tr>
-                        <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
-                        <td>{{ date('Y-m-d', strtotime($v['PROD_DATE'])) }}</td>
-                        <td>{{ $v['QTY'] }}</td>
-                        <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
-                        <td><a href="{{ route('moving.index', $routedata) }}"><i class='bx bx-edit-alt'></i></a></td>
-                    </tr>
-                    <?php endforeach ?>
-                    <?php endif ?>
-                </table>
-            </div>
-
-            <div class="form-group _form-group">
-                <label for="coldstorage" class="place-detail">
-                    Tingkat 3
-                </label>
-                <table class="table">
-                    <tr>
-                        <th>Nama item</th>
-                        <th>Date</th>
-                        <th>Qty</th>
-                        <th style="text-align: right">BW</th>
-                        <th></th>
-                    </tr>
-                    <?php if(!empty($existing_data[3])): ?>
-                    <?php foreach ($existing_data[3] as $v): ?>
-                        <?php $routedata = $rack_no."3-".$v['ITEM']."-".$v['PROD_DATE']; ?>
-                    <tr>
-                        <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
-                        <td>{{ date('Y-m-d', strtotime($v['PROD_DATE'])) }}</td>
-                        <td>{{ $v['QTY'] }}</td>
-                        <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
-                        <td><a href="{{ route('moving.index', $routedata) }}"><i class='bx bx-edit-alt'></i></a></td>
-                    </tr>
-                    <?php endforeach ?>
-                    <?php endif ?>
-                </table>
-            </div>
-
-            <div class="form-group _form-group">
-                <label for="coldstorage" class="place-detail">
-                    Tingkat 2
-                </label>
-                <table class="table">
-                    <tr>
-                        <th>Nama item</th>
-                        <th>Date</th>
-                        <th>Qty</th>
-                        <th style="text-align: right">BW</th>
-                        <th></th>
-                    </tr>
-                    <?php if(!empty($existing_data[2])): ?>
-                    <?php foreach ($existing_data[2] as $v): ?>
-                        <?php $routedata = $rack_no."2-".$v['ITEM']."-".$v['PROD_DATE']; ?>
-                    <tr>
-                        <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
-                        <td>{{ date('Y-m-d', strtotime($v['PROD_DATE'])) }}</td>
-                        <td>{{ $v['QTY'] }}</td>
-                        <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
-                        <td><a href="{{ route('moving.index', $routedata) }}"><i class='bx bx-edit-alt'></i></a></td>
-                    </tr>
-                    <?php endforeach ?>
-                    <?php endif ?>
-                </table>
-            </div>
-
-            <div class="form-group _form-group">
-                <label for="coldstorage" class="place-detail">
-                    Tingkat 1
-                </label>
-                <table class="table">
-                    <tr>
-                        <th>Nama item</th>
-                        <th>Date</th>
-                        <th>Qty</th>
-                        <th style="text-align: right">BW</th>
-                        <th></th>
-                    </tr>
-                    <?php if(!empty($existing_data[1])): ?>
-                    <?php foreach ($existing_data[1] as $v): ?>
-                        <?php $routedata = $rack_no."1-".$v['ITEM']."-".$v['PROD_DATE']; ?>
-                    <tr>
-                        <td>{{ $v['ITEM'] }} - {{ $v['ITEM_NAME'] }}</td>
-                        <td>{{ date('Y-m-d', strtotime($v['PROD_DATE'])) }}</td>
-                        <td>{{ $v['QTY'] }}</td>
-                        <td style="text-align: right">{{ $v['WEIGHT'] }}</td>
-                        <td><a href="{{ route('moving.index', $routedata) }}"><i class='bx bx-edit-alt'></i></a></td>
-                    </tr>
-                    <?php endforeach ?>
-                    <?php endif ?>
-                </table>
-            </div>
-
-        </div>
     </div>
 
 </div>
@@ -456,6 +370,18 @@ Placement
 
 <script>
     $(function() {
+        $('#select_rak').select2({
+            theme: 'bootstrap4 select-tags',
+            language: "{{ app()->getLocale() }}",
+            allowClear: true,
+
+        });
+        $('#select_urutan').select2({
+            theme: 'bootstrap4 select-tags',
+            language: "{{ app()->getLocale() }}",
+            allowClear: true,
+
+        });
         $('#select_tingkat').select2({
             theme: 'bootstrap4 select-tags',
             language: "{{ app()->getLocale() }}",

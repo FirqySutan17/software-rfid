@@ -323,11 +323,13 @@ Placement
         bottom: 0;
         background-color: #fefefe;
         width: 100%;
+        max-height: 70vh;
         -webkit-animation-name: slideIn;
         -webkit-animation-duration: 0.4s;
         animation-name: slideIn;
         animation-duration: 0.4s;
-        border-radius: 15px 15px 0px 0px !important;
+        border-radius: 15px 15px 0px 0px !important; 
+        overflow: auto
     }
 
     /* The Close Button */
@@ -350,6 +352,16 @@ Placement
         padding: 2px 16px;
         background-color: #5cb85c;
         color: white;
+    }
+
+    .modal-content table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .modal-content thead {
+         position: sticky; /* make the table heads sticky */
+        top: 0px; /
     }
 
     .modal-body {
@@ -603,6 +615,7 @@ Placement
         if (rackno !== "") {
             var url     = "{{ route('placement.index', ':id') }}";
                 url     = url.replace(':id', rackno);
+            console.log(url);
             window.location.href = url;
         }
     });
